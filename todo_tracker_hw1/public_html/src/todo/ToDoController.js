@@ -82,7 +82,9 @@ export default class ToDoController {
     // PROVIDES THE RESPONSE TO WHEN A USER CLICKS ON A LIST TO LOAD
     handleLoadList(listId) {
         // UNLOAD THE CURRENT LIST AND INSTEAD LOAD THE CURRENT LIST
-        this.model.loadList(listId);    
+        if (this.model.currentList === null || this.model.currentList.id != listId) {
+            this.model.loadList(listId);
+        }
     }
 
     handleItems() {
