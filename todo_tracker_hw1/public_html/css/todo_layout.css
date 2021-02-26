@@ -1,16 +1,27 @@
+* {
+    margin:0;
+    padding:0;
+    overflow: hidden;
+}
+
 #grid-container {
     position:absolute;
     width:100%;
     height:100%;
     display: grid;
-    padding: 1px;
+    /* padding: 1px; */
     grid-template-rows: 5% 95%;
     grid-template-columns: 12% 88%;
+    padding: 0.5%;
 }
 
 #navbar {
     grid-column: 1 / span 2;
     grid-row: 1 / span 1;
+    display: flex;
+    justify-content: space-between;
+    width: 99%;
+    margin-bottom: 0.5%;      
 }
 
 #left-sidebar {
@@ -18,19 +29,30 @@
     flex-direction: column;
     grid-column: 1 / span 1;
     grid-row: 2 / span 1;
+    height: 98%;
 }
 
 #left-sidebar-header {
+    /* display: flex;
+    flex-direction: row; */
+    float: left;
+    align-items: center;
+    margin-left: 5%;
+    margin-top: 6.5%;
+    width: 90%;
+    height: 5%;
+    text-align: left;   
     display: grid;
     grid-template-columns: 60% 40%;
 }
 
-#left-sidebar-header-text {
-    
-}
-
-#left-sidebar-controls {
-    text-align: right;
+.left-sidebar-controls {
+    display: flex;
+    /* width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: flex-end;
+    float: right; */
 }
 
 #workspace {
@@ -38,8 +60,24 @@
     grid-row: 2 span 1;
     display: flex;
     flex-direction: column;
+    width: 99%;
+    height: 98%;
+    float: left;
+    align-items: center;
 }
 
+#todo-list-header-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: 1%;
+    width: 97%;
+    height: 5%;
+    text-align: left;
+}
 #todo-lists-list {
     overflow-y: scroll;
 }
@@ -47,12 +85,21 @@
 #todo-list-items-div{
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
+    width: 100%;
+    height: 100%; 
 }
 
 .list-item-card {
-    height: 5%;
     display: flex;
     flex-direction: row;
+    align-content: center;
+    margin-left: 1.5%;
+    margin-right: 3%;
+    /* margin-top: 1%; */
+    width: 97%;
+    height: 8%;
+    text-align: left;
 }
 
 .task-col {
@@ -68,9 +115,12 @@
 }
 
 .list-controls-col {
-    width:25%;
     display: flex;
-    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: flex-end;
+    float: right;
 }
 
 .list-item-control {
@@ -89,3 +139,33 @@
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
   }
+
+.modal {
+    display: block;
+    position: fixed;
+    z-index: 1;
+    left: 35%;
+    top: 25%;
+    /* padding: 1%; */
+    width: 30%;
+}
+
+.modal-header {
+    padding: 5%;
+    margin: 4%;
+    height: 1%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+::-webkit-scrollbar-thumb {
+    width: 5px;
+    height: 8px;
+    background-color: var(--blue-gray);
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 8px;
+    background-color: var(--darkblue-gray);
+}

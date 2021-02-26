@@ -13,7 +13,7 @@
     --swatch-text:          #e9edf0; /* USED IN MOUSE-OVER SELECTION OF TEXT AND BORDERS */ 
     --swatch-text-accent:   #ffc819; /* USED IN MOUSE-OVER SELECTION OF TEXT AND BORDERS */  
 
-    --font-primary:         'Lexend Exa', sans-serif;
+    --font-primary:         'Consolas';
 }
 
 #grid-container {
@@ -22,11 +22,12 @@
 }
 
 .grid-item {
-    background-color: var(--swatch-primary);
+    background-color: var(--swatch-complement);
 }
 
 #navbar {
-    box-shadow: 2px 2px 2px var(--swatch-primary); 
+    background-color: var(--swatch-primary);
+    box-shadow: 2px 2px 2px var(--swatch-primary);
 }
 
 #left-sidebar {
@@ -76,4 +77,14 @@
 
 .material-icons:hover {
     background-color: var(--swatch-contrast);
+}
+
+.modal {
+    color: #e9edf0;
+    background-color: var(--swatch-primary);
+    border-radius: 3px;
+}
+
+.modal-header {
+    border-bottom: 2px dotted;
 }
