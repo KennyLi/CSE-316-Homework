@@ -17,8 +17,8 @@ export default class ToDoController {
         document.getElementById("add-list-button").onmousedown = function() {
             if (appModel.currentList === null) {
                 let list = appModel.addNewList();
-                let ele = document.getElementById("todo-list-" + list.id);
-                ele.dispatchEvent(new Event("mousedown"));
+                // let ele = document.getElementById("todo-list-" + list.id);
+                // ele.dispatchEvent(new Event("mousedown"));                
             }
         }
         document.getElementById("undo-button").onmousedown = function() {
@@ -44,6 +44,7 @@ export default class ToDoController {
                 modalBody.setAttribute("class", "modal-body");
                 let confirm = document.createElement("div");
                 confirm.setAttribute("id", "confirm");
+                confirm.setAttribute("class", "todo_button");
                 confirm.innerHTML = "Confirm";
                 confirm.onclick = function() {
                     appModel.removeCurrentList();
@@ -51,6 +52,7 @@ export default class ToDoController {
                 }
                 let cancel = document.createElement("div");
                 cancel.setAttribute("id", "cancel");
+                cancel.setAttribute("class", "todo_button");
                 cancel.innerHTML = "Cancel";
                 cancel.onclick = function() {
                     modalOverlay.remove();
@@ -101,6 +103,8 @@ export default class ToDoController {
                 input.setAttribute("class", "task-col");
                 input.setAttribute("type", "text");
                 input.value = this.innerHTML;
+                input.style.backgroundColor = "#40454e";
+                input.style.color = "#e9edf0";                
                 input.addEventListener("focusout", function() {
                     if (this.value != before.innerHTML) {
                         model.editItemTransaction(-1, index, this.value);
@@ -117,6 +121,8 @@ export default class ToDoController {
                 input.setAttribute("class", "due-date-col");
                 input.setAttribute("type", "date");
                 input.setAttribute("value", before);
+                input.style.backgroundColor = "#40454e";
+                input.style.color = "#e9edf0";                
                 input.addEventListener("focusout", function() {
                     if (this.value != "") {
                         model.editItemTransaction(0, index, this.value);
@@ -137,6 +143,8 @@ export default class ToDoController {
                 let incomplete = document.createElement("option");
                 incomplete.setAttribute("value", "incomplete");
                 incomplete.innerHTML = "incomplete";
+                input.style.backgroundColor = "#40454e";
+                input.style.color = "#e9edf0";                
                 if (this.innerHTML === "incomplete") {
                     incomplete.setAttribute("selected", "");
                 }

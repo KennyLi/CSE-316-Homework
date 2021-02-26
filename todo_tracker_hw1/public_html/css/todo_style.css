@@ -35,6 +35,16 @@
     color: rgb(233,237,240);
 }
 
+#left-sidebar-header-text {
+    display: flex;
+    float: left;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 1%;
+    width: 90%;
+    height: 100%;
+    text-align: left;
+}
 #workspace {
     background-color: var(--swatch-primary);
     color: rgb(233,237,240);
@@ -44,6 +54,9 @@
     color: rgb(255,200,25);
     font-weight: bold;
     font-size: 14pt;
+    display: flex;
+    align-items: center;
+    padding-left: 0.5%;    
 }
 
 #left-sidebar-header {
@@ -54,6 +67,9 @@
     border-bottom: dotted;
 }
 
+#todo-list-header-card {
+    border-bottom: dotted;
+}
 .list-header-card {
     border-bottom: dotted;
 }
