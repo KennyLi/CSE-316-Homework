@@ -39,6 +39,7 @@ export default class ToDoView {
 
         let addListButton = document.getElementById("add-list-button");
         this.enableButton(addListButton);
+        addListButton.style.color = "#ffc819";
         let deleteButton = document.getElementById("delete-list-button");
         this.disableButton(deleteButton, "#322d2d", "#353a44");
         let addItemButton = document.getElementById("add-item-button");
@@ -115,6 +116,8 @@ export default class ToDoView {
     }
 
     setUpButtons() {
+        let addListButton = document.getElementById("add-list-button");
+        addListButton.style.color = "#ffc819";        
         let undoButton = document.getElementById("undo-button");
         this.disableButton(undoButton, "#322d2d", "#353a44");        
         let redoButton = document.getElementById("redo-button");
