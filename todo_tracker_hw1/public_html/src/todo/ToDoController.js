@@ -124,7 +124,7 @@ export default class ToDoController {
                 input.style.backgroundColor = "#40454e";
                 input.style.color = "#e9edf0";                
                 input.addEventListener("focusout", function() {
-                    if (this.value != "") {
+                    if (this.value != before.innerHTML && this.value != "") {
                         model.editItemTransaction(0, index, this.value);
                     } else {
                         this.replaceWith(before);
