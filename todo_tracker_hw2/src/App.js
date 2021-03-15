@@ -21,13 +21,12 @@ class App extends Component {
 
     // MAKE OUR TRANSACTION PROCESSING SYSTEM
     this.tps = new jsTPS();
-
     // CHECK TO SEE IF THERE IS DATA IN LOCAL STORAGE FOR THIS APP
     let recentLists = localStorage.getItem("recentLists");
     console.log("recentLists: " + recentLists);
     if (!recentLists) {
       recentLists = JSON.stringify(testData.toDoLists);
-      localStorage.setItem("toDoLists", recentLists);
+      localStorage.setItem("recentLists", recentLists);
     }
     recentLists = JSON.parse(recentLists);
 
@@ -87,17 +86,26 @@ class App extends Component {
 
   makeNewToDoList = () => {
     let newToDoList = {
-      id: this.highListId,
+      id: this.state.nextListId,
       name: 'Untitled',
       items: []
     };
     return newToDoList;
   }
 
+  addNewListItem = () => {
+    let newToDoListItemsList = {...this.state.currentList, items:[...this.state.currentList.items, this.makeNewToDoListItem()]}
+    this.setState({
+      currentList: newToDoListItemsList,
+      nextListItemId: this.state.nextListItemId+1
+    }, this.afterToDoListsChangeComplete);    
+  }
+
   makeNewToDoListItem = () =>  {
     let newToDoListItem = {
+      id: this.state.nextListItemId,
       description: "No Description",
-      dueDate: "none",
+      due_date: "none",
       status: "incomplete"
     };
     return newToDoListItem;
@@ -122,7 +130,9 @@ class App extends Component {
           loadToDoListCallback={this.loadToDoList}
           addNewListCallback={this.addNewList}
         />
-        <Workspace toDoListItems={items} />
+        <Workspace
+          toDoListItems={items}
+          addNewListItemCallback = {this.addNewListItem}/>
       </div>
     );
   }
