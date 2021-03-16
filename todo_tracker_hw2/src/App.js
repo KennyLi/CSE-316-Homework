@@ -95,7 +95,8 @@ class App extends Component {
 
   addNewListItem = () => {
     let newToDoListItemsList = {...this.state.currentList, items: [...this.state.currentList.items, this.makeNewToDoListItem()]};
-    let newToDoLists = this.state.toDoLists.map((toDoList) => toDoList.id === newToDoListItemsList.id ? newToDoListItemsList : toDoList);
+    let newToDoLists = this.state.toDoLists.map(toDoList => 
+      toDoList.id === newToDoListItemsList.id ? newToDoListItemsList : toDoList);
     this.setState({
       toDoLists: newToDoLists,
       currentList: newToDoListItemsList,
@@ -113,6 +114,21 @@ class App extends Component {
     return newToDoListItem;
   }
 
+  deleteList = () => {
+    let newToDoLists = this.state.toDoLists.filter(toDoList => 
+      toDoList.id !== this.state.currentList.id);
+    this.setState({
+      toDoLists: newToDoLists,
+      currentList: {items: []}
+    }, this.afterToDoListsChangeComplete);
+  }
+
+  closeList = () => {
+    this.setState({
+      currentList: {items: []}
+    })
+  }
+
   // THIS IS A CALLBACK FUNCTION FOR AFTER AN EDIT TO A LIST
   afterToDoListsChangeComplete = () => {
     console.log("App updated currentToDoList: " + this.state.currentList);
@@ -123,8 +139,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.currentList);
-    console.log(this.state.nextListItemId);
     let items = this.state.currentList.items;
     return (
       <div id="root">
@@ -137,7 +151,9 @@ class App extends Component {
         />
         <Workspace
           toDoListItems={items}
-          addNewListItemCallback = {this.addNewListItem}/>
+          addNewListItemCallback = {this.addNewListItem}
+          deleteListCallback = {this.deleteList}
+          closeListCallback = {this.closeList}/>
       </div>
     );
   }

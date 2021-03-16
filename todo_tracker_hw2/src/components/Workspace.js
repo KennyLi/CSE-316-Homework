@@ -16,6 +16,15 @@ class Workspace extends Component {
         this.props.addNewListItemCallback();
     }
 
+    handleDeleteList = () => {
+        this.props.deleteListCallback();
+    }
+
+    handleCloseList = () => {
+        this.props.closeListCallback();
+    }
+
+
     render() {
         return (
             <div id="workspace">
@@ -27,8 +36,8 @@ class Workspace extends Component {
                         <Undo id="undo-button" className="list-item-control material-icons todo-button" />
                         <Redo id="redo-button" className="list-item-control material-icons todo-button" />
                         <AddBox id="add-item-button" onClick={this.handleAddNewListItem} className="list-item-control material-icons todo-button" />
-                        <Delete id="delete-list-button" className="list-item-control material-icons todo-button" />
-                        <Close id="close-list-button" className="list-item-control material-icons todo-button" />
+                        <Delete id="delete-list-button" onClick={this.handleDeleteList} className="list-item-control material-icons todo-button" />
+                        <Close id="close-list-button" onClick={this.handleCloseList} className="list-item-control material-icons todo-button" />
                     </div>
                 </div>
                 <div id="todo-list-items-div">
