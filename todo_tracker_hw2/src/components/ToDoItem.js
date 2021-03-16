@@ -10,6 +10,14 @@ class ToDoItem extends Component {
         
         // DISPLAY WHERE WE ARE
         console.log("\t\t\tToDoItem " + this.props.toDoListItem.id + " constructor");
+        this.state = {
+            editDescription: false,
+            editDueDate: false,
+            editStatus: false,
+            description: this.props.toDoListItem.description,
+            due_date: this.props.toDoListItem.due_date,
+            status: this.props.toDoListItem.status
+        }
     }
 
     componentDidMount = () => {
@@ -17,6 +25,30 @@ class ToDoItem extends Component {
         console.log("\t\t\tToDoItem " + this.props.toDoListItem.id + " did mount");
     }
 
+    handleEditItem = () => {
+        this.setState({
+            editDescription: false,
+            editDueDate: false,
+            editStatus: false
+        })
+        this.props.editItemCallback({"id": this.props.toDoListItem.id, 
+                                           "description":this.state.description, 
+                                           "due_date": this.state.due_date, 
+                                           "status": this.state.status});
+    }
+
+    handleMoveUpList = () => {
+        this.props.swapUpListCallback(this.props.toDoListItem)
+    }
+
+    handleMoveDownList = () => {
+        this.props.swapDownListCallback(this.props.toDoListItem)
+    }
+
+    handleDeleteItem = () => {
+        this.props.deleteItemCallback(this.props.toDoListItem)
+    }
+    
     render() {
         // DISPLAY WHERE WE ARE
         console.log("\t\t\tToDoItem render");
@@ -27,14 +59,47 @@ class ToDoItem extends Component {
 
         return (
             <div id={'todo-list-item-' + listItem.id} className='list-item-card'>
-                <div className='item-col task-col'>{listItem.description}</div>
-                <div className='item-col due-date-col'>{listItem.due_date}</div>
-                <div className='item-col status-col' className={statusType}>{listItem.status}</div>
+                {this.state.editDescription ? 
+                    <input className='item-col task-col' type='text' 
+                        value={this.state.description} 
+                        onChange={(event) => this.setState({description: event.target.value})} 
+                        onBlur={this.handleEditItem} autoFocus>
+                    </input> :
+                    <div className='item-col task-col'
+                        onClick={() => this.setState({editDescription: true})}>
+                        {this.state.description}
+                    </div>}
+                
+                {this.state.editDueDate ?
+                    <input className='item-col due-date-col' type='date'
+                        value={this.state.due_date}
+                        onChange={(event) => this.setState({due_date: event.target.value})}
+                        onBlur={this.handleEditItem} autoFocus>
+                    </input> :
+                    <div className='item-col due-date-col'
+                        onClick={() => this.setState({editDueDate: true})}>
+                        {this.state.due_date}
+                    </div>}
+                
+                {this.state.editStatus ?
+                    <select className='item-col status-col'
+                        value={this.state.status}
+                        onChange={(event) => this.setState({status: event.target.value})}
+                        onBlur={this.handleEditItem} autoFocus>
+                        <option value={"complete"}>complete</option>
+                        <option value={"incomplete"}>incomplete</option>
+                    </select> :
+                <div className='item-col status-col' 
+                    onClick={() => this.setState({editStatus: true})}
+                    className={statusType}>
+                    {listItem.status}
+                </div>}
+                
                 <div className='item-col test-4-col'></div>
                 <div className='item-col list-controls-col'>
-                    <KeyboardArrowUp className='list-item-control todo-button' />
-                    <KeyboardArrowDown className='list-item-control todo-button' />
-                    <Close className='list-item-control todo-button' />
+                    <KeyboardArrowUp className='list-item-control todo-button' onClick={this.handleMoveUpList}/>
+                    <KeyboardArrowDown className='list-item-control todo-button' onClick={this.handleMoveDownList}/>
+                    <Close className='list-item-control todo-button' onClick={this.handleDeleteItem}/>
                     <div className='list-item-control'></div>
         <div className='list-item-control'></div>
                 </div>

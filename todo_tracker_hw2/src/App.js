@@ -129,6 +129,57 @@ class App extends Component {
     })
   }
 
+  editItem = (newItem) => {
+    let newCurrentList = {...this.state.currentList, items:this.state.currentList.items.map(oldItem =>
+      oldItem.id === newItem.id ? newItem : oldItem)};
+    let newToDoList = this.state.toDoLists.map(toDoList =>
+      toDoList.id === newCurrentList.id ? newCurrentList : toDoList);
+    this.setState({
+      toDoLists: newToDoList,
+      currentList: newCurrentList
+    })
+  }
+
+  swapUp = (item) => {
+    let curr = this.state.currentList.items;
+    console.log(curr);
+    let index = curr.indexOf(item);
+    [curr[index], curr[index - 1]] = [curr[index - 1], curr[index]];
+    let newCurrentList = {...this.state.currentList, items: curr};
+    let newToDoList = this.state.toDoLists.map(toDoList =>
+      toDoList.id === newCurrentList.id ? newCurrentList : toDoList);
+    this.setState({
+      toDoLists: newToDoList,
+      currentList: newCurrentList
+    })
+  }
+
+  swapDown = (item) => {
+    let curr = this.state.currentList.items;
+    let index = curr.indexOf(item) + 1;
+    [curr[index], curr[index - 1]] = [curr[index - 1], curr[index]];
+    let newCurrentList = {...this.state.currentList, items: curr};
+    let newToDoList = this.state.toDoLists.map(toDoList =>
+      toDoList.id === newCurrentList.id ? newCurrentList : toDoList);
+    this.setState({
+      toDoLists: newToDoList,
+      currentList: newCurrentList
+    })    
+  }
+
+  deleteItem = (item) => {
+    let curr = this.state.currentList.items;
+    let index = curr.indexOf(item);
+    curr.splice(index, 1)
+    let newCurrentList = {...this.state.currentList, items: curr};
+    let newToDoList = this.state.toDoLists.map(toDoList =>
+      toDoList.id === newCurrentList.id ? newCurrentList : toDoList);
+    this.setState({
+      toDoLists: newToDoList,
+      currentList: newCurrentList
+    })
+  }
+
   // THIS IS A CALLBACK FUNCTION FOR AFTER AN EDIT TO A LIST
   afterToDoListsChangeComplete = () => {
     console.log("App updated currentToDoList: " + this.state.currentList);
@@ -137,6 +188,7 @@ class App extends Component {
     let toDoListsString = JSON.stringify(this.state.toDoLists);
     localStorage.setItem("recent_work", toDoListsString);
   }
+
 
   render() {
     let items = this.state.currentList.items;
@@ -153,7 +205,11 @@ class App extends Component {
           toDoListItems={items}
           addNewListItemCallback = {this.addNewListItem}
           deleteListCallback = {this.deleteList}
-          closeListCallback = {this.closeList}/>
+          closeListCallback = {this.closeList}
+          editItemCallback = {this.editItem}
+          swapUpListCallback = {this.swapUp}
+          swapDownListCallback = {this.swapDown}
+          deleteItemCallback = {this.deleteItem}/>
       </div>
     );
   }
