@@ -24,6 +24,13 @@ class Workspace extends Component {
         this.props.closeListCallback();
     }
 
+    handleUndo = () => {
+        this.props.undoCallback();
+    }
+
+    handleRedo = () => {
+        this.props.redoCallback();
+    }
 
     render() {
         return (
@@ -33,8 +40,8 @@ class Workspace extends Component {
                     <div id="date-col-header" className="item-col todo-button">Due Date</div>
                     <div id="status-col-header" className="item-col todo-button">Status</div>
                     <div className="item-col" display="flex" flexDirection="row" flexWrap="nowrap">
-                        <Undo id="undo-button" className="list-item-control material-icons todo-button" />
-                        <Redo id="redo-button" className="list-item-control material-icons todo-button" />
+                        <Undo id="undo-button" onClick={this.handleUndo} className="list-item-control material-icons todo-button" />
+                        <Redo id="redo-button" onClick={this.handleRedo} className="list-item-control material-icons todo-button" />
                         <AddBox id="add-item-button" onClick={this.handleAddNewListItem} className="list-item-control material-icons todo-button" />
                         <Delete id="delete-list-button" onClick={this.handleDeleteList} className="list-item-control material-icons todo-button" />
                         <Close id="close-list-button" onClick={this.handleCloseList} className="list-item-control material-icons todo-button" />

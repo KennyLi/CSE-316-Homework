@@ -66,8 +66,12 @@ class ToDoItem extends Component {
                         onBlur={this.handleEditItem} autoFocus>
                     </input> :
                     <div className='item-col task-col'
-                        onClick={() => this.setState({editDescription: true})}>
-                        {this.state.description}
+                        onClick={() => 
+                            this.setState({editDescription: true, 
+                                           description: listItem.description,
+                                           due_date: listItem.due_date,
+                                           status: listItem.status})}>
+                        {listItem.description}
                     </div>}
                 
                 {this.state.editDueDate ?
@@ -77,8 +81,12 @@ class ToDoItem extends Component {
                         onBlur={this.handleEditItem} autoFocus>
                     </input> :
                     <div className='item-col due-date-col'
-                        onClick={() => this.setState({editDueDate: true})}>
-                        {this.state.due_date}
+                        onClick={() => 
+                            this.setState({editDueDate: true, 
+                                            description: listItem.description,
+                                            due_date: listItem.due_date,
+                                            status: listItem.status})}>
+                        {listItem.due_date}
                     </div>}
                 
                 {this.state.editStatus ?
@@ -90,7 +98,11 @@ class ToDoItem extends Component {
                         <option value={"incomplete"}>incomplete</option>
                     </select> :
                 <div className='item-col status-col' 
-                    onClick={() => this.setState({editStatus: true})}
+                    onClick={() => 
+                            this.setState({editStatus: true, 
+                                description: listItem.description,
+                                due_date: listItem.due_date,
+                                status: listItem.status})}
                     className={statusType}>
                     {listItem.status}
                 </div>}
