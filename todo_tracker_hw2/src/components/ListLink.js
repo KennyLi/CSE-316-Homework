@@ -21,9 +21,10 @@ class ListLink extends Component {
     render() {
         // DISPLAY WHERE WE ARE
         console.log("\t\t\tListLink render");
-
+        
         return (
             <div 
+                style={{color: this.props.first ? "#ffc819" : ""}}
                 className='todo-list-button'
                 onClick={this.handleLoadList}
             >

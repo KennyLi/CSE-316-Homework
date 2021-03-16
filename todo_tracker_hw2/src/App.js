@@ -94,11 +94,13 @@ class App extends Component {
   }
 
   addNewListItem = () => {
-    let newToDoListItemsList = {...this.state.currentList, items:[...this.state.currentList.items, this.makeNewToDoListItem()]}
+    let newToDoListItemsList = {...this.state.currentList, items: [...this.state.currentList.items, this.makeNewToDoListItem()]};
+    let newToDoLists = this.state.toDoLists.map((toDoList) => toDoList.id === newToDoListItemsList.id ? newToDoListItemsList : toDoList);
     this.setState({
+      toDoLists: newToDoLists,
       currentList: newToDoListItemsList,
       nextListItemId: this.state.nextListItemId+1
-    }, this.afterToDoListsChangeComplete);    
+    }, this.afterToDoListsChangeComplete);
   }
 
   makeNewToDoListItem = () =>  {
@@ -121,12 +123,15 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state.currentList);
+    console.log(this.state.nextListItemId);
     let items = this.state.currentList.items;
     return (
       <div id="root">
         <Navbar />
         <LeftSidebar 
           toDoLists={this.state.toDoLists}
+          currentListId = {this.state.currentList.id}
           loadToDoListCallback={this.loadToDoList}
           addNewListCallback={this.addNewList}
         />
