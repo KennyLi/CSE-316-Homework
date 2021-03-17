@@ -99,6 +99,10 @@
     color: var(--swatch-accent);
 }
 
+#add-list-button:hover {
+    background-color: var(--swatch-contrast);
+}
+
 .status-incomplete {
     color: var(--swatch-accent);
 }

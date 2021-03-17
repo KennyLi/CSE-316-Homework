@@ -109,8 +109,18 @@ class ToDoItem extends Component {
                 
                 <div className='item-col test-4-col'></div>
                 <div className='item-col list-controls-col'>
-                    <KeyboardArrowUp className='list-item-control todo-button' onClick={this.handleMoveUpList}/>
-                    <KeyboardArrowDown className='list-item-control todo-button' onClick={this.handleMoveDownList}/>
+                    <KeyboardArrowUp 
+                        className='list-item-control todo-button' 
+                        onClick={this.props.first ? null : this.handleMoveUpList}
+                        onMouseEnter={this.props.first ? (event) => event.target.style.backgroundColor = "#353a44" : (event) => event.target.style.backgroundColor = ""}
+                        style={{color: this.props.first ? "#322d2d" : "", 
+                                cursor: this.props.first ? "text" : ""}}/>
+                    <KeyboardArrowDown 
+                        className='list-item-control todo-button' 
+                        onClick={this.props.last ? null : this.handleMoveDownList}
+                        onMouseEnter={this.props.last ? (event) => event.target.style.backgroundColor = "#353a44" : (event) => event.target.style.backgroundColor = ""}
+                        style={{color: this.props.last ? "#322d2d" : "", 
+                                cursor: this.props.last ? "text" : ""}}/>   
                     <Close className='list-item-control todo-button' onClick={this.handleDeleteItem}/>
                     <div className='list-item-control'></div>
         <div className='list-item-control'></div>

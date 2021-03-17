@@ -70,7 +70,7 @@ class App extends Component {
       testList.id !== toDoList.id
     );
     nextLists.unshift(toDoList);
-
+    this.tps.clearAllTransactions();
     this.setState({
       toDoLists: nextLists,
       currentList: toDoList
@@ -102,6 +102,7 @@ class App extends Component {
   deleteList = () => {
     let newToDoLists = this.state.toDoLists.filter(toDoList => 
       toDoList.id !== this.state.currentList.id);
+    this.tps.clearAllTransactions();      
     this.setState({
       toDoLists: newToDoLists,
       currentList: {items: []}
@@ -109,6 +110,7 @@ class App extends Component {
   }
 
   closeList = () => {
+    this.tps.clearAllTransactions();    
     this.setState({
       currentList: {items: []}
     })
@@ -259,6 +261,8 @@ class App extends Component {
 
   render() {
     let items = this.state.currentList.items;
+    console.log(items[0])
+    console.log(items[items.length - 1])
     return (
       <div id="root">
         <Navbar />
@@ -269,7 +273,12 @@ class App extends Component {
           addNewListCallback={this.addNewList}
         />
         <Workspace
-          toDoListItems={items}
+          undoable = {this.tps.hasTransactionToUndo()}
+          redoable = {this.tps.hasTransactionToRedo()}
+          currentListId = {this.state.currentList.id}
+          toDoListItems = {items}
+          firstItem = {items[0]}
+          lastItem = {items[items.length - 1]}
           addNewListItemCallback = {this.addListItemTransaction}
           deleteListCallback = {this.deleteList}
           closeListCallback = {this.closeList}
