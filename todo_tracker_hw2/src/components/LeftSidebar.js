@@ -22,9 +22,9 @@ class LeftSidebar extends Component {
                             id="add-list-button"
                             className="material-icons todo_button"
                             onClick={this.props.currentListId === undefined ? this.handleAddNewList : null}
-                            onMouseEnter={this.props.currentListId === undefined ? (event) => event.target.style.backgroundColor = "" : (event) => event.target.style.backgroundColor = "#353a44"}                            
                             style={{color: this.props.currentListId === undefined ? "" : "#322d2d", 
-                            cursor: this.props.currentListId === undefined ? "" : "text"}}/>
+                            cursor: this.props.currentListId === undefined ? "" : "text",
+                            pointerEvents: this.props.currentListId === undefined ? "" : "none"}}/>
                     </span>
                 </div>
                 <div id="todo-lists-list">

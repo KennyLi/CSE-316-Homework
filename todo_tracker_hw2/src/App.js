@@ -4,6 +4,7 @@ import testData from './test/testData.json'
 import jsTPS from './common/jsTPS' // WE NEED THIS TOO
 
 // THESE ARE OUR REACT COMPONENTS
+import Modal from './components/Modal'
 import Navbar from './components/Navbar'
 import LeftSidebar from './components/LeftSidebar'
 import Workspace from './components/Workspace'
@@ -57,6 +58,7 @@ class App extends Component {
       currentList: {items: []},
       nextListId: highListId+1,
       nextListItemId: highListItemId+1,
+      show: false,
       useVerboseFeedback: true
     }
   }
@@ -74,7 +76,7 @@ class App extends Component {
     this.setState({
       toDoLists: nextLists,
       currentList: toDoList
-    });
+    }, this.afterToDoListsChangeComplete);
   }
 
   addNewList = () => {
@@ -87,7 +89,6 @@ class App extends Component {
       currentList: newToDoList,
       nextListId: this.state.nextListId+1
     }, this.afterToDoListsChangeComplete);
-
   }
 
   makeNewToDoList = () => {
@@ -113,7 +114,7 @@ class App extends Component {
     this.tps.clearAllTransactions();    
     this.setState({
       currentList: {items: []}
-    })
+    });
   }
 
   addNewListItem = () => {
@@ -144,7 +145,7 @@ class App extends Component {
       toDoLists: list[0],
       currentList: list[1],
       nextListItemId: list[2]
-    })
+    }, this.afterToDoListsChangeComplete);
   }
 
   addListItemTransaction = () => {
@@ -156,7 +157,7 @@ class App extends Component {
     this.setState({
       toDoLists: list[0],
       currentList: list[1]
-    })
+    }, this.afterToDoListsChangeComplete);
   }
 
   editItem = (newItem) => { 
@@ -168,7 +169,7 @@ class App extends Component {
     this.setState({
       toDoLists: newToDoList,
       currentList: newCurrentList
-    })
+    }, this.afterToDoListsChangeComplete);
     return oldValue;
   }
 
@@ -189,7 +190,7 @@ class App extends Component {
     this.setState({
       toDoLists: newToDoList,
       currentList: newCurrentList
-    })
+    }, this.afterToDoListsChangeComplete);
     return oldValue;
   }
 
@@ -210,7 +211,7 @@ class App extends Component {
     this.setState({
       toDoLists: newToDoList,
       currentList: newCurrentList
-    })
+    }, this.afterToDoListsChangeComplete);
     return oldValue;
   }
 
@@ -229,7 +230,7 @@ class App extends Component {
     this.setState({
       toDoLists: newToDoList,
       currentList: newCurrentList
-    })
+    }, this.afterToDoListsChangeComplete);
     return oldValue;
   }
 
@@ -244,7 +245,7 @@ class App extends Component {
 
     // WILL THIS WORK? @todo
     let toDoListsString = JSON.stringify(this.state.toDoLists);
-    localStorage.setItem("recent_work", toDoListsString);
+    localStorage.setItem("recentLists", toDoListsString);
   }
 
   redo = () => {
@@ -259,12 +260,20 @@ class App extends Component {
     }
   }
 
+  toggleShow = () => {
+    this.setState({
+      show: !this.state.show
+    });
+  }
+
   render() {
     let items = this.state.currentList.items;
-    console.log(items[0])
-    console.log(items[items.length - 1])
     return (
-      <div id="root">
+      <div id="container">
+        <Modal 
+          show ={this.state.show}
+          deleteListCallback = {this.deleteList}
+          toggleShowCallback = {this.toggleShow}/>             
         <Navbar />
         <LeftSidebar 
           toDoLists={this.state.toDoLists}
@@ -280,7 +289,7 @@ class App extends Component {
           firstItem = {items[0]}
           lastItem = {items[items.length - 1]}
           addNewListItemCallback = {this.addListItemTransaction}
-          deleteListCallback = {this.deleteList}
+          toggleShowCallback = {this.toggleShow}
           closeListCallback = {this.closeList}
           editItemCallback = {this.editItemTransaction}
           swapUpListCallback = {this.swapUpTransaction}

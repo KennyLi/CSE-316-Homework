@@ -16,10 +16,6 @@ class Workspace extends Component {
         this.props.addNewListItemCallback();
     }
 
-    handleDeleteList = () => {
-        this.props.deleteListCallback();
-    }
-
     handleCloseList = () => {
         this.props.closeListCallback();
     }
@@ -32,44 +28,49 @@ class Workspace extends Component {
         this.props.redoCallback();
     }
 
+    handleToggleShow = () => {
+        this.props.toggleShowCallback();
+    }
+
     render() {
         return (
             <div id="workspace">
                 <div id="todo-list-header-card" className="list-item-card">
-                    <div id="task-col-header" className="item-col todo-button">Task</div>
-                    <div id="date-col-header" className="item-col todo-button">Due Date</div>
-                    <div id="status-col-header" className="item-col todo-button">Status</div>
+                    <div id="task-col-header" className="item-col">Task</div>
+                    <div id="date-col-header" className="item-col">Due Date</div>
+                    <div id="status-col-header" className="item-col">Status</div>
+                    <div className="item-col"></div>
                     <div className="item-col" display="flex" flexDirection="row" flexWrap="nowrap">
                         <Undo id="undo-button" 
                               className="list-item-control material-icons todo-button"
                               onClick={this.props.undoable ? this.handleUndo : null}
-                              onMouseEnter={this.props.undoable ? (event) => event.target.style.backgroundColor = "" : (event) => event.target.style.backgroundColor = "#353a44"}
                               style={{color: this.props.undoable ? "" : "#322d2d", 
-                                      cursor: this.props.undoable ? "" : "text"}}/>
+                                      cursor: this.props.undoable ? "" : "text",
+                                      pointerEvents: this.props.undoable ? "" : "none"}}/>
                         <Redo id="redo-button" 
                               className="list-item-control material-icons todo-button"
                               onClick={this.props.redoable ? this.handleRedo : null}
-                              onMouseEnter={this.props.redoable ? (event) => event.target.style.backgroundColor = "" : (event) => event.target.style.backgroundColor = "#353a44"}
                               style={{color: this.props.redoable ? "" : "#322d2d", 
-                                      cursor: this.props.redoable ? "" : "text"}}/>
+                                      cursor: this.props.redoable ? "" : "text",
+                                      pointerEvents: this.props.redoable ? "" : "none"}}/>
                         <AddBox id="add-item-button"
                                 className="list-item-control material-icons todo-button"
                                 onClick={this.props.currentListId === undefined ? null : this.handleAddNewListItem}
-                                onMouseEnter={this.props.currentListId === undefined ? (event) => event.target.style.backgroundColor = "#353a44" : (event) => event.target.style.backgroundColor = ""}
                                 style={{color: this.props.currentListId === undefined ? "#322d2d" : "", 
-                                        cursor: this.props.currentListId === undefined ? "text" : ""}}/>
+                                        cursor: this.props.currentListId === undefined ? "text" : "",
+                                        pointerEvents: this.props.currentListId === undefined ? "none" : ""}}/>
                         <Delete id="delete-list-button" 
                                 className="list-item-control material-icons todo-button"
-                                onClick={this.props.currentListId === undefined ? null : this.handleDeleteList}
-                                onMouseEnter={this.props.currentListId === undefined ? (event) => event.target.style.backgroundColor = "#353a44" : (event) => event.target.style.backgroundColor = ""}
+                                onClick={this.props.currentListId === undefined ? null : this.handleToggleShow}
                                 style={{color: this.props.currentListId === undefined ? "#322d2d" : "", 
-                                        cursor: this.props.currentListId === undefined ? "text" : ""}}/>
+                                        cursor: this.props.currentListId === undefined ? "text" : "",
+                                        pointerEvents: this.props.currentListId === undefined ? "none" : ""}}/>
                         <Close id="close-list-button" 
                                className="list-item-control material-icons todo-button"
-                               onClick={this.props.currentListId === undefined ? null : this.handleCloseList}
-                               onMouseEnter={this.props.currentListId === undefined ? (event) => event.target.style.backgroundColor = "#353a44" : (event) => event.target.style.backgroundColor = ""}                               
+                               onClick={this.props.currentListId === undefined ? null : this.handleCloseList}    
                                style={{color: this.props.currentListId === undefined ? "#322d2d" : "", 
-                               cursor: this.props.currentListId === undefined ? "text" : ""}}/>                               
+                               cursor: this.props.currentListId === undefined ? "text" : "",
+                               pointerEvents: this.props.currentListId === undefined ? "none" : ""}}/>                        
                     </div>
                 </div>
                 <div id="todo-list-items-div">

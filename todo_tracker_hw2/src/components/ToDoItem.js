@@ -58,7 +58,7 @@ class ToDoItem extends Component {
             statusType = "status-incomplete";
 
         return (
-            <div id={'todo-list-item-' + listItem.id} className='list-item-card'>
+            <div id={'todo-list-item-' + listItem.id} className='list-item-card list-item-card-hover'>
                 {this.state.editDescription ? 
                     <input className='item-col task-col' type='text' 
                         value={this.state.description} 
@@ -97,13 +97,12 @@ class ToDoItem extends Component {
                         <option value={"complete"}>complete</option>
                         <option value={"incomplete"}>incomplete</option>
                     </select> :
-                <div className='item-col status-col' 
+                <div className={statusType + ' item-col status-col'}
                     onClick={() => 
                             this.setState({editStatus: true, 
                                 description: listItem.description,
                                 due_date: listItem.due_date,
-                                status: listItem.status})}
-                    className={statusType}>
+                                status: listItem.status})}>
                     {listItem.status}
                 </div>}
                 
@@ -112,15 +111,15 @@ class ToDoItem extends Component {
                     <KeyboardArrowUp 
                         className='list-item-control todo-button' 
                         onClick={this.props.first ? null : this.handleMoveUpList}
-                        onMouseEnter={this.props.first ? (event) => event.target.style.backgroundColor = "#353a44" : (event) => event.target.style.backgroundColor = ""}
                         style={{color: this.props.first ? "#322d2d" : "", 
-                                cursor: this.props.first ? "text" : ""}}/>
+                                cursor: this.props.first ? "text" : "",
+                                pointerEvents: this.props.first ? "none" : ""}}/>
                     <KeyboardArrowDown 
                         className='list-item-control todo-button' 
                         onClick={this.props.last ? null : this.handleMoveDownList}
-                        onMouseEnter={this.props.last ? (event) => event.target.style.backgroundColor = "#353a44" : (event) => event.target.style.backgroundColor = ""}
                         style={{color: this.props.last ? "#322d2d" : "", 
-                                cursor: this.props.last ? "text" : ""}}/>   
+                                cursor: this.props.last ? "text" : "",
+                                pointerEvents: this.props.last ? "none" : ""}}/>   
                     <Close className='list-item-control todo-button' onClick={this.handleDeleteItem}/>
                     <div className='list-item-control'></div>
         <div className='list-item-control'></div>

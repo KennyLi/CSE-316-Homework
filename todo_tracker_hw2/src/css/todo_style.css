@@ -70,11 +70,22 @@
 }
 
 .list-item-card {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    margin-left: 1.5%;
+    margin-right: 3%;
+    width: 97%;
+    height: 8%;
+    text-align: left;    
     border-bottom: solid;
     border-width: 1px;
     font-weight: bold;
 }
 
+.list-item-card-hover:hover {
+    background-color: #8b909b
+}
 .todo-list-button {
     cursor:pointer;
     background-color: var(--swatch-complement);
@@ -87,7 +98,7 @@
 
 .todo-button {
     cursor:pointer;
-    background-color: var(--swatch-complement);
+    /* background-color: var(--swatch-complement); */
     font-weight: bold;
 }
 
@@ -113,4 +124,14 @@
 
 #add-item-button, #delete-list-button, #close-list-button {
     text-align: center;
+}
+
+.modal {
+    color: #e9edf0;
+    background-color: var(--swatch-primary);
+    border-radius: 3px;
+}
+
+.modal-header {
+    border-bottom: 2px dotted;
 }

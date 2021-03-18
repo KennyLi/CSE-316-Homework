@@ -1,8 +1,21 @@
+* {
+    margin:0;
+    padding:0;
+    overflow: hidden;
+}
+
 #root {
+    position:absolute;
+    height:100%;
+    width:100%;
+}
+
+#container {
     position:absolute;
     width:98%;
     left:1%;
-    height:100%;
+    top:1%;
+    height:98%;
 }
 
 #navbar {
@@ -26,8 +39,6 @@
     height:94%;
     width:13%;
     top:5.5%;
-    left:0%;
-    padding-left: 15px;
 }
 
 #workspace {
@@ -46,26 +57,28 @@
 
 #left-sidebar-header {
     padding-top:25px;
+    margin-left: 2.5%;
     height:4%;
     top:3%;
-    width: 80%;
+    width: 100%;
     display: grid;
     grid-template-columns: 60% 40%;
     white-space: nowrap;
 }
 
 #todo-lists-list {
+    overflow-y: scroll;
+    scrollbar-width: thin;
     position:absolute;
     text-align: center;
-    height:80%;
+    height:92%;
     width:100%;
-    top: 8%;
 }
 
 .todo-list-button {
     padding-top:20px;
     height: 60px;
-    width: 80%;
+    width: 100%;
 }
 
 .todo-button {
@@ -83,21 +96,26 @@
 }
 
 #todo-list-items-div {
-    height:96%;
-    top:7%;
-    display: flex;
-    flex-direction: column;
+    overflow-y: scroll;
+    width: 100%;
+    height: 100%;
+    scrollbar-width: thin;
 }
 
 .list-item-card {
-    padding-top:20px;
     height: 45px;
     display: flex;
     flex-direction: row;
 }
 
 .item-col {
-    width:25%;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: start;
+    margin: 0;
 }
 
 .list-controls-col {
@@ -108,4 +126,84 @@
 
 .list-item-control {
     width: 20%;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+  }
+
+.modal {
+    display: block;
+    position: fixed;
+    z-index: 1;
+    left: 35%;
+    top: 25%;
+    width: 30%;
+}
+
+.modal-header {
+    padding: 5%;
+    margin: 4%;
+    height: 1%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-body {
+    margin: 4%;
+    display: flex;
+    flex-direction: row;
+    height: 1%;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+}
+
+#confirm {
+    margin-bottom: 2%;
+    margin-right: 2%;
+    margin-top: 2%;
+    width: 20%;
+    padding: 2%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    position: relative;
+}
+
+#cancel {
+    margin-bottom: 2%;
+    margin-right: 2%;
+    margin-top: 2%;
+    width: 20%;
+    padding: 2%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    position: relative;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 8px;
+    background-color: #322d2d;
+}
+
+::-webkit-scrollbar-thumb {
+    width: 5px;
+    height: 8px;
+    background-color: #7e8084;
 }
