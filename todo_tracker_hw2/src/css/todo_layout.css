@@ -76,8 +76,9 @@
 }
 
 .todo-list-button {
-    padding-top:20px;
-    height: 60px;
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
     width: 100%;
 }
 
@@ -116,12 +117,6 @@
     justify-content: flex-start;
     text-align: start;
     margin: 0;
-}
-
-.list-controls-col {
-    /*display: flex;
-    flex-direction: row; 
-    flex-wrap: nowrap;*/
 }
 
 .list-item-control {

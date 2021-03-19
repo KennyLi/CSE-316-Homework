@@ -135,3 +135,8 @@
 .modal-header {
     border-bottom: 2px dotted;
 }
+
+input, select {
+    background-color: #40454e;
+    color: #d9d6cc;
+}

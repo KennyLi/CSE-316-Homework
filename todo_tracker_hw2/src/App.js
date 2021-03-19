@@ -266,10 +266,29 @@ class App extends Component {
     });
   }
 
+  editList = (list) => {
+    let replace = this.state.currentList.id === list.id
+    let newToDoList = this.state.toDoLists.map(toDoList =>
+      toDoList.id === list.id ? list : toDoList);
+    this.setState({
+      toDoLists: newToDoList,
+      currentList: replace ? list : this.state.currentList
+    }, this.afterToDoListsChangeComplete);
+  }
+
+  checkKeyPress = (event) => {
+    if(event.ctrlKey && event.keyCode === 90) {
+      this.undo();
+    }
+    if(event.ctrlKey && event.keyCode === 89) {
+      this.redo();
+    }    
+  }
+
   render() {
     let items = this.state.currentList.items;
     return (
-      <div id="container">
+      <div id="container" onKeyDown={this.checkKeyPress} tabIndex="0">
         <Modal 
           show ={this.state.show}
           deleteListCallback = {this.deleteList}
@@ -279,6 +298,7 @@ class App extends Component {
           toDoLists={this.state.toDoLists}
           currentListId = {this.state.currentList.id}
           loadToDoListCallback={this.loadToDoList}
+          editListCallback={this.editList}
           addNewListCallback={this.addNewList}
         />
         <Workspace
