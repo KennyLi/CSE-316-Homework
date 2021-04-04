@@ -79,7 +79,7 @@ const Homescreen = (props) => {
 			id: lastID,
 			description: 'No Description',
 			due_date: 'No Date',
-			assigned_to: props.user._id,
+			assigned_to: "No One",
 			completed: false
 		};
 		let opcode = 1;
@@ -91,7 +91,7 @@ const Homescreen = (props) => {
 	};
 
 
-	const deleteItem = async (item) => {
+	const deleteItem = async (item, index) => {
 		let listID = activeList._id;
 		let itemID = item._id;
 		let opcode = 0;
@@ -103,7 +103,7 @@ const Homescreen = (props) => {
 			assigned_to: item.assigned_to,
 			completed: item.completed
 		}
-		let transaction = new UpdateListItems_Transaction(listID, itemID, itemToDelete, opcode, AddTodoItem, DeleteTodoItem);
+		let transaction = new UpdateListItems_Transaction(listID, itemID, itemToDelete, opcode, AddTodoItem, DeleteTodoItem, index);
 		props.tps.addTransaction(transaction);
 		tpsRedo();
 	};
@@ -208,7 +208,6 @@ const Homescreen = (props) => {
 							<SidebarContents
 								todolists={todolists} activeid={activeList.id} auth={auth}
 								handleSetActive={handleSetActive} createNewList={createNewList}
-								undo={tpsUndo} redo={tpsRedo}
 								updateListField={updateListField}
 							/>
 							:
@@ -225,6 +224,7 @@ const Homescreen = (props) => {
 									editItem={editItem} reorderItem={reorderItem}
 									setShowDelete={setShowDelete}
 									activeList={activeList} setActiveList={setActiveList}
+									undo={tpsUndo} redo={tpsRedo}
 								/>
 							</div>
 						:
@@ -234,15 +234,15 @@ const Homescreen = (props) => {
 			</WLMain>
 
 			{
-				showDelete && (<Delete deleteList={deleteList} activeid={activeList._id} setShowDelete={setShowDelete} />)
+				showDelete && (<Delete deleteList={deleteList} activeid={activeList._id} setShowDelete={setShowDelete}/>)
 			}
 
 			{
-				showCreate && (<CreateAccount fetchUser={props.fetchUser} setShowCreate={setShowCreate} />)
+				showCreate && (<CreateAccount fetchUser={props.fetchUser} setShowCreate={setShowCreate}/>)
 			}
 
 			{
-				showLogin && (<Login fetchUser={props.fetchUser} refetchTodos={refetch}setShowLogin={setShowLogin} />)
+				showLogin && (<Login fetchUser={props.fetchUser} refetchTodos={refetch} setShowLogin={setShowLogin} />)
 			}
 
 		</WLayout>
