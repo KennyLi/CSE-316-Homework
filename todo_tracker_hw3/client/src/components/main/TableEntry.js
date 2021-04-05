@@ -5,7 +5,8 @@ const TableEntry = (props) => {
     const { data } = props;
 
     const completeStyle = data.completed ? ' complete-task' : ' incomplete-task';
- 
+    const assignedStyle = data.completed ? ' complete-assigned' : ' incomplete-assigned'
+
     const description = data.description;
     const due_date = data.due_date;
     const status = data.completed ? 'complete' : 'incomplete';
@@ -97,7 +98,7 @@ const TableEntry = (props) => {
                             autoFocus={true} defaultValue={assigned_to} type='text'
                             wType="outlined" barAnimation="solid" inputClass="table-input-class"
                         />
-                        : <div className="table-text"
+                        : <div className={`${assignedStyle} table-text`}
                             onClick={() => toggleAssignedEdit(!editingAssigned)}
                         >{assigned_to}
                         </div>
@@ -114,6 +115,12 @@ const TableEntry = (props) => {
                     </WButton>
                     <WButton className="table-entry-buttons" onClick={() => props.deleteItem(data, props.index)} wType="texted">
                         <i className="material-icons">close</i>
+                    </WButton>
+                    <WButton className="table-entry-buttons" wType="texted">
+                        <i className="material-icons">i</i>
+                    </WButton>
+                    <WButton className="table-entry-buttons" wType="texted">
+                        <i className="material-icons">i</i>
                     </WButton>
                 </div>
             </WCol>

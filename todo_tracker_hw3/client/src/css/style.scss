@@ -57,10 +57,17 @@ html, body {
     color: var(--light-blue);
 }
 
+.complete-assigned {
+    background-color: black;
+}
+
 .incomplete-task {
     color: $primary-color;
 }
 
+.incomplete-assigned {
+    background-color: red;
+}
 .list-item-active {
     background-color: var(--deep-blue);
 }
