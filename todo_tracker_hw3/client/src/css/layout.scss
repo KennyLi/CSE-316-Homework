@@ -79,6 +79,11 @@ html {
     cursor: default;
 }
 
+.undo-redo-disabled {
+    padding: 0;
+    margin-left: 36px;
+    cursor: default;
+}
 .table-header-buttons {
     float: right;
     height: 100%;
@@ -122,6 +127,11 @@ html {
 
 .sidebar-buttons {
     padding: 0;
+}
+
+.sidebar-buttons-disabled {
+    padding: 0;
+    cursor: default;
 }
 
 .modal-input {

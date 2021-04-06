@@ -58,7 +58,7 @@ html, body {
 }
 
 .complete-assigned {
-    background-color: black;
+    color: black;
 }
 
 .incomplete-task {
@@ -66,7 +66,7 @@ html, body {
 }
 
 .incomplete-assigned {
-    background-color: red;
+    color: red;
 }
 .list-item-active {
     background-color: var(--deep-blue);
@@ -137,6 +137,10 @@ html, body {
 
 .table-header-button-disabled {
     transition: 0.1s ease-in-out;
+    color: var(--warm-black);
+}
+
+.undo-redo-disabled {
     color: var(--warm-black);
 }
 
