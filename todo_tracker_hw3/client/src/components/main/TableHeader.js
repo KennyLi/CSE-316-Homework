@@ -1,3 +1,4 @@
+import { printIntrospectionSchema } from 'graphql';
 import React from 'react';
 
 import { WButton, WRow, WCol } from 'wt-frontend';
@@ -14,22 +15,38 @@ const TableHeader = (props) => {
 
     const clickDisabled = () => { };
 
+    const handleDescSort = () => {
+        props.sort("description")
+    }
+
+    const handleDateSort = () => {
+        props.sort("due_date")
+    }
+
+    const handleStatusSort = () => {
+        props.sort("completed")
+    }
+
+    const handleAssignedSort = () => {
+        props.sort("assigned_to")
+    }
+    
     return (
         <WRow className="table-header">
             <WCol size="3">
-                <WButton className='table-header-section' wType="texted" >Task</WButton>
+                <WButton className='table-header-section' wType="texted" onClick={handleDescSort}>Task</WButton>
             </WCol>
 
             <WCol size="2">
-                <WButton className='table-header-section' wType="texted">Due Date</WButton>
+                <WButton className='table-header-section' wType="texted" onClick={handleDateSort}>Due Date</WButton>
             </WCol>
 
             <WCol size="2">
-                <WButton className='table-header-section' wType="texted" >Status</WButton>
+                <WButton className='table-header-section' wType="texted" onClick={handleStatusSort}>Status</WButton>
             </WCol>
 
             <WCol size="2">
-                <WButton className='table-header-section' wType="texted" >Assigned To</WButton>
+                <WButton className='table-header-section' wType="texted" onClick={handleAssignedSort}>Assigned To</WButton>
             </WCol>
 
             <WCol size="3">
