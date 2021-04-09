@@ -5,7 +5,9 @@ const TableEntry = (props) => {
     const { data } = props;
 
     const completeStyle = data.completed ? ' complete-task' : ' incomplete-task';
-    const assignedStyle = data.completed ? ' complete-assigned' : ' incomplete-assigned'
+    const assignedStyle = data.completed ? ' complete-assigned' : ' incomplete-assigned';
+    const first = props.index === 0 ? 'table-entry-buttons-disabled' : 'table-entry-buttons'; 
+    const last = props.index === props.lastIndex ? 'table-entry-buttons-disabled' : 'table-entry-buttons';
 
     const description = data.description;
     const due_date = data.due_date;
@@ -44,6 +46,8 @@ const TableEntry = (props) => {
         props.editItem(data._id, 'assigned_to', newAssigned, prevAssigned);
     }
 
+    const clickDisabled = () => { };
+    
     return (
         <WRow className='table-entry'>
             <WCol size="3">
@@ -107,10 +111,10 @@ const TableEntry = (props) => {
 
             <WCol size="3">
                 <div className='button-group'>
-                    <WButton className="table-entry-buttons" onClick={() => props.reorderItem(data._id, -1)} wType="texted">
+                    <WButton className={`${first}`} onClick={props.index === 0 ? clickDisabled : () => props.reorderItem(data._id, -1)} wType="texted">
                         <i className="material-icons">expand_less</i>
                     </WButton>
-                    <WButton className="table-entry-buttons" onClick={() => props.reorderItem(data._id, 1)} wType="texted">
+                    <WButton className={`${last}`} onClick={props.index === props.lastIndex ? clickDisabled : () => props.reorderItem(data._id, 1)} wType="texted">
                         <i className="material-icons">expand_more</i>
                     </WButton>
                     <WButton className="table-entry-buttons" onClick={() => props.deleteItem(data, props.index)} wType="texted">

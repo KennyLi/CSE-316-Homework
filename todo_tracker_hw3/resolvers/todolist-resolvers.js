@@ -66,7 +66,7 @@ module.exports = {
 				owner: owner,
 				items: items
 			});
-			const updated = newList.save();
+			const updated = await newList.save();
 			if (updated) return objectId;
 			else return ('Could not add todolist');
 		},
@@ -194,7 +194,6 @@ module.exports = {
 		unsortTodoList: async (_, args) => {
 			const { list, _id } = args;
 			const listId = new ObjectId(_id);
-			console.log(list)
 			const found = await Todolist.findOne({ _id: listId });
 			const updated = await Todolist.updateOne({ _id: listId }, { items: list })
 			if (updated) return (list);

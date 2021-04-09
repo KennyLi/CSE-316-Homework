@@ -69,6 +69,7 @@ html, body {
     color: red;
 }
 .list-item-active {
+    color: $primary-color;
     background-color: var(--deep-blue);
 }
 
@@ -202,4 +203,8 @@ html, body {
 
 .table-entry-buttons {
     color: $text-color;
+}
+
+.table-entry-buttons-disabled {
+    color: var(--warm-black);
 }

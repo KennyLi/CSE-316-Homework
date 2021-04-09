@@ -207,6 +207,26 @@ const Homescreen = (props) => {
 		toggleShowDelete(!showDelete)
 	}
 
+	const handleUndo = (e) => {
+		if (!e.repeat && e.ctrlKey && e.key === 'z' && props.tps.hasTransactionToUndo()) {
+			tpsUndo();
+		}
+	}
+
+	const handleRedo = (e) => {
+		if (!e.repeat && e.ctrlKey && e.key === 'y' && props.tps.hasTransactionToRedo()) {
+			tpsRedo();
+		}
+	}
+	useEffect(() => {
+		window.addEventListener('keydown', handleUndo);
+		window.addEventListener('keydown', handleRedo);
+		return () => {
+			window.removeEventListener('keydown', handleUndo);
+			window.removeEventListener('keydown', handleRedo);
+		}
+	});
+	
 	return (
 		<WLayout wLayout="header-lside">
 			<WLHeader>

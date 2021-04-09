@@ -34,19 +34,19 @@ const TableHeader = (props) => {
     return (
         <WRow className="table-header">
             <WCol size="3">
-                <WButton className='table-header-section' wType="texted" onClick={handleDescSort}>Task</WButton>
+                <WButton className='table-header-section' wType="texted" onClick={props.disabled ? clickDisabled : handleDescSort}>Task</WButton>
             </WCol>
 
             <WCol size="2">
-                <WButton className='table-header-section' wType="texted" onClick={handleDateSort}>Due Date</WButton>
+                <WButton className='table-header-section' wType="texted" onClick={props.disabled ? clickDisabled : handleDateSort}>Due Date</WButton>
             </WCol>
 
             <WCol size="2">
-                <WButton className='table-header-section' wType="texted" onClick={handleStatusSort}>Status</WButton>
+                <WButton className='table-header-section' wType="texted" onClick={props.disabled ? clickDisabled : handleStatusSort}>Status</WButton>
             </WCol>
 
             <WCol size="2">
-                <WButton className='table-header-section' wType="texted" onClick={handleAssignedSort}>Assigned To</WButton>
+                <WButton className='table-header-section' wType="texted" onClick={props.disabled ? clickDisabled : handleAssignedSort}>Assigned To</WButton>
             </WCol>
 
             <WCol size="3">
