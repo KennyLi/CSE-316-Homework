@@ -5,7 +5,6 @@ const typeDefs = gql `
 		_id: String
 		firstName: String
 		lastName: String
-		initials: String
 		email: String
 		password: String
 	}

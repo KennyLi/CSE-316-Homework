@@ -1,10 +1,11 @@
 import React from 'react';
+import { WButton }                from 'wt-frontend';
 
 const Logo = (props) => {
     return (
-        <div className='logo'>
-            Todo Tracker
-        </div>
+        <WButton className="navbar-options" onClick={() => {console.log("yes")}} wType="texted" hoverAnimation="text-primary">
+            The World Data Mapper
+        </WButton>
     );
 };
 

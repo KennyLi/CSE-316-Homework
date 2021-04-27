@@ -11,6 +11,7 @@ import React, { useState } 				from 'react';
 import { useMutation, useQuery } 		from '@apollo/client';
 import { WNavbar, WSidebar, WNavItem } 	from 'wt-frontend';
 import { WLayout, WLHeader, WLMain, WLSide } from 'wt-frontend';
+import { WCard, WCMedia, WCContent } 	from 'wt-frontend';
 import { UpdateListField_Transaction, 
 	SortItems_Transaction,
 	UpdateListItems_Transaction, 
@@ -233,12 +234,12 @@ const Homescreen = (props) => {
 	}
 
 	return (
-		<WLayout wLayout="header-lside">
+		<WLayout wLayout="header">
 			<WLHeader>
 				<WNavbar color="colored">
 					<ul>
-						<WNavItem>
-							<Logo className='logo' />
+						<WNavItem hoverAnimation="lighten">
+							<Logo/>
 						</WNavItem>
 					</ul>
 					<ul>
@@ -246,12 +247,43 @@ const Homescreen = (props) => {
 							fetchUser={props.fetchUser} 	auth={auth} 
 							setShowCreate={setShowCreate} 	setShowLogin={setShowLogin}
 							reloadTodos={refetch} 			setActiveList={loadTodoList}
+							user={props.user}
 						/>
 					</ul>
 				</WNavbar>
 			</WLHeader>
 
-			<WLSide side="left">
+			<WLMain>
+				{
+					auth ?
+					<WCard>
+						<WLayout wLayout="header-lside">
+							<WLHeader><div class="container-secondary">Your Maps</div></WLHeader>
+								<WLSide side="left">
+									<WSidebar>
+										{
+											activeList ? 
+												<SidebarContents
+													listIDs={SidebarData} 				activeid={activeList._id} auth={auth}
+													handleSetActive={handleSetActive} 	createNewList={createNewList}
+													updateListField={updateListField} 	key={activeList._id}
+												/>
+											:
+											<></>
+										}
+									</WSidebar>
+								</WLSide>
+								<WLMain>
+								</WLMain>
+							</WLayout> 
+						</WCard> :
+					<WCard wLayout="media-content">
+						<WCMedia></WCMedia>
+						<WCContent><div class="container-secondary">Welcome To The World Data Mapper</div></WCContent>
+					</WCard>
+				}
+			</WLMain>
+			{/* <WLSide side="left">
 				<WSidebar>
 					{
 						activeList ? 
@@ -283,8 +315,7 @@ const Homescreen = (props) => {
 							<div className="container-secondary" />
 				}
 
-			</WLMain>
-
+			</WLMain> */}
 			{
 				showDelete && (<Delete deleteList={deleteList} activeid={activeList._id} setShowDelete={setShowDelete} />)
 			}
@@ -296,7 +327,6 @@ const Homescreen = (props) => {
 			{
 				showLogin && (<Login fetchUser={props.fetchUser} reloadTodos={refetch}setShowLogin={setShowLogin} />)
 			}
-
 		</WLayout>
 	);
 };

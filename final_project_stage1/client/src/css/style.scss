@@ -45,6 +45,7 @@
 	--blue-gray: #7e8084;
 	--darkblue-gray: #2b2e36;
     --warm-black: #322d2d;
+    --header-color: rgb(255, 56, 56);
 }
 
 html, body {
@@ -82,6 +83,7 @@ html, body {
 }
 
 .list-item {
+    color: black;
     cursor: pointer;
     transition: 0.05s ease-in-out;
 
@@ -231,4 +233,13 @@ html, body {
 .table-entry-buttons-disabled {
     color: var(--warm-black);
     cursor: default;
+}
+
+.container-secondary {
+    color: $text-color;
+    background-color: var(--header-color);
+}
+
+.wsidebar {
+    background-color: rgb(247, 212, 212);
 }

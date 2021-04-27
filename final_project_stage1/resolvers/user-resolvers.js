@@ -52,8 +52,7 @@ module.exports = {
 					firstName: '',
 					lastName: '',
 					email: 'already exists', 
-					password: '',
-					initials: ''}));
+					password: ''}));
 			}
 			const hashed = await bcrypt.hash(password, 10);
 			const _id = new ObjectId();
@@ -62,8 +61,7 @@ module.exports = {
 				firstName: firstName,
 				lastName: lastName,
 				email: email, 
-				password: hashed,
-				initials: `${firstName[0]}.${lastName[0]}.`
+				password: hashed
 			})
 			const saved = await user.save();
 			// After registering the user, their tokens are generated here so they
