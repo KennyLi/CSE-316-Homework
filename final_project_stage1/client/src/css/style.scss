@@ -76,27 +76,15 @@ html, body {
     color: $primary-color;
 }
 
-.list-item-active {
-    color: $primary-color;
-    font-weight: bold;
-
-}
 
 .list-item {
     color: black;
     cursor: pointer;
     transition: 0.05s ease-in-out;
-
 }
+
 .list-item:hover {
     background-color: var(--warm-white-transparent);
-
-}
-
-
-
-.list-item-edit-input, .table-input {
-    font-size: 1.125rem !important;
 }
 
 .logo {
@@ -242,4 +230,13 @@ html, body {
 
 .wsidebar {
     background-color: rgb(247, 212, 212);
+}
+
+.create-maps-button.texted {
+    background-color: var(--header-color);
+    font-size: 16px;
+}
+
+.winput.outlined input {
+    color: black;
 }

@@ -9,9 +9,10 @@ const SidebarList = (props) => {
                 props.listIDs &&
                 props.listIDs.map(entry => (
                     <SidebarEntry
-                        handleSetActive={props.handleSetActive} activeid={props.activeid}
+                        handleSetActive={props.handleSetActive}
                         id={tempID++} key={entry._id+props.activeid} name={entry.name} _id={entry._id}
-                        updateListField={props.updateListField}
+                        updateListField={props.updateListField} setShowDelete={props.setShowDelete}
+                        deleteList={props.deleteList} 
                     />
                 ))
             }
