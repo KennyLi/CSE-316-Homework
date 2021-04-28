@@ -5,7 +5,6 @@ import MainContents 					from '../main/MainContents';
 import CreateAccount 					from '../modals/CreateAccount';
 import NavbarOptions 					from '../navbar/NavbarOptions';
 import * as mutations 					from '../../cache/mutations';
-import SidebarContents 					from '../sidebar/SidebarContents';
 import { GET_DB_TODOS } 				from '../../cache/queries';
 import React, { useState } 				from 'react';
 import { useMutation, useQuery } 		from '@apollo/client';

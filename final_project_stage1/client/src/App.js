@@ -27,14 +27,14 @@ const App = () => {
 					path="/home" 
 					name="home" 
 					render={() => 
-						<Homescreen tps={transactionStack} fetchUser={refetch} user={user} refreshTps={refreshTps}/>
+						<Homescreen fetchUser={refetch} user={user}/>
 					} 
 				/>
 				<Route 
 					path="/spreadsheet" 
 					name="spreadsheet" 
 					render={() => 
-						<Spreadsheet tps={transactionStack} fetchUser={refetch} user={user} refreshTps={refreshTps}/>
+						<Spreadsheet tps={transactionStack} fetchUser={refetch} user={user}/>
 					} 
 				/>
 			</Switch>

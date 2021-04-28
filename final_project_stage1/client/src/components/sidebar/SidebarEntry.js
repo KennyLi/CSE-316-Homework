@@ -1,10 +1,8 @@
 import React, { useState }  from 'react';
-import Delete 							from '../modals/Delete';
 import { WNavItem, WInput, WButton } from 'wt-frontend';
 import { WRow, WCol }       from 'wt-frontend';
 
 const SidebarEntry = (props) => {
-    const [showDelete, toggleShowDelete] 	= useState(false);
     const [editing, toggleEditing] = useState(false);
     const [preEdit, setPreEdit] = useState(props.name);
     const handleEditing = (e) => {
@@ -19,22 +17,12 @@ const SidebarEntry = (props) => {
         props.updateListField(props._id, name, value, preEdit);
     };
 
-    const setShowDelete = () => {
-		toggleShowDelete(!showDelete)
-	};
-
-    // const entryStyle = props._id === props.activeid ? 'list-item-active' : 'list-item ';
-    
     return (
-    <>
-	{
-		showDelete && (<Delete deleteList={props.deleteList} activeid={props._id} setShowDelete={setShowDelete} />)
-	}   
     <WRow className='table-entry'>
         <WCol size="10">
             <WNavItem 
                 className='list-item'
-                onClick={() => { props.handleSetActive(props._id) }} 
+                onClick={() => {}} 
             >
                 {
                     editing ?   <WInput className="list-item-edit" inputClass="list-item-edit-input"
@@ -48,17 +36,16 @@ const SidebarEntry = (props) => {
             </WNavItem>
         </WCol>
         <WCol size="1">
-            <WButton onClick={handleEditing} wType="texted">
+            <WButton onClick={handleEditing} wType="texted" hoverAnimation="text-primary">
                 <i className="material-icons">edit</i>
             </WButton>
         </WCol>
         <WCol size="1">
-            <WButton onClick={setShowDelete} wType="texted">
+            <WButton onClick={() => {props.setShowDelete(props._id)}} wType="texted" hoverAnimation="text-primary">
                     <i className="material-icons">delete</i>
             </WButton>
         </WCol>
     </WRow>
-    </>
     );
 };
 
