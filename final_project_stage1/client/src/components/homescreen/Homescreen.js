@@ -6,7 +6,7 @@ import NavbarOptions 					from '../navbar/NavbarOptions';
 import * as mutations 					from '../../cache/mutations';
 import SidebarList						from '../sidebar/SidebarList';
 import SidebarHeader					from '../sidebar/SidebarHeader';
-import { GET_DB_TODOS } 				from '../../cache/queries';
+import { GET_DB_MAPS } 				from '../../cache/queries';
 import React, { useState } 				from 'react';
 import { useMutation, useQuery } 		from '@apollo/client';
 import { WNavbar, WSidebar, WNavItem } 	from 'wt-frontend';
@@ -21,12 +21,12 @@ const Homescreen = (props) => {
 	const [showDelete, toggleShowDelete] 	= useState(false);
 	const [listToDelete, setListToDelete]	= useState(null);
 
-	const { loading, error, data, refetch } = useQuery(GET_DB_TODOS);
+	const { loading, error, data, refetch } = useQuery(GET_DB_MAPS);
 
 	if(loading) { console.log(loading, 'loading'); }
 	if(error) { console.log(error, 'error'); }
 	if(data) { 
-		for(let todo of data.getAllTodos) {
+		for(let todo of data.getAllMaps) {
 			if(todo) {
 				SidebarData.push({_id: todo._id, name: todo.name});
 			}
@@ -34,32 +34,32 @@ const Homescreen = (props) => {
 	}
 
 	const mutationOptions = {
-		refetchQueries: [{ query: GET_DB_TODOS }], 
+		refetchQueries: [{ query: GET_DB_MAPS }], 
 		awaitRefetchQueries: true,
 	}
 
-	const [UpdateTodolistField] 	= useMutation(mutations.UPDATE_TODOLIST_FIELD, mutationOptions);
-	const [AddTodolist] 			= useMutation(mutations.ADD_TODOLIST);
-	const [DeleteTodolist] 			= useMutation(mutations.DELETE_TODOLIST);
+	const [UpdateMapField] 	= useMutation(mutations.UPDATE_MAP_FIELD, mutationOptions);
+	const [AddMap] 			= useMutation(mutations.ADD_MAP);
+	const [DeleteMap] 			= useMutation(mutations.DELETE_MAP);
 
 	const createNewList = async () => {
 		let list = {
 			_id: '',
 			name: 'Untitled',
 			owner: props.user._id,
-			items: [],
+			subregions: [],
 			sortRule: 'task',
 			sortDirection: 1
 		}
-		const { data } = await AddTodolist({ variables: { todolist: list }, refetchQueries: [{ query: GET_DB_TODOS }] });
+		const { data } = await AddMap({ variables: { map: list }, refetchQueries: [{ query: GET_DB_MAPS }] });
 	};
 
 	const deleteList = async (_id) => {
-		DeleteTodolist({ variables: { _id: _id }, refetchQueries: [{ query: GET_DB_TODOS }] });
+		DeleteMap({ variables: { _id: _id }, refetchQueries: [{ query: GET_DB_MAPS }] });
 	};
 
 	const updateListField = async (_id, field, value, prev) => {
-		UpdateTodolistField({ variables: { _id: _id, field: field, value: value }, refetchQueries: [{ query: GET_DB_TODOS }] });
+		UpdateMapField({ variables: { _id: _id, field: field, value: value }, refetchQueries: [{ query: GET_DB_MAPS }] });
 	};
 
 	const setShowLogin = () => {
@@ -91,15 +91,15 @@ const Homescreen = (props) => {
 				<WNavbar color="colored">
 					<ul>
 						<WNavItem hoverAnimation="lighten">
-							<Logo/>
+							<Logo history={props.history}/>
 						</WNavItem>
 					</ul>
 					<ul>
 						<NavbarOptions
 							fetchUser={props.fetchUser} 	auth={auth} 
 							setShowCreate={setShowCreate} 	setShowLogin={setShowLogin}
-							reloadTodos={refetch}
-							user={props.user}
+							reloadTodos={refetch}			history={props.history}
+							user={props.user}		
 						/>
 					</ul>
 				</WNavbar>
@@ -117,6 +117,7 @@ const Homescreen = (props) => {
 												listIDs={SidebarData} 				
 												setShowDelete={getDeleteListID}
 												updateListField={updateListField}
+												history={props.history}
 										/>
 									</WSidebar>
 								</WLSide>

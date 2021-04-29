@@ -21,6 +21,12 @@ html {
     align-items: center;
 }
 
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
 .wsidebar {
     scrollbar-width: thin;
 }
@@ -48,6 +54,7 @@ html {
 }
 
 .table-text {
+    text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -82,6 +89,15 @@ html {
     padding: 0;
     padding-top: 24px;
     padding-bottom: 12px;
+}
+
+.region-header {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    padding-top: 24px;
+    padding-bottom: 12px;
+    text-align: center;
 }
 
 .table-header-button {
@@ -239,4 +255,8 @@ html {
 
 li {
     list-style-type: none;
+}
+
+.wbutton {
+    display: block;
 }

@@ -11,18 +11,44 @@ export const GET_DB_USER = gql`
 	}
 `;
 
-export const GET_DB_TODOS = gql`
-	query GetDBTodos {
-		getAllTodos {
+export const GET_DB_MAPS = gql`
+	query GetDBMaps {
+		getAllMaps {
 			_id
 			name
 			owner
-			items {
+			subregions {
 				_id
-				description
-				due_date
-				assigned_to
-				completed
+				name
+				capital
+				leader
+				subregions {
+					_id
+					name
+					capital
+					leader
+					subregions {
+						_id
+						name
+						capital
+						leader
+						landmarks {
+							_id
+							name
+							subregion
+						}
+					}
+					landmarks {
+						_id
+						name
+						subregion
+					}
+				}
+				landmarks {
+					_id
+					name
+					subregion
+				}
 			}
 			sortRule
 			sortDirection

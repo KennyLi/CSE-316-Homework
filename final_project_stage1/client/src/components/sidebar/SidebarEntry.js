@@ -1,4 +1,5 @@
 import React, { useState }  from 'react';
+import { Link } from 'react-router-dom';
 import { WNavItem, WInput, WButton } from 'wt-frontend';
 import { WRow, WCol }       from 'wt-frontend';
 
@@ -17,19 +18,23 @@ const SidebarEntry = (props) => {
         props.updateListField(props._id, name, value, preEdit);
     };
 
+    const handleNavigate = () => {
+        props.history.push("/spreadsheet/" + props._id)
+    }
+
     return (
     <WRow className='table-entry'>
         <WCol size="10">
             <WNavItem 
                 className='list-item'
-                onClick={() => {}} 
             >
                 {
                     editing ?   <WInput className="list-item-edit" inputClass="list-item-edit-input"
                                     onKeyDown={(e) => {if(e.keyCode === 13) handleSubmit(e)}}
                                     name='name' onBlur={handleSubmit} autoFocus={true} defaultValue={props.name} 
                                 />
-                            :   <div className="list-item">
+                            :
+                                <div className="list-item" onClick={handleNavigate}>
                                     {props.name}
                                 </div>
                 }

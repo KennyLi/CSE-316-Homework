@@ -6,6 +6,12 @@ const MainContents = (props) => {
     return (
         <div className='table ' >
             <TableHeader
+                addItem={props.addItem} activeList={props.activeList}
+            />
+            <TableContents
+                key={props.activeList._id}      activeList={props.activeList}
+            />
+            {/* <TableHeader
                 disabled={!props.activeList._id}        addItem={props.addItem}
                 undo={props.undo} redo={props.redo}     canUndo={props.canUndo} 
                 canRedo={props.canRedo}                 setShowDelete={props.setShowDelete}
@@ -15,7 +21,7 @@ const MainContents = (props) => {
                 key={props.activeList._id}      activeList={props.activeList}
                 deleteItem={props.deleteItem}   reorderItem={props.reorderItem}
                 editItem={props.editItem}
-            />
+            /> */}
         </div>
     );
 };

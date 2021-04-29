@@ -15,6 +15,7 @@ const LoggedIn = (props) => {
             let reset = await client.resetStore();
             // if (reset) props.setActiveList({});
         }
+        props.history.push("/home")
     };
 
     return (
@@ -25,12 +26,10 @@ const LoggedIn = (props) => {
                 </WButton>
             </WNavItem>
                
-            <WNavItem hoverAnimation="lighten">
-                <Link to="/home">     
+            <WNavItem hoverAnimation="lighten"> 
                     <WButton className="navbar-options" onClick={handleLogout} wType="texted" hoverAnimation="text-primary">
                         Logout
                     </WButton>
-                </Link>
             </WNavItem >
         </>        
     );
@@ -59,7 +58,7 @@ const NavbarOptions = (props) => {
         <>
             {
                 props.auth === false ? <LoggedOut setShowLogin={props.setShowLogin} setShowCreate={props.setShowCreate} />
-                : <LoggedIn fetchUser={props.fetchUser} setActiveList={props.setActiveList} logout={props.logout} user={props.user}/>
+                : <LoggedIn fetchUser={props.fetchUser} setActiveList={props.setActiveList} logout={props.logout} user={props.user} history={props.history}/>
             }
         </>
 

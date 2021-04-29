@@ -23,18 +23,20 @@ const App = () => {
 		<BrowserRouter>
 			<Switch>
 				<Redirect exact from="/" to={ {pathname: "/home"} } />
+				<Redirect exact from="/spreadsheet" to={ {pathname: "/home"} } />
 				<Route 
 					path="/home" 
 					name="home" 
-					render={() => 
-						<Homescreen fetchUser={refetch} user={user}/>
+					render={({ location, match, history }) => 
+						<Homescreen fetchUser={refetch} user={user} location={location} match={match} history={history}/>
 					} 
 				/>
+				
 				<Route 
-					path="/spreadsheet" 
+					path="/spreadsheet/:id" 
 					name="spreadsheet" 
-					render={() => 
-						<Spreadsheet tps={transactionStack} fetchUser={refetch} user={user}/>
+					render={({ location, match, history }) => 
+						<Spreadsheet tps={transactionStack} fetchUser={refetch} user={user} location={location} match={match} history={history}/>
 					} 
 				/>
 			</Switch>

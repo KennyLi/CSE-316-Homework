@@ -28,72 +28,50 @@ export const LOGOUT = gql`
 	}
 `;
 
-export const ADD_ITEM = gql`
-	mutation AddItem($item: ItemInput!, $_id: String!, $index: Int!) {
-		addItem(item: $item, _id: $_id, index: $index)
+export const ADD_SUBREGION = gql`
+	mutation AddSubregion($subregion: SubregionInput!, $_id: String, $index: Int!) {
+		addSubregion(subregion: $subregion, _id: $_id, index: $index)
 	}
 `;
 
-export const DELETE_ITEM = gql`
-	mutation DeleteItem($itemId: String!, $_id: String!) {
-		deleteItem(itemId: $itemId, _id: $_id) {
-			_id
-			description
-			due_date
-			assigned_to
-			completed
-		}
-	}
-`;
-
-export const UPDATE_ITEM_FIELD = gql`
-	mutation UpdateItemField($_id: String!, $itemId: String!, $field: String!, $value: String!, $flag: Int!) {
-		updateItemField(_id: $_id, itemId: $itemId, field: $field, value: $value, flag: $flag) {
-			_id
-			description
-			due_date
-			assigned_to
-			completed
-		}
-	}
-`;
-
-export const REORDER_ITEMS = gql`
-	mutation ReorderItems($_id: String!, $itemId: String!, $direction: Int!) {
-		reorderItems(_id: $_id, itemId: $itemId, direction: $direction) {
-			_id
-			description
-			due_date
-			assigned_to
-			completed
-		}
-	}
-`;
-
-export const SORT_ITEMS = gql`
-	mutation SortItems($_id: String!, $criteria: String!) {
-		sortItems(_id: $_id, criteria: $criteria) {
-			_id
-			description
-			due_date
-			assigned_to
-			completed
-		}
-	}
-`;
-
-export const ADD_TODOLIST = gql`
-	mutation AddTodolist($todolist: TodoInput!) {
-		addTodolist(todolist: $todolist) {
+export const ADD_MAP = gql`
+	mutation AddMap($map: MapInput!) {
+		addMap(map: $map) {
 			_id
 			name
 			owner
-			items {
+			subregions {
 				_id
-				description
-				due_date
-				assigned_to
-				completed
+				name
+				capital
+				leader
+				subregions {
+					_id
+					name
+					capital
+					leader
+					subregions {
+						_id
+						name
+						capital
+						leader
+						landmarks {
+							_id
+							name
+							subregion
+						}
+					}
+					landmarks {
+						_id
+						name
+						subregion
+					}
+				}
+				landmarks {
+					_id
+					name
+					subregion
+				}
 			}
 			sortRule
 			sortDirection
@@ -101,14 +79,14 @@ export const ADD_TODOLIST = gql`
 	}
 `;
 
-export const DELETE_TODOLIST = gql`
-	mutation DeleteTodolist($_id: String!) {
-		deleteTodolist(_id: $_id)
+export const DELETE_MAP = gql`
+	mutation DeleteMap($_id: String!) {
+		deleteMap(_id: $_id)
 	}
 `;
 
-export const UPDATE_TODOLIST_FIELD = gql`
-	mutation UpdateTodolistField($_id: String!, $field: String!, $value: String!) {
-		updateTodolistField(_id: $_id, field: $field, value: $value)
+export const UPDATE_MAP_FIELD = gql`
+	mutation UpdateMapField($_id: String!, $field: String!, $value: String!) {
+		updateMapField(_id: $_id, field: $field, value: $value)
 	}
 `;

@@ -7,9 +7,11 @@ const SidebarList = (props) => {
         props.listIDs &&
         props.listIDs.map(entry => (
             <SidebarEntry
+                key={entry._id+props.activeid}
                 id={tempID++} name={entry.name} _id={entry._id}
                 updateListField={props.updateListField}
                 setShowDelete={props.setShowDelete}
+                history={props.history}
             />)
         )
     );

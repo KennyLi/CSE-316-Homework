@@ -6,17 +6,17 @@ const Delete = (props) => {
 
     const handleDelete = async () => {
         props.deleteList(props._id);
-        props.setShowDelete(false);
+        props.setShowDelete();
     }
 
     return (
         <WModal className="delete-modal" cover="true" visible={props.setShowDelete}>
-            <WMHeader  className="modal-header" onClose={() => props.setShowDelete(false)}>
+            <WMHeader className="modal-header" onClose={props.setShowDelete}>
                 Delete List?
 			</WMHeader >
 
             <WMMain>
-                <WButton className="modal-button cancel-button" onClick={() => props.setShowDelete(false)} wType="texted">
+                <WButton className="modal-button cancel-button" onClick={props.setShowDelete} wType="texted">
                     Cancel
 				</WButton>
                 <label className="col-spacer">&nbsp;</label>
