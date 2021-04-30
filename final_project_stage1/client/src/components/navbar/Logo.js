@@ -1,6 +1,5 @@
 import React from 'react';
 import { WButton }                from 'wt-frontend';
-import { Link } from 'react-router-dom';
 
 const Logo = (props) => {
 

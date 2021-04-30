@@ -1,5 +1,5 @@
 import React                    from 'react';
-import { WButton, WRow, WCol }  from 'wt-frontend';
+import { WButton }  from 'wt-frontend';
 
 const SidebarHeader = (props) => {
     // const disabledClick = () => {};

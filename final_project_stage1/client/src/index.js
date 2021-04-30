@@ -13,13 +13,18 @@ const cache = new InMemoryCache({
 	*/
 	dataIdFromObject: object => `${object.__typename}:${object._id}`,
 	typePolicies: {
-		Map: {
+		Region: {
 			fields: {
-				subregions: {
+				children: {
 					merge(existing, incoming){
 						return incoming
 					}
 				},
+				landmarks: {
+					merge(existing, incoming){
+						return incoming
+					}
+				}
 			},
 		},
 		Query: {

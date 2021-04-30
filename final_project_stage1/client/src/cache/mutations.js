@@ -29,53 +29,14 @@ export const LOGOUT = gql`
 `;
 
 export const ADD_SUBREGION = gql`
-	mutation AddSubregion($subregion: SubregionInput!, $_id: String, $index: Int!) {
-		addSubregion(subregion: $subregion, _id: $_id, index: $index)
+	mutation AddSubregion($subregion: RegionInput!, $_id: String!, $index: Int!) {
+		addSubregion(subregion: $subregion, id: $_id, index: $index)
 	}
 `;
 
 export const ADD_MAP = gql`
-	mutation AddMap($map: MapInput!) {
-		addMap(map: $map) {
-			_id
-			name
-			owner
-			subregions {
-				_id
-				name
-				capital
-				leader
-				subregions {
-					_id
-					name
-					capital
-					leader
-					subregions {
-						_id
-						name
-						capital
-						leader
-						landmarks {
-							_id
-							name
-							subregion
-						}
-					}
-					landmarks {
-						_id
-						name
-						subregion
-					}
-				}
-				landmarks {
-					_id
-					name
-					subregion
-				}
-			}
-			sortRule
-			sortDirection
-		}
+	mutation AddMap($map: RegionInput!) {
+		addMap(map: $map)
 	}
 `;
 

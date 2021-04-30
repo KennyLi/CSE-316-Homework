@@ -10,7 +10,7 @@ const landmarkSchema = new Schema(
 			type: String,
 			required: true
 		},
-		subregion: {
+		parent: {
 			type: ObjectId,
 			required: true
 		}

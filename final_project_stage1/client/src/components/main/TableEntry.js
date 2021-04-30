@@ -59,12 +59,16 @@ const TableEntry = (props) => {
     //     }
     // }
 
+    const handleNavigate = () => {
+        props.history.push(props.path + "/" + data._id)
+    }
+    
     return (
         <WRow className='table-entry'>
             <WCol size="2">
                 <WRow>
                     <WCol size="9">
-                        <div className="table-text" onClick={disabledButton}>
+                        <div className="table-text" onClick={handleNavigate}>
                             {description}
                         </div>
                     </WCol>

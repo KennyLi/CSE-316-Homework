@@ -7,18 +7,17 @@ import * as mutations 					from '../../cache/mutations';
 import { GET_DB_MAPS } 				from '../../cache/queries';
 import React, { useState } 				from 'react';
 import { useMutation, useQuery } 		from '@apollo/client';
-import { WNavbar, WSidebar, WNavItem } 	from 'wt-frontend';
-import { WLayout, WLHeader, WLMain, WLSide } from 'wt-frontend';
-import { WCard, WCMedia, WCContent } 	from 'wt-frontend';
-import { UpdateListField_Transaction, 
-	SortItems_Transaction,
-	UpdateListItems_Transaction, 
-	ReorderItems_Transaction, 
-	EditItem_Transaction } 				from '../../utils/jsTPS';
-import { useParams } 					from 'react-router';
+import { WNavbar, WNavItem } 	from 'wt-frontend';
+import { WLayout, WLHeader, WLMain} from 'wt-frontend';
+// import { UpdateListField_Transaction, 
+// 	SortItems_Transaction,
+// 	UpdateListItems_Transaction, 
+// 	ReorderItems_Transaction, 
+// 	EditItem_Transaction } 				from '../../utils/jsTPS';
 
 const Spreadsheet = (props) => {
-	const { id } = useParams();
+	let path = props.location.pathname.split("/").filter(arg => arg !== "");
+	path.shift();
 	// const keyCombination = (e, callback) => {
 	// 	if(e.key === 'z' && e.ctrlKey) {
 	// 		if(props.tps.hasTransactionToUndo()) {
@@ -34,9 +33,10 @@ const Spreadsheet = (props) => {
 	// document.onkeydown = keyCombination;
 
 	const auth = props.user === null ? false : true;
-	let todolists 	= [];
+	let maps = [];
 	// const [sortRule, setSortRule] = useState('unsorted'); // 1 is ascending, -1 desc
-	const [activeList, setActiveList] 		= useState({});
+	const [activeId, setActiveId] = useState("");
+	const [subregionList, setSubregionList] = useState([]);
 	const [showLogin, toggleShowLogin] 		= useState(false);
 	const [showCreate, toggleShowCreate] 	= useState(false);
 	// const [canUndo, setCanUndo] = useState(props.tps.hasTransactionToUndo());
@@ -49,38 +49,46 @@ const Spreadsheet = (props) => {
 	if(data) { 
 		// Assign todolists
 		for(let todo of data.getAllMaps) {
-			todolists.push(todo)
+			maps.push(todo)
 		}
-		if (activeList && Object.keys(activeList).length === 0) {
-			const list = todolists.find(list => list._id === id)
-			setActiveList(list)
+		let valid = true;
+		if (activeId === '') {
+			for(let i = 0; i < path.length - 1; i++) {
+				let temp = maps.find(map => map._id === path[i]).children;
+				console.log(temp)
+				console.log(path[i + 1])
+				console.log(!(temp.includes(path[i + 1])))
+				if (!(temp.includes(path[i + 1]))) {
+					valid = false;
+					break
+				}
+			}
+			if (valid) {
+				let activeRegion = maps.find(map => map._id === path[path.length - 1])
+				if (activeRegion) {
+					let temp = []
+					for(let subregion of activeRegion.children) {
+						temp.push(maps.find(map => map._id === subregion))
+					}
+					setSubregionList(temp)
+					setActiveId(activeRegion._id)
+				}
+			}
 		}
-		// if a list is selected, shift it to front of todolists
-		// if(activeList._id) {
-		// 	let selectedListIndex = todolists.findIndex(entry => entry._id === activeList._id);
-		// 	let removed = todolists.splice(selectedListIndex, 1);
-		// 	todolists.unshift(removed[0]);
-		// }
 	}
 
 
-	
 	// NOTE: might not need to be async
-	const reloadList = async () => {
-		if (activeList._id) {
-			let tempID = activeList._id;
-			let list = todolists.find(list => list._id === tempID);
-			console.log(list)
-			setActiveList(list);
+	const reloadList = () => {
+		if (activeId !== '') {
+			let activeRegion = maps.find(map => map._id === activeId)
+			let temp = []
+			for(let subregion of activeRegion.children) {
+				temp.push(maps.find(map => map._id === subregion))
+			}
+			setSubregionList(temp)
 		}
 	}
-
-	// const loadTodoList = (list) => {
-	// 	props.tps.clearAllTransactions();
-	// 	setCanUndo(props.tps.hasTransactionToUndo());
-	// 	setCanRedo(props.tps.hasTransactionToRedo());
-	// 	setActiveList(list);
-	// }
 
 	const mutationOptions = {
 		refetchQueries: [{ query: GET_DB_MAPS }], 
@@ -113,18 +121,23 @@ const Spreadsheet = (props) => {
 	// }
 
 	const addItem = async () => {
+		console.log(activeId)
+		console.log(subregionList)
 		const newItem = {
 			_id: '',
+			owner: props.user._id,
+			root: false,
 			name: 'No Description',
 			capital: 'No Date',
 			leader: 'No One',
-			subregions: [],
-			landmarks: []
+			children: [],
+			landmarks: [],
+			sortRule: 'task',
+			sortDirection: 1
 		};
 		let opcode = 1;
 		let itemID = newItem._id;
-		let listID = activeList._id;
-		console.log(listID)
+		let listID = activeId;
 		AddSubregion({variables: {subregion: newItem, _id: listID, index: -1}}) 
 
 		// if(this.opcode !== 0) {
@@ -216,11 +229,13 @@ const Spreadsheet = (props) => {
 			</WLHeader>
 			<WLMain>
 				{
-					activeList ? 
+					activeId ? 
 							<div className="container">
 								<MainContents
 									addItem={addItem} 
-									activeList={activeList}
+									activeList={subregionList}
+									history={props.history}
+									path={props.location.pathname}
 								/>
 							</div>
 						:

@@ -26,10 +26,8 @@ const Homescreen = (props) => {
 	if(loading) { console.log(loading, 'loading'); }
 	if(error) { console.log(error, 'error'); }
 	if(data) { 
-		for(let todo of data.getAllMaps) {
-			if(todo) {
-				SidebarData.push({_id: todo._id, name: todo.name});
-			}
+		for(let todo of data.getAllMaps.filter(region => region.root)) {
+			SidebarData.push({_id: todo._id, name: todo.name});
 		}
 	}
 
@@ -39,27 +37,31 @@ const Homescreen = (props) => {
 	}
 
 	const [UpdateMapField] 	= useMutation(mutations.UPDATE_MAP_FIELD, mutationOptions);
-	const [AddMap] 			= useMutation(mutations.ADD_MAP);
-	const [DeleteMap] 			= useMutation(mutations.DELETE_MAP);
+	const [AddMap] 			= useMutation(mutations.ADD_MAP, mutationOptions);
+	const [DeleteMap] 		= useMutation(mutations.DELETE_MAP, mutationOptions);
 
-	const createNewList = async () => {
-		let list = {
+	const createNewMap = async () => {
+		let map = {
 			_id: '',
-			name: 'Untitled',
 			owner: props.user._id,
-			subregions: [],
+			root: true,
+			name: 'Untitled',
+			capital: 'none',
+			leader: 'none',
+			children: [],
+			landmarks: [],
 			sortRule: 'task',
 			sortDirection: 1
-		}
-		const { data } = await AddMap({ variables: { map: list }, refetchQueries: [{ query: GET_DB_MAPS }] });
+		};
+		const { data } = await AddMap({ variables: { map: map }});
 	};
 
 	const deleteList = async (_id) => {
-		DeleteMap({ variables: { _id: _id }, refetchQueries: [{ query: GET_DB_MAPS }] });
+		DeleteMap({ variables: { _id: _id }});
 	};
 
 	const updateListField = async (_id, field, value, prev) => {
-		UpdateMapField({ variables: { _id: _id, field: field, value: value }, refetchQueries: [{ query: GET_DB_MAPS }] });
+		UpdateMapField({ variables: { _id: _id, field: field, value: value }});
 	};
 
 	const setShowLogin = () => {
@@ -125,7 +127,7 @@ const Homescreen = (props) => {
 									<WLayout wLayout="footer">
 										<WLMain></WLMain>
 										<WLFooter>
-											<SidebarHeader createNewList={createNewList}/>
+											<SidebarHeader createNewList={createNewMap}/>
 										</WLFooter>
 									</WLayout>
 								</WLMain>

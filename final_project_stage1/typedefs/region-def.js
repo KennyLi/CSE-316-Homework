@@ -2,51 +2,43 @@ const { gql } = require('apollo-server');
 
 
 const typeDefs = gql `
-	type Map {
+	type Region {
 		_id: String!
-		name: String!
 		owner: String!
-		subregions: [Subregion]
+		root: Boolean!
+		name: String!
+		capital: String!
+		leader: String!
+		children: [String]
+		landmarks: [Landmark]
 		sortRule: String!
 		sortDirection: Int!
-	}
-	type Subregion {
-		_id: String!
-		name: String!
-	    capital: String!
-		leader: String!
-        subregions: [Subregion]
-		landmarks: [Landmark]
 	}
     type Landmark {
         _id: String!
         name: String!
-        subregion: String!
+        parent: String!
     }
 	extend type Query {
-		getAllMaps: [Map]
+		getAllMaps: [Region]
 	}
 	extend type Mutation {
-		addSubregion(subregion: SubregionInput!, _id: String, index: Int!): String
-		addMap(map: MapInput!): Map		
+		addSubregion(subregion: RegionInput!, id: String!, index: Int!): String
+		addMap(map: RegionInput!): String
 		deleteMap(_id: String!): Boolean
 		updateMapField(_id: String!, field: String!, value: String!): String
 	}
-	input MapInput {
+	input RegionInput {
 		_id: String
-		name: String
 		owner: String
-		subregions: [SubregionInput]
-		sortRule: String
-		sortDirection: Int
-	}
-	input SubregionInput {
-		_id: String
+		root: Boolean
 		name: String
 		capital: String
 		leader: String
-		subregions: [SubregionInput]
-        landmarks: [LandmarkInput]
+		children: [String]
+		landmarks: [LandmarkInput]
+		sortRule: String
+		sortDirection: Int
 	}
     input LandmarkInput {
         _id: String

@@ -10,6 +10,7 @@ const MainContents = (props) => {
             />
             <TableContents
                 key={props.activeList._id}      activeList={props.activeList}
+                history={props.history}         path={props.path}
             />
             {/* <TableHeader
                 disabled={!props.activeList._id}        addItem={props.addItem}

@@ -27,16 +27,16 @@ const App = () => {
 				<Route 
 					path="/home" 
 					name="home" 
-					render={({ location, match, history }) => 
-						<Homescreen fetchUser={refetch} user={user} location={location} match={match} history={history}/>
+					render={({ location, history }) => 
+						<Homescreen fetchUser={refetch} user={user} location={location} history={history}/>
 					} 
 				/>
 				
 				<Route 
 					path="/spreadsheet/:id" 
 					name="spreadsheet" 
-					render={({ location, match, history }) => 
-						<Spreadsheet tps={transactionStack} fetchUser={refetch} user={user} location={location} match={match} history={history}/>
+					render={({ location, history }) => 
+						<Spreadsheet tps={transactionStack} fetchUser={refetch} user={user} location={location} history={history} key={Date.now()}/>
 					} 
 				/>
 			</Switch>
