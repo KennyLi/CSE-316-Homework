@@ -11,7 +11,7 @@ const TableContents = (props) => {
     } 
     
     return (
-        entries !== undefined && entries.length > 0 ? <div className=' table-entries container-primary'>
+        entries !== undefined && entries.length > 0 ? <div className=' table-entries'>
             {
                 entries.map((entry, index) => (
                     <TableEntry
@@ -23,9 +23,9 @@ const TableContents = (props) => {
             }
 
             </div>
-            : <div className='container-primary' >
+            : <div className=' table-entries'>
                 {
-                    <h2 className="nothing-msg"> Nothing to do!</h2> 
+                    <h2 className="nothing-msg">No Subregions!</h2> 
                 }               
                 
             </div>

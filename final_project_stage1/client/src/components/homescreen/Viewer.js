@@ -1,21 +1,15 @@
 import Logo 							from '../navbar/Logo';
 import Login 							from '../modals/Login';
-import MainContents 					from '../main/MainContents';
 import CreateAccount 					from '../modals/CreateAccount';
 import NavbarOptions 					from '../navbar/NavbarOptions';
-import * as mutations 					from '../../cache/mutations';
 import { GET_DB_MAPS } 				from '../../cache/queries';
 import React, { useState } 				from 'react';
 import { useMutation, useQuery } 		from '@apollo/client';
-import { WNavbar, WNavItem } 	from 'wt-frontend';
-import { WLayout, WLHeader, WLMain, WCard} from 'wt-frontend';
-// import { UpdateListField_Transaction, 
-// 	SortItems_Transaction,
-// 	UpdateListItems_Transaction, 
-// 	ReorderItems_Transaction, 
-// 	EditItem_Transaction } 				from '../../utils/jsTPS';
+import { WNavbar, WSidebar, WNavItem } 	from 'wt-frontend';
+import { WLayout, WLHeader, WLMain, WLSide, WLFooter } from 'wt-frontend';
+import { WCard, WCMedia, WCContent } 	from 'wt-frontend';
 
-const Spreadsheet = (props) => {
+const Viewer = (props) => {
 	let path = props.location.pathname.split("/").filter(arg => arg !== "");
 	path.shift();
 	// const keyCombination = (e, callback) => {
@@ -34,7 +28,6 @@ const Spreadsheet = (props) => {
 
 	const auth = props.user === null ? false : true;
 	let maps = [];
-	// const [sortRule, setSortRule] = useState('unsorted'); // 1 is ascending, -1 desc
 	const [activeProperties, setActiveProperties] = useState({});
 	const [subregionList, setSubregionList] = useState([]);
 	const [showLogin, toggleShowLogin] 		= useState(false);
@@ -55,9 +48,6 @@ const Spreadsheet = (props) => {
 		if (activeProperties && Object.keys(activeProperties).length === 0) {
 			for(let i = 0; i < path.length - 1; i++) {
 				let temp = maps.find(map => map._id === path[i]).children;
-				console.log(temp)
-				console.log(path[i + 1])
-				console.log(!(temp.includes(path[i + 1])))
 				if (!(temp.includes(path[i + 1]))) {
 					valid = false;
 					break
@@ -65,12 +55,9 @@ const Spreadsheet = (props) => {
 			}
 			if (valid) {
 				let activeRegion = maps.find(map => map._id === path[path.length - 1])
-				if (activeRegion) {
-					let temp = []
-					for(let subregion of activeRegion.children) {
-						temp.push(maps.find(map => map._id === subregion))
-					}
-					setSubregionList(temp)
+                let parentRegion = maps.find(map => map._id === path[path.length - 2])
+				if (parentRegion) {
+					setSubregionList(activeRegion.landmarks)
 					setActiveProperties({_id : activeRegion._id, name: activeRegion.name})
 				}
 			}
@@ -101,9 +88,7 @@ const Spreadsheet = (props) => {
 	// const [sortTodoItems] 		= useMutation(mutations.SORT_ITEMS, mutationOptions);
 	// const [UpdateTodoItemField] 	= useMutation(mutations.UPDATE_ITEM_FIELD, mutationOptions);
 	// const [DeleteTodoItem] 			= useMutation(mutations.DELETE_ITEM, mutationOptions);
-	const [AddSubregion] 			= useMutation(mutations.ADD_SUBREGION, mutationOptions);
-
-
+	// const [AddSubregion] 			= useMutation(mutations.ADD_SUBREGION, mutationOptions);
 	
 	// const tpsUndo = async () => {
 	// 	const ret = await props.tps.undoTransaction();
@@ -121,72 +106,6 @@ const Spreadsheet = (props) => {
 	// 	}
 	// }
 
-	const addItem = async () => {
-		const newItem = {
-			_id: '',
-			owner: props.user._id,
-			root: false,
-			name: 'No Description',
-			capital: 'No Date',
-			leader: 'No One',
-			children: [],
-			landmarks: [],
-			sortRule: 'task',
-			sortDirection: 1
-		};
-		let opcode = 1;
-		let itemID = newItem._id;
-		let listID = activeProperties._id;
-		AddSubregion({variables: {subregion: newItem, _id: listID, index: -1}}) 
-
-		// if(this.opcode !== 0) {
-        //     this.item._id = this.itemID = data.addItem;
-		// }
-		// let transaction = new UpdateListItems_Transaction(listID, itemID, newItem, opcode, AddTodoItem, DeleteTodoItem);
-		// props.tps.addTransaction(transaction);
-		// tpsRedo();
-	};
-
-	// const deleteItem = async (item, index) => {
-	// 	let listID = activeList._id;
-	// 	let itemID = item._id;
-	// 	let opcode = 0;
-	// 	let itemToDelete = {
-	// 		_id: item._id,
-	// 		description: item.description,
-	// 		due_date: item.due_date,
-	// 		assigned_to: item.assigned_to,
-	// 		completed: item.completed
-	// 	}
-	// 	let transaction = new UpdateListItems_Transaction(listID, itemID, itemToDelete, opcode, AddTodoItem, DeleteTodoItem, index);
-	// 	props.tps.addTransaction(transaction);
-	// 	tpsRedo();
-
-	// };
-
-	// const editItem = async (itemID, field, value, prev) => {
-	// 	let flag = 0;
-	// 	if (field === 'completed') flag = 1;
-	// 	let listID = activeList._id;
-	// 	let transaction = new EditItem_Transaction(listID, itemID, field, prev, value, flag, UpdateTodoItemField);
-	// 	props.tps.addTransaction(transaction);
-	// 	tpsRedo();
-
-	// };
-
-	// const reorderItem = async (itemID, dir) => {
-	// 	let listID = activeList._id;
-	// 	let transaction = new ReorderItems_Transaction(listID, itemID, dir, ReorderTodoItems);
-	// 	props.tps.addTransaction(transaction);
-	// 	tpsRedo();
-
-	// };
-
-	// const handleSetActive = (_id) => {
-	// 	const selectedList = todolists.find(todo => todo._id === _id);
-	// 	loadTodoList(selectedList);
-	// };
-
 	const setShowLogin = () => {
 		toggleShowCreate(false);
 		toggleShowLogin(!showLogin);
@@ -196,16 +115,6 @@ const Spreadsheet = (props) => {
 		toggleShowLogin(false);
 		toggleShowCreate(!showCreate);
 	};
-
-	// const sort = (criteria) => {
-	// 	let prevSortRule = sortRule;
-	// 	setSortRule(criteria);
-	// 	let transaction = new SortItems_Transaction(activeList._id, criteria, prevSortRule, sortTodoItems);
-	// 	console.log(transaction)
-	// 	props.tps.addTransaction(transaction);
-	// 	tpsRedo();
-		
-	// }
 
 	return (
         <WLayout wLayout="header">
@@ -227,36 +136,18 @@ const Spreadsheet = (props) => {
 				</WNavbar>
 			</WLHeader>
 			<WLMain>
-				{
-					activeProperties._id ? 
-						<WCard className="spreadsheet">
-								<MainContents
-									addItem={addItem} 
-									subregionList={subregionList}
-									activeProperties={activeProperties}
-									history={props.history}
-									path={props.location.pathname}
-								/>
-						</WCard>
-						:
-						<WCard className="spreadsheet"></WCard>
-				}
+                <WCard className="viewer">
+                    <WLayout className="viewer-layout" wLayout="rside">
+                        <WLMain>
+                        </WLMain>
+                        <WLSide side="right">
+                            <WSidebar>
+                            </WSidebar>
+                        </WLSide>
+
+                    </WLayout>
+                </WCard>
 			</WLMain>
-			{/* {
-					activeList ? 
-							<div className="container">
-								<MainContents
-									addItem={addItem} 				deleteItem={deleteItem}
-									editItem={editItem} 			reorderItem={reorderItem} 	
-									undo={tpsUndo} redo={tpsRedo}
-									activeList={activeList} 		setActiveList={loadTodoList}
-									canUndo={canUndo} 				canRedo={canRedo}
-									sort={sort}
-								/>
-							</div>
-						:
-							<div className="container" />
-			} */}
         {
             showCreate && (<CreateAccount fetchUser={props.fetchUser} setShowCreate={setShowCreate} />)
         }
@@ -268,4 +159,4 @@ const Spreadsheet = (props) => {
 	);
 };
 
-export default Spreadsheet;
+export default Viewer;

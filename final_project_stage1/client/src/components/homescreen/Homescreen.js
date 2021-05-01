@@ -4,18 +4,17 @@ import Delete 							from '../modals/Delete';
 import CreateAccount 					from '../modals/CreateAccount';
 import NavbarOptions 					from '../navbar/NavbarOptions';
 import * as mutations 					from '../../cache/mutations';
-import SidebarList						from '../sidebar/SidebarList';
-import SidebarHeader					from '../sidebar/SidebarHeader';
+import MapList						from '../sidebar/MapList';
 import { GET_DB_MAPS } 				from '../../cache/queries';
 import React, { useState } 				from 'react';
 import { useMutation, useQuery } 		from '@apollo/client';
-import { WNavbar, WSidebar, WNavItem } 	from 'wt-frontend';
+import { WNavbar, WSidebar, WNavItem, WButton } 	from 'wt-frontend';
 import { WLayout, WLHeader, WLMain, WLSide, WLFooter } from 'wt-frontend';
 import { WCard, WCMedia, WCContent } 	from 'wt-frontend';
-
+import globe from '../../imgs/world.png';
 const Homescreen = (props) => {
 	const auth = props.user === null ? false : true;
-	let SidebarData = [];
+	let mapData = [];
 	const [showLogin, toggleShowLogin] 		= useState(false);
 	const [showCreate, toggleShowCreate] 	= useState(false);
 	const [showDelete, toggleShowDelete] 	= useState(false);
@@ -27,7 +26,7 @@ const Homescreen = (props) => {
 	if(error) { console.log(error, 'error'); }
 	if(data) { 
 		for(let todo of data.getAllMaps.filter(region => region.root)) {
-			SidebarData.push({_id: todo._id, name: todo.name});
+			mapData.push({_id: todo._id, name: todo.name});
 		}
 	}
 
@@ -110,13 +109,13 @@ const Homescreen = (props) => {
 			<WLMain>
 				{
 					auth ?
-					<WCard>
-						<WLayout wLayout="header-lside">
-							<WLHeader><div className="container-secondary">Your Maps</div></WLHeader>
+					<WCard className="homescreen">
+						<WLayout className="homescreen-layout" wLayout="header-lside">
+							<WLHeader className="text-container white-text-red-header">Your Maps</WLHeader>
 								<WLSide side="left">
-									<WSidebar>
-										<SidebarList
-												listIDs={SidebarData} 				
+									<WSidebar className="homescreen-leftsidebar">
+										<MapList
+												listIDs={mapData} 				
 												setShowDelete={getDeleteListID}
 												updateListField={updateListField}
 												history={props.history}
@@ -125,17 +124,19 @@ const Homescreen = (props) => {
 								</WLSide>
 								<WLMain>
 									<WLayout wLayout="footer">
-										<WLMain></WLMain>
-										<WLFooter>
-											<SidebarHeader createNewList={createNewMap}/>
+										<WLMain><img className="text-container" src={globe} alt="Globe"/></WLMain>
+										<WLFooter className="text-container white-text-red-header">
+											<WButton className="create-map-button" onClick={createNewMap} wType="texted" hoverAnimation="text-primary">
+        										Create New Map
+        									</WButton>
 										</WLFooter>
 									</WLayout>
 								</WLMain>
 							</WLayout> 
 						</WCard> :
-					<WCard wLayout="media-content">
-						<WCMedia></WCMedia>
-						<WCContent><div className="container-secondary">Welcome To The World Data Mapper</div></WCContent>
+					<WCard className="welcome-screen" wLayout="media-content">
+						<WCMedia><img src={globe} alt="Globe"/></WCMedia>
+						<WCContent className="welcome-text text-container">Welcome To The World Data Mapper</WCContent>
 					</WCard>
 				}
 			</WLMain>
@@ -145,9 +146,8 @@ const Homescreen = (props) => {
 			{
 				showCreate && (<CreateAccount fetchUser={props.fetchUser} setShowCreate={setShowCreate} />)
 			}
-
 			{
-				showLogin && (<Login fetchUser={props.fetchUser} reloadTodos={refetch}setShowLogin={setShowLogin} />)
+				showLogin && (<Login fetchUser={props.fetchUser} reloadTodos={refetch} setShowLogin={setShowLogin} />)
 			}
 		</WLayout>
 	);

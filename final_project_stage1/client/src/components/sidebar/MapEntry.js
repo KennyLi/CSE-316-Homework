@@ -2,7 +2,7 @@ import React, { useState }  from 'react';
 import { WNavItem, WInput, WButton } from 'wt-frontend';
 import { WRow, WCol }       from 'wt-frontend';
 
-const SidebarEntry = (props) => {
+const MapEntry = (props) => {
     const [editing, toggleEditing] = useState(false);
     const [preEdit, setPreEdit] = useState(props.name);
     const handleEditing = (e) => {
@@ -22,7 +22,7 @@ const SidebarEntry = (props) => {
     }
 
     return (
-    <WRow className='table-entry'>
+    <WRow className='sidebar-entry'>
         <WCol size="10">
             <WNavItem 
                 className='list-item'
@@ -53,4 +53,4 @@ const SidebarEntry = (props) => {
     );
 };
 
-export default SidebarEntry;
+export default MapEntry;

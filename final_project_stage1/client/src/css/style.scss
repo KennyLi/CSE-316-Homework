@@ -101,7 +101,7 @@ html, body {
 }
 
 .nothing-msg {
-    color: $primary-color;
+    color: black;
 }
 
 .sidebar-header {
@@ -122,8 +122,17 @@ html, body {
     color: $text-color;
 }
 
+.sidebar-entry {
+    border-bottom: 1px solid;
+    color: black;
+}
+
+.sidebar-entry:hover {
+    background-color: var(--warm-white-transparent);
+}
+
 .table-entries {
-    scrollbar-width: thin;
+    background-color: rgb(200, 200, 200);
 }
 
 .table-entries::-webkit-scrollbar, .wsidebar::-webkit-scrollbar {
@@ -139,13 +148,12 @@ html, body {
 
 .table-entry {
     border-bottom: 1px solid;
-    color: $text-color;
-    transition: 0.05s ease-in-out;
-    height: 46px;
+    background-color: rgb(200, 200, 200);
+    color: black;
 }
 
 .table-entry:hover {
-    background-color: var(--warm-white-transparent);
+    background-color: rgb(170, 170, 170);
 }
 
 .table-header-button {
@@ -177,7 +185,7 @@ html, body {
 .table-header-section:hover {
     transition: 0.1s ease-in-out;
     cursor: pointer;
-    background-color: var(--deep-blue-lighter);
+    background-color: rgb(255, 100, 100);
 }
 
 .table-input {
@@ -229,23 +237,32 @@ html, body {
     cursor: default;
 }
 
-.container-secondary {
+.white-text-red-header {
     color: $text-color;
     background-color: var(--header-color);
 }
 
-.wsidebar {
+.welcome-text {
+    color: $text-color;
+    font-size: 2rem;
+}
+
+.homescreen-leftsidebar {
     background-color: rgb(247, 212, 212);
 }
 
-.create-maps-button {
+.create-map-button {
     color: $text-color;
 }
-.create-maps-button.texted {
-    background-color: var(--header-color);
-    font-size: 16px;
+
+.spreadsheet {
+    background-color: transparent
 }
 
-.winput.outlined input {
-    color: black;
+.spreadsheet-table-header {
+    background-color: var(--header-color);
+}
+
+.list-item-edit-input {
+    color: black !important;
 }

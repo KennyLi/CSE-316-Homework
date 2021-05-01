@@ -1,12 +1,12 @@
 import React        from 'react';
-import SidebarEntry from './SidebarEntry';
+import MapEntry from './MapEntry';
 
-const SidebarList = (props) => {
+const MapList = (props) => {
     let tempID = 0
     return (
         props.listIDs &&
         props.listIDs.map(entry => (
-            <SidebarEntry
+            <MapEntry
                 key={entry._id+props.activeid}
                 id={tempID++} name={entry.name} _id={entry._id}
                 updateListField={props.updateListField}
@@ -17,4 +17,4 @@ const SidebarList = (props) => {
     );
 };
 
-export default SidebarList;
+export default MapList;

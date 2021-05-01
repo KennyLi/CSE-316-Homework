@@ -24,32 +24,37 @@ const TableHeader = (props) => {
 
     return (
         <>
-        <WRow className="table-header">
+        <WRow className="table-header spreadsheet-header">
             <WCol size="3">
-                <div className="table-header-buttons">
-                    <WButton>
-                            <i className="material-icons">undo</i>
-                    </WButton>
-                    <WButton>
-                            <i className="material-icons">redo</i>
-                    </WButton>
-                    <WButton onClick={props.addItem} wType="texted" className="table-header-button" clickAnimation="ripple-light">
-                        <i className="material-icons">add_box</i>
-                    </WButton>
-                </div>
+                <WRow>
+                    <WCol size="4">
+                        <WButton onClick={clickDisabled} wType="texted" className="table-header-button" clickAnimation="ripple-light">
+                                <i className="material-icons">undo</i>
+                        </WButton>
+                    </WCol>
+                    <WCol size="4">
+                        <WButton onClick={clickDisabled} wType="texted" className="table-header-button" clickAnimation="ripple-light">
+                                <i className="material-icons">redo</i>
+                        </WButton>
+                    </WCol>
+                    <WCol size="4">
+                        <WButton onClick={props.addItem} wType="texted" className="table-header-button" clickAnimation="ripple-light">
+                            <i className="material-icons">add_box</i>
+                        </WButton>
+                    </WCol>
+                </WRow>
             </WCol>
             <WCol size="6">
                 <div className='region-header'>{"Region Name: " + props.name}</div>
             </WCol>
         </WRow>
-        <WRow className="table-header">
+        <WRow className="table-header spreadsheet-table-header">
             <WCol size="3">
                 <WButton onClick={clickDisabled} className='table-header-section' wType="texted" >Name</WButton>
             </WCol>
             <WCol size="2">
                 <WButton onClick={clickDisabled} className='table-header-section' wType="texted">Capital</WButton>
             </WCol>
-
             <WCol size="2">
                 <WButton onClick={clickDisabled} className='table-header-section' wType="texted" >Leader</WButton>
             </WCol>
