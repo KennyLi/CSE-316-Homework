@@ -3,7 +3,7 @@ import TableEntry   from './TableEntry';
 
 const TableContents = (props) => {
 
-    let entries = props.activeList
+    let entries = props.subregionList
     let entryCount = 0;
     if(entries) {
         entries = entries.filter(entry => entry !== null);

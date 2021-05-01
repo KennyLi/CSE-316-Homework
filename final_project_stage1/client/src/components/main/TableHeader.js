@@ -39,11 +39,11 @@ const TableHeader = (props) => {
                 </div>
             </WCol>
             <WCol size="6">
-                <div className='region-header'>{"Region Name: " + props.activeList.name}</div>
+                <div className='region-header'>{"Region Name: " + props.name}</div>
             </WCol>
         </WRow>
         <WRow className="table-header">
-            <WCol size="2">
+            <WCol size="3">
                 <WButton onClick={clickDisabled} className='table-header-section' wType="texted" >Name</WButton>
             </WCol>
             <WCol size="2">
@@ -56,7 +56,7 @@ const TableHeader = (props) => {
             <WCol size="2">
                 <WButton onClick={clickDisabled} className='table-header-section' wType="texted" >Flag</WButton>
             </WCol>
-            <WCol size="4">
+            <WCol size="3">
                 <WButton onClick={clickDisabled} className='table-header-section' wType="texted" >Landmarks</WButton>
             </WCol>
         </WRow>

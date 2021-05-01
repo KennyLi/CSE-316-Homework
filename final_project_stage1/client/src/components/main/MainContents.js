@@ -6,10 +6,10 @@ const MainContents = (props) => {
     return (
         <div className='table ' >
             <TableHeader
-                addItem={props.addItem} activeList={props.activeList}
+                addItem={props.addItem} name={props.activeProperties.name}
             />
             <TableContents
-                key={props.activeList._id}      activeList={props.activeList}
+                key={props.activeProperties._id}      subregionList={props.subregionList}
                 history={props.history}         path={props.path}
             />
             {/* <TableHeader

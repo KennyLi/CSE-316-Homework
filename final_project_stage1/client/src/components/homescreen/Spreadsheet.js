@@ -35,7 +35,7 @@ const Spreadsheet = (props) => {
 	const auth = props.user === null ? false : true;
 	let maps = [];
 	// const [sortRule, setSortRule] = useState('unsorted'); // 1 is ascending, -1 desc
-	const [activeId, setActiveId] = useState("");
+	const [activeProperties, setActiveProperties] = useState({});
 	const [subregionList, setSubregionList] = useState([]);
 	const [showLogin, toggleShowLogin] 		= useState(false);
 	const [showCreate, toggleShowCreate] 	= useState(false);
@@ -52,7 +52,7 @@ const Spreadsheet = (props) => {
 			maps.push(todo)
 		}
 		let valid = true;
-		if (activeId === '') {
+		if (activeProperties && Object.keys(activeProperties).length === 0) {
 			for(let i = 0; i < path.length - 1; i++) {
 				let temp = maps.find(map => map._id === path[i]).children;
 				console.log(temp)
@@ -71,7 +71,7 @@ const Spreadsheet = (props) => {
 						temp.push(maps.find(map => map._id === subregion))
 					}
 					setSubregionList(temp)
-					setActiveId(activeRegion._id)
+					setActiveProperties({_id : activeRegion._id, name: activeRegion.name})
 				}
 			}
 		}
@@ -80,8 +80,9 @@ const Spreadsheet = (props) => {
 
 	// NOTE: might not need to be async
 	const reloadList = () => {
-		if (activeId !== '') {
-			let activeRegion = maps.find(map => map._id === activeId)
+		let _id = activeProperties._id
+		if (_id !== '') {
+			let activeRegion = maps.find(map => map._id === _id)
 			let temp = []
 			for(let subregion of activeRegion.children) {
 				temp.push(maps.find(map => map._id === subregion))
@@ -121,8 +122,6 @@ const Spreadsheet = (props) => {
 	// }
 
 	const addItem = async () => {
-		console.log(activeId)
-		console.log(subregionList)
 		const newItem = {
 			_id: '',
 			owner: props.user._id,
@@ -137,7 +136,7 @@ const Spreadsheet = (props) => {
 		};
 		let opcode = 1;
 		let itemID = newItem._id;
-		let listID = activeId;
+		let listID = activeProperties._id;
 		AddSubregion({variables: {subregion: newItem, _id: listID, index: -1}}) 
 
 		// if(this.opcode !== 0) {
@@ -229,11 +228,12 @@ const Spreadsheet = (props) => {
 			</WLHeader>
 			<WLMain>
 				{
-					activeId ? 
+					activeProperties._id ? 
 							<div className="container">
 								<MainContents
 									addItem={addItem} 
-									activeList={subregionList}
+									subregionList={subregionList}
+									activeProperties={activeProperties}
 									history={props.history}
 									path={props.location.pathname}
 								/>

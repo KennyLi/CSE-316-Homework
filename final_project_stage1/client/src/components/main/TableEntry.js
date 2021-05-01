@@ -65,16 +65,21 @@ const TableEntry = (props) => {
     
     return (
         <WRow className='table-entry'>
-            <WCol size="2">
+            <WCol size="3">
                 <WRow>
-                    <WCol size="9">
+                    <WCol size="10">
                         <div className="table-text" onClick={handleNavigate}>
                             {description}
                         </div>
                     </WCol>
-                    <WCol size="3">
+                    <WCol size="1">
                         <WButton onClick={disabledButton} wType="texted" hoverAnimation="text-primary">
                             <i className="material-icons">edit</i>
+                        </WButton>
+                    </WCol>
+                    <WCol size="1">
+                        <WButton onClick={disabledButton} wType="texted" hoverAnimation="text-primary">
+                            <i className="material-icons">delete</i>
                         </WButton>
                     </WCol>
                 </WRow>
@@ -97,7 +102,7 @@ const TableEntry = (props) => {
                     {assigned_to}
                 </div>
             </WCol>
-            <WCol size="4">
+            <WCol size="3">
                 <div className="table-text" onClick={disabledButton}>
                     {assigned_to}
                 </div>
