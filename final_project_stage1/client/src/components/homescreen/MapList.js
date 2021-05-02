@@ -7,7 +7,7 @@ const MapList = (props) => {
         props.listIDs &&
         props.listIDs.map(entry => (
             <MapEntry
-                key={entry._id+props.activeid}
+                key={entry._id}
                 id={tempID++} name={entry.name} _id={entry._id}
                 updateListField={props.updateListField}
                 setShowDelete={props.setShowDelete}

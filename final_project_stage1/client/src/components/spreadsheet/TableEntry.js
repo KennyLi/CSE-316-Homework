@@ -59,16 +59,21 @@ const TableEntry = (props) => {
     //     }
     // }
 
-    const handleNavigate = () => {
+    const handleNavigateSubregion = () => {
         props.history.push(props.path + "/" + data._id)
     }
     
+    const handleNavigateLandmark = () => {
+        let path = props.path.replace("spreadsheet", "viewer")
+        props.history.push(path + "/" + data._id)
+    }
+
     return (
         <WRow className='table-entry'>
             <WCol size="3">
                 <WRow>
                     <WCol size="10">
-                        <div className="table-text" onClick={handleNavigate}>
+                        <div className="table-text" onClick={handleNavigateSubregion}>
                             {description}
                         </div>
                     </WCol>
@@ -103,7 +108,7 @@ const TableEntry = (props) => {
                 </div>
             </WCol>
             <WCol size="3">
-                <div className="table-text" onClick={disabledButton}>
+                <div className="table-text" onClick={handleNavigateLandmark}>
                     {assigned_to}
                 </div>
             </WCol>

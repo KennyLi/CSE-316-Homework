@@ -1,6 +1,6 @@
 import Logo 							from '../navbar/Logo';
 import Login 							from '../modals/Login';
-import MainContents 					from '../main/MainContents';
+import MainContents 					from '../spreadsheet/MainContents';
 import CreateAccount 					from '../modals/CreateAccount';
 import NavbarOptions 					from '../navbar/NavbarOptions';
 import * as mutations 					from '../../cache/mutations';
@@ -36,7 +36,6 @@ const Spreadsheet = (props) => {
 	let maps = [];
 	// const [sortRule, setSortRule] = useState('unsorted'); // 1 is ascending, -1 desc
 	const [activeProperties, setActiveProperties] = useState({});
-	const [subregionList, setSubregionList] = useState([]);
 	const [showLogin, toggleShowLogin] 		= useState(false);
 	const [showCreate, toggleShowCreate] 	= useState(false);
 	// const [canUndo, setCanUndo] = useState(props.tps.hasTransactionToUndo());
@@ -52,27 +51,28 @@ const Spreadsheet = (props) => {
 			maps.push(todo)
 		}
 		let valid = true;
-		if (activeProperties && Object.keys(activeProperties).length === 0) {
-			for(let i = 0; i < path.length - 1; i++) {
-				let temp = maps.find(map => map._id === path[i]).children;
-				console.log(temp)
-				console.log(path[i + 1])
-				console.log(!(temp.includes(path[i + 1])))
-				if (!(temp.includes(path[i + 1]))) {
-					valid = false;
-					break
+		if (!activeProperties._id) {
+			let regionPath = path.map(arg => maps.find(map => map._id === arg))
+			let lastIndex = regionPath.length - 1;
+			if (regionPath[lastIndex]) {
+				for(let i = 0; i < lastIndex; i++) {
+					let temp = regionPath[i]
+					if (temp) {
+						if (!(temp.children.includes(regionPath[i + 1]._id))) {
+							valid = false;
+							break
+						}
+					} else {
+						valid = false;
+					}
 				}
+			} else {
+				valid = false;
 			}
 			if (valid) {
-				let activeRegion = maps.find(map => map._id === path[path.length - 1])
-				if (activeRegion) {
-					let temp = []
-					for(let subregion of activeRegion.children) {
-						temp.push(maps.find(map => map._id === subregion))
-					}
-					setSubregionList(temp)
-					setActiveProperties({_id : activeRegion._id, name: activeRegion.name})
-				}
+				let activeRegion = regionPath[lastIndex]
+				let temp = activeRegion.children.map(_id => maps.find(map => map._id === _id))
+				setActiveProperties({_id : activeRegion._id, name: activeRegion.name, subregions: temp})
 			}
 		}
 	}
@@ -80,14 +80,10 @@ const Spreadsheet = (props) => {
 
 	// NOTE: might not need to be async
 	const reloadList = () => {
-		let _id = activeProperties._id
-		if (_id !== '') {
-			let activeRegion = maps.find(map => map._id === _id)
-			let temp = []
-			for(let subregion of activeRegion.children) {
-				temp.push(maps.find(map => map._id === subregion))
-			}
-			setSubregionList(temp)
+		if (activeProperties._id) {
+			let activeRegion = maps.find(map => map._id === activeProperties._id)
+			let temp = activeRegion.children.map(_id => maps.find(map => map._id === _id))
+			setActiveProperties({...activeProperties, subregions: temp})
 		}
 	}
 
@@ -232,14 +228,14 @@ const Spreadsheet = (props) => {
 						<WCard className="spreadsheet">
 								<MainContents
 									addItem={addItem} 
-									subregionList={subregionList}
+									subregionList={activeProperties.subregions}
 									activeProperties={activeProperties}
 									history={props.history}
 									path={props.location.pathname}
 								/>
 						</WCard>
 						:
-						<WCard className="spreadsheet"></WCard>
+					<></>
 				}
 			</WLMain>
 			{/* {

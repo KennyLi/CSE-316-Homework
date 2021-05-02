@@ -7,7 +7,9 @@ import React, { useState } 				from 'react';
 import { useMutation, useQuery } 		from '@apollo/client';
 import { WNavbar, WSidebar, WNavItem } 	from 'wt-frontend';
 import { WLayout, WLHeader, WLMain, WLSide, WLFooter } from 'wt-frontend';
-import { WCard, WCMedia, WCContent } 	from 'wt-frontend';
+import { WCard, WCMedia, WCContent} 	from 'wt-frontend';
+import ViewerLeftSide from '../viewer/ViewerLeftSide';
+import ViewerRightSide from '../viewer/ViewerRightSide';
 
 const Viewer = (props) => {
 	let path = props.location.pathname.split("/").filter(arg => arg !== "");
@@ -29,7 +31,6 @@ const Viewer = (props) => {
 	const auth = props.user === null ? false : true;
 	let maps = [];
 	const [activeProperties, setActiveProperties] = useState({});
-	const [subregionList, setSubregionList] = useState([]);
 	const [showLogin, toggleShowLogin] 		= useState(false);
 	const [showCreate, toggleShowCreate] 	= useState(false);
 	// const [canUndo, setCanUndo] = useState(props.tps.hasTransactionToUndo());
@@ -45,21 +46,35 @@ const Viewer = (props) => {
 			maps.push(todo)
 		}
 		let valid = true;
-		if (activeProperties && Object.keys(activeProperties).length === 0) {
-			for(let i = 0; i < path.length - 1; i++) {
-				let temp = maps.find(map => map._id === path[i]).children;
-				if (!(temp.includes(path[i + 1]))) {
-					valid = false;
-					break
+		if (!activeProperties._id) {
+			let regionPath = path.map(arg => maps.find(map => map._id === arg))
+			let lastIndex = regionPath.length - 1;
+			if (regionPath[lastIndex]) {
+				for(let i = 0; i < lastIndex; i++) {
+					let temp = regionPath[i]
+					if (temp) {
+						if (!(temp.children.includes(regionPath[i + 1]._id))) {
+							valid = false;
+							break
+						}
+					} else {
+						valid = false;
+					}
 				}
+			} else {
+				valid = false;
 			}
-			if (valid) {
-				let activeRegion = maps.find(map => map._id === path[path.length - 1])
-                let parentRegion = maps.find(map => map._id === path[path.length - 2])
-				if (parentRegion) {
-					setSubregionList(activeRegion.landmarks)
-					setActiveProperties({_id : activeRegion._id, name: activeRegion.name})
-				}
+			if (valid && regionPath.length > 1) {
+				let activeRegion = regionPath[lastIndex]
+				let parentRegion = regionPath[lastIndex - 1]
+				let tempLandmark = [{name: "landmark placeholder 1"}, {name: "landmark placeholder 2"}, {name: "landmark placeholder 3"}]
+				setActiveProperties({_id : activeRegion._id, 
+									 name: activeRegion.name, 
+									 parent: parentRegion.name, 
+									 capital: activeRegion.capital, 
+									 leader: activeRegion.leader,
+									 subregions: activeRegion.children.length,
+									 landmarks: tempLandmark})
 			}
 		}
 	}
@@ -67,14 +82,10 @@ const Viewer = (props) => {
 
 	// NOTE: might not need to be async
 	const reloadList = () => {
-		let _id = activeProperties._id
-		if (_id !== '') {
-			let activeRegion = maps.find(map => map._id === _id)
-			let temp = []
-			for(let subregion of activeRegion.children) {
-				temp.push(maps.find(map => map._id === subregion))
-			}
-			setSubregionList(temp)
+		if (activeProperties._id) {
+			let activeRegion = maps.find(map => map._id === activeProperties._id)
+			let tempLandmark = [{name: "landmark placeholder 1"}, {name: "landmark placeholder 2"}, {name: "landmark placeholder 3"}]
+			setActiveProperties({...activeProperties, landmarks: tempLandmark})
 		}
 	}
 
@@ -136,17 +147,16 @@ const Viewer = (props) => {
 				</WNavbar>
 			</WLHeader>
 			<WLMain>
+				{ activeProperties._id ? 
                 <WCard className="viewer">
                     <WLayout className="viewer-layout" wLayout="rside">
-                        <WLMain>
-                        </WLMain>
-                        <WLSide side="right">
-                            <WSidebar>
-                            </WSidebar>
-                        </WLSide>
-
+						<ViewerLeftSide activeProperties={activeProperties}/>
+						<ViewerRightSide landmarkList={activeProperties.landmarks}/>
                     </WLayout>
                 </WCard>
+				:
+				<></>
+				}	
 			</WLMain>
         {
             showCreate && (<CreateAccount fetchUser={props.fetchUser} setShowCreate={setShowCreate} />)

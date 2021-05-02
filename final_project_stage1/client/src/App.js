@@ -1,7 +1,7 @@
 import React 			from 'react';
-import Homescreen 		from './components/homescreen/Homescreen';
-import Spreadsheet 		from './components/homescreen/Spreadsheet';
-import Viewer 			from './components/homescreen/Viewer';
+import Homescreen 		from './components/main/Homescreen';
+import Spreadsheet 		from './components/main/Spreadsheet';
+import Viewer 			from './components/main/Viewer';
 import { useQuery } 	from '@apollo/client';
 import * as queries 	from './cache/queries';
 import { jsTPS } 		from './utils/jsTPS';
@@ -25,7 +25,7 @@ const App = () => {
 			<Switch>
 				<Redirect exact from="/" to={ {pathname: "/home"} } />
 				<Redirect exact from="/spreadsheet" to={ {pathname: "/home"} } />
-				<Redirect exact from="/viwer" to={ {pathname: "/home"} } />
+				<Redirect exact from="/viewer" to={ {pathname: "/home"} } />
 				<Route 
 					path="/home" 
 					name="home" 

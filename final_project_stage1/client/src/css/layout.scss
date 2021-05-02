@@ -239,6 +239,9 @@ html {
     grid-template-columns: calc(100% - 512px) 512px
 }
 
+.homescreen-right-layout {
+    grid-template-rows: 512px calc(100% - 512px);
+}
 .create-maps-button {
     width: 100%;
     height: 100%;
@@ -270,7 +273,38 @@ html {
 }
 
 .viewer-layout {
-    grid-template-columns: 50% 50%
+    grid-template-columns: 60% 40%
+}
+
+.viewer-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.125rem;
+    padding-bottom: 12px;
+    padding-top: 12px;
+    cursor: pointer;
+}
+
+.viewer-right-layout {
+    grid-template-rows: 28px calc(100% - 28px);
+}
+
+.viewer-header {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.125rem;
+    cursor: pointer;
+    text-align: center;
+}
+
+.viewer-landmark {
+    padding: 0.6em 1.2em;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 }
 li {
     list-style-type: none;

@@ -4,7 +4,7 @@ import Delete 							from '../modals/Delete';
 import CreateAccount 					from '../modals/CreateAccount';
 import NavbarOptions 					from '../navbar/NavbarOptions';
 import * as mutations 					from '../../cache/mutations';
-import MapList						from '../sidebar/MapList';
+import MapList						from '../homescreen/MapList';
 import { GET_DB_MAPS } 				from '../../cache/queries';
 import React, { useState } 				from 'react';
 import { useMutation, useQuery } 		from '@apollo/client';
@@ -112,28 +112,30 @@ const Homescreen = (props) => {
 					<WCard className="homescreen">
 						<WLayout className="homescreen-layout" wLayout="header-lside">
 							<WLHeader className="text-container white-text-red-header">Your Maps</WLHeader>
-								<WLSide side="left">
-									<WSidebar className="homescreen-leftsidebar">
-										<MapList
-												listIDs={mapData} 				
-												setShowDelete={getDeleteListID}
-												updateListField={updateListField}
-												history={props.history}
-										/>
-									</WSidebar>
-								</WLSide>
-								<WLMain>
-									<WLayout wLayout="footer">
-										<WLMain><img className="text-container" src={globe} alt="Globe"/></WLMain>
-										<WLFooter className="text-container white-text-red-header">
-											<WButton className="create-map-button" onClick={createNewMap} wType="texted" hoverAnimation="text-primary">
-        										Create New Map
-        									</WButton>
-										</WLFooter>
-									</WLayout>
-								</WLMain>
-							</WLayout> 
-						</WCard> :
+							<WLSide side="left">
+								<WSidebar className="homescreen-leftsidebar">
+									<MapList
+										listIDs={mapData} 				
+										setShowDelete={getDeleteListID}
+										updateListField={updateListField}
+										history={props.history}
+									/>
+								</WSidebar>
+							</WLSide>
+							<WLMain>
+								<WLayout className="homescreen-right-layout" wLayout="footer">
+									<WLMain>
+										<img src={globe} alt="Globe"/>
+									</WLMain>
+									<WLFooter className="text-container white-text-red-header">
+										<WButton className="create-map-button" onClick={createNewMap} wType="texted" hoverAnimation="text-primary">
+        									Create New Map
+        								</WButton>
+									</WLFooter>
+								</WLayout>
+							</WLMain>
+						</WLayout> 
+					</WCard> :
 					<WCard className="welcome-screen" wLayout="media-content">
 						<WCMedia><img src={globe} alt="Globe"/></WCMedia>
 						<WCContent className="welcome-text text-container">Welcome To The World Data Mapper</WCContent>

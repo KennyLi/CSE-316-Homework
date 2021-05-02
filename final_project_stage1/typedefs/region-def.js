@@ -43,7 +43,7 @@ const typeDefs = gql `
     input LandmarkInput {
         _id: String
         name: String
-        subregion: String
+        parent: String
     }
 `;
 

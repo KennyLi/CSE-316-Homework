@@ -28,6 +28,11 @@ const TableHeader = (props) => {
             <WCol size="3">
                 <WRow>
                     <WCol size="4">
+                        <WButton onClick={props.addItem} wType="texted" className="table-header-button" clickAnimation="ripple-light">
+                            <i className="material-icons">add_box</i>
+                        </WButton>
+                    </WCol>
+                    <WCol size="4">
                         <WButton onClick={clickDisabled} wType="texted" className="table-header-button" clickAnimation="ripple-light">
                                 <i className="material-icons">undo</i>
                         </WButton>
@@ -35,11 +40,6 @@ const TableHeader = (props) => {
                     <WCol size="4">
                         <WButton onClick={clickDisabled} wType="texted" className="table-header-button" clickAnimation="ripple-light">
                                 <i className="material-icons">redo</i>
-                        </WButton>
-                    </WCol>
-                    <WCol size="4">
-                        <WButton onClick={props.addItem} wType="texted" className="table-header-button" clickAnimation="ripple-light">
-                            <i className="material-icons">add_box</i>
                         </WButton>
                     </WCol>
                 </WRow>

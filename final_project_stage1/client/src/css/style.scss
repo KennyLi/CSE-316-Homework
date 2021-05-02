@@ -263,6 +263,18 @@ html, body {
     background-color: var(--header-color);
 }
 
+.viewer {
+    background-color: transparent;
+}
+
+.viewer-text {
+    color: $text-color;
+}
+
+.viewer-header {
+    color: $text-color;
+}
+
 .list-item-edit-input {
     color: black !important;
 }
