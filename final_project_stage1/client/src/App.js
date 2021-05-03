@@ -46,7 +46,7 @@ const App = () => {
 					path="/viewer/:id" 
 					name="viewer"
 					render={({ location, history }) => 
-						<Viewer tps={transactionStack} fetchUser={refetch} user={user} location={location} history={history}/>
+						<Viewer tps={transactionStack} fetchUser={refetch} user={user} location={location} history={history} key={Date.now()}/>
 					}
 				/>
 			</Switch>

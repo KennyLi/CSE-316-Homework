@@ -9,8 +9,8 @@ const MainContents = (props) => {
                 addItem={props.addItem} name={props.activeProperties.name}
             />
             <TableContents
-                key={props.activeProperties._id}      subregionList={props.subregionList}
-                history={props.history}         path={props.path}
+                key={props.activeProperties._id}    subregionList={props.activeProperties.subregions}
+                history={props.history}             path={props.path}
             />
             {/* <TableHeader
                 disabled={!props.activeList._id}        addItem={props.addItem}

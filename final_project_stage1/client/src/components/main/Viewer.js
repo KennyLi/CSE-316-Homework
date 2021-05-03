@@ -1,15 +1,13 @@
-import Logo 							from '../navbar/Logo';
 import Login 							from '../modals/Login';
 import CreateAccount 					from '../modals/CreateAccount';
-import NavbarOptions 					from '../navbar/NavbarOptions';
-import { GET_DB_MAPS } 				from '../../cache/queries';
+import Navbar							from '../navbar/Navbar';
+import { GET_DB_MAPS } 					from '../../cache/queries';
 import React, { useState } 				from 'react';
 import { useMutation, useQuery } 		from '@apollo/client';
-import { WNavbar, WSidebar, WNavItem } 	from 'wt-frontend';
 import { WLayout, WLHeader, WLMain, WLSide, WLFooter } from 'wt-frontend';
 import { WCard, WCMedia, WCContent} 	from 'wt-frontend';
-import ViewerLeftSide from '../viewer/ViewerLeftSide';
-import ViewerRightSide from '../viewer/ViewerRightSide';
+import ViewerLeftSide 					from '../viewer/ViewerLeftSide';
+import ViewerRightSide 					from '../viewer/ViewerRightSide';
 
 const Viewer = (props) => {
 	let path = props.location.pathname.split("/").filter(arg => arg !== "");
@@ -74,7 +72,8 @@ const Viewer = (props) => {
 									 capital: activeRegion.capital, 
 									 leader: activeRegion.leader,
 									 subregions: activeRegion.children.length,
-									 landmarks: tempLandmark})
+									 landmarks: tempLandmark,
+									 path: regionPath.slice(0, -1)})
 			}
 		}
 	}
@@ -130,21 +129,12 @@ const Viewer = (props) => {
 	return (
         <WLayout wLayout="header">
 			<WLHeader>
-				<WNavbar color="colored">
-					<ul>
-						<WNavItem hoverAnimation="lighten">
-							<Logo history={props.history}/>
-						</WNavItem>
-					</ul>
-					<ul>
-						<NavbarOptions
-							fetchUser={props.fetchUser} 	auth={auth} 
-							setShowCreate={setShowCreate} 	setShowLogin={setShowLogin}
-							reloadTodos={refetch} 			history={props.history}
-							user={props.user}				
-						/>
-					</ul>
-				</WNavbar>
+				<Navbar 
+					fetchUser={props.fetchUser} 	auth={auth} 
+					setShowCreate={setShowCreate} 	setShowLogin={setShowLogin}
+					reloadTodos={refetch}			history={props.history}
+					user={props.user}				ancestors={activeProperties.path}
+					path={props.location.pathname}/>
 			</WLHeader>
 			<WLMain>
 				{ activeProperties._id ? 

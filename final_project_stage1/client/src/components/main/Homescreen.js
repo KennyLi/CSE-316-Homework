@@ -1,17 +1,17 @@
-import Logo 							from '../navbar/Logo';
 import Login 							from '../modals/Login';
 import Delete 							from '../modals/Delete';
 import CreateAccount 					from '../modals/CreateAccount';
-import NavbarOptions 					from '../navbar/NavbarOptions';
+import Navbar 							from '../navbar/Navbar';
 import * as mutations 					from '../../cache/mutations';
-import MapList						from '../homescreen/MapList';
-import { GET_DB_MAPS } 				from '../../cache/queries';
+import MapList							from '../homescreen/MapList';
+import { GET_DB_MAPS } 					from '../../cache/queries';
 import React, { useState } 				from 'react';
 import { useMutation, useQuery } 		from '@apollo/client';
-import { WNavbar, WSidebar, WNavItem, WButton } 	from 'wt-frontend';
+import { WSidebar, WButton} 	from 'wt-frontend';
 import { WLayout, WLHeader, WLMain, WLSide, WLFooter } from 'wt-frontend';
 import { WCard, WCMedia, WCContent } 	from 'wt-frontend';
 import globe from '../../imgs/world.png';
+
 const Homescreen = (props) => {
 	const auth = props.user === null ? false : true;
 	let mapData = [];
@@ -89,21 +89,11 @@ const Homescreen = (props) => {
 	return (
 		<WLayout wLayout="header">
 			<WLHeader>
-				<WNavbar color="colored">
-					<ul>
-						<WNavItem hoverAnimation="lighten">
-							<Logo history={props.history}/>
-						</WNavItem>
-					</ul>
-					<ul>
-						<NavbarOptions
-							fetchUser={props.fetchUser} 	auth={auth} 
-							setShowCreate={setShowCreate} 	setShowLogin={setShowLogin}
-							reloadTodos={refetch}			history={props.history}
-							user={props.user}		
-						/>
-					</ul>
-				</WNavbar>
+				<Navbar 
+					fetchUser={props.fetchUser} 	auth={auth} 
+					setShowCreate={setShowCreate} 	setShowLogin={setShowLogin}
+					reloadTodos={refetch}			history={props.history}
+					user={props.user}/>
 			</WLHeader>
 
 			<WLMain>

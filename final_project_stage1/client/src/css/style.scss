@@ -137,12 +137,13 @@ html, body {
 
 .table-entries::-webkit-scrollbar, .wsidebar::-webkit-scrollbar {
 	width: 5px;
-	height: 8px;
+	height: 5px;
 	background-color: var(--darkblue-gray); 
 }
-.table-entries::-webkit-scrollbar-thumb .wsidebar::-webkit-scrollbar-thumb {
+
+.table-entries::-webkit-scrollbar-thumb, .wsidebar::-webkit-scrollbar-thumb {
 	width: 5px;
-	height: 8px;
+	height: 5px;
 	background-color: var(--blue-gray); 
 }
 
@@ -215,7 +216,15 @@ html, body {
     font-size: 28px;
 }
 
-.navbar-options {
+.navbar {
+    background-color: $navbar-background-color;
+}
+
+.navbar-list {
+    background-color: $navbar-background-color;
+}
+
+.navbar-button {
     color: $text-color;
     font-size: 16px;
 }

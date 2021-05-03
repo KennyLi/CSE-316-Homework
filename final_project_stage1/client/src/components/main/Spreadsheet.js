@@ -1,14 +1,14 @@
-import Logo 							from '../navbar/Logo';
+
 import Login 							from '../modals/Login';
 import MainContents 					from '../spreadsheet/MainContents';
 import CreateAccount 					from '../modals/CreateAccount';
-import NavbarOptions 					from '../navbar/NavbarOptions';
+import Navbar							from '../navbar/Navbar';
 import * as mutations 					from '../../cache/mutations';
-import { GET_DB_MAPS } 				from '../../cache/queries';
+import { GET_DB_MAPS } 					from '../../cache/queries';
 import React, { useState } 				from 'react';
 import { useMutation, useQuery } 		from '@apollo/client';
-import { WNavbar, WNavItem } 	from 'wt-frontend';
 import { WLayout, WLHeader, WLMain, WCard} from 'wt-frontend';
+
 // import { UpdateListField_Transaction, 
 // 	SortItems_Transaction,
 // 	UpdateListItems_Transaction, 
@@ -72,7 +72,7 @@ const Spreadsheet = (props) => {
 			if (valid) {
 				let activeRegion = regionPath[lastIndex]
 				let temp = activeRegion.children.map(_id => maps.find(map => map._id === _id))
-				setActiveProperties({_id : activeRegion._id, name: activeRegion.name, subregions: temp})
+				setActiveProperties({_id : activeRegion._id, name: activeRegion.name, subregions: temp, path: regionPath.slice(0, -1)})
 			}
 		}
 	}
@@ -206,21 +206,12 @@ const Spreadsheet = (props) => {
 	return (
         <WLayout wLayout="header">
 			<WLHeader>
-				<WNavbar color="colored">
-					<ul>
-						<WNavItem hoverAnimation="lighten">
-							<Logo history={props.history}/>
-						</WNavItem>
-					</ul>
-					<ul>
-						<NavbarOptions
-							fetchUser={props.fetchUser} 	auth={auth} 
-							setShowCreate={setShowCreate} 	setShowLogin={setShowLogin}
-							reloadTodos={refetch} 			history={props.history}
-							user={props.user}				
-						/>
-					</ul>
-				</WNavbar>
+				<Navbar 
+					fetchUser={props.fetchUser} 	auth={auth} 
+					setShowCreate={setShowCreate} 	setShowLogin={setShowLogin}
+					reloadTodos={refetch}			history={props.history}
+					user={props.user}				ancestors={activeProperties.path}
+					path={props.location.pathname}/>
 			</WLHeader>
 			<WLMain>
 				{
@@ -228,7 +219,6 @@ const Spreadsheet = (props) => {
 						<WCard className="spreadsheet">
 								<MainContents
 									addItem={addItem} 
-									subregionList={activeProperties.subregions}
 									activeProperties={activeProperties}
 									history={props.history}
 									path={props.location.pathname}
