@@ -1,5 +1,6 @@
 import Login 							from '../modals/Login';
 import CreateAccount 					from '../modals/CreateAccount';
+import UpdateAccount 					from '../modals/UpdateAccount';
 import Navbar							from '../navbar/Navbar';
 import { GET_DB_MAPS } 					from '../../cache/queries';
 import React, { useState } 				from 'react';
@@ -31,6 +32,7 @@ const Viewer = (props) => {
 	const [activeProperties, setActiveProperties] = useState({});
 	const [showLogin, toggleShowLogin] 		= useState(false);
 	const [showCreate, toggleShowCreate] 	= useState(false);
+	const [showUpdate, toggleShowUpdate]	= useState(false);
 	// const [canUndo, setCanUndo] = useState(props.tps.hasTransactionToUndo());
 	// const [canRedo, setCanRedo] = useState(props.tps.hasTransactionToRedo());
 
@@ -118,12 +120,20 @@ const Viewer = (props) => {
 
 	const setShowLogin = () => {
 		toggleShowCreate(false);
+		toggleShowUpdate(false);
 		toggleShowLogin(!showLogin);
 	};
 
 	const setShowCreate = () => {
 		toggleShowLogin(false);
+		toggleShowUpdate(false);
 		toggleShowCreate(!showCreate);
+	};
+
+	const setShowUpdate = () => {
+		toggleShowCreate(false);
+		toggleShowLogin(false);
+		toggleShowUpdate(!showUpdate);
 	};
 
 	return (
@@ -134,7 +144,7 @@ const Viewer = (props) => {
 					setShowCreate={setShowCreate} 	setShowLogin={setShowLogin}
 					reloadTodos={refetch}			history={props.history}
 					user={props.user}				ancestors={activeProperties.path}
-					path={props.location.pathname}/>
+					path={props.location.pathname}  setShowUpdate={setShowUpdate}/>
 			</WLHeader>
 			<WLMain>
 				{ activeProperties._id ? 
@@ -151,10 +161,12 @@ const Viewer = (props) => {
         {
             showCreate && (<CreateAccount fetchUser={props.fetchUser} setShowCreate={setShowCreate} />)
         }
-
         {
             showLogin && (<Login fetchUser={props.fetchUser} reloadTodos={refetch} setShowLogin={setShowLogin} />)
         }
+		{
+			showUpdate && (<UpdateAccount fetchUser={props.fetchUser} user={props.user} setShowUpdate={setShowUpdate} />)
+		}		
         </WLayout>
 	);
 };

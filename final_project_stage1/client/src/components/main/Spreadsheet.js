@@ -2,6 +2,7 @@
 import Login 							from '../modals/Login';
 import MainContents 					from '../spreadsheet/MainContents';
 import CreateAccount 					from '../modals/CreateAccount';
+import UpdateAccount 					from '../modals/UpdateAccount';
 import Navbar							from '../navbar/Navbar';
 import * as mutations 					from '../../cache/mutations';
 import { GET_DB_MAPS } 					from '../../cache/queries';
@@ -38,6 +39,7 @@ const Spreadsheet = (props) => {
 	const [activeProperties, setActiveProperties] = useState({});
 	const [showLogin, toggleShowLogin] 		= useState(false);
 	const [showCreate, toggleShowCreate] 	= useState(false);
+	const [showUpdate, toggleShowUpdate]	= useState(false);
 	// const [canUndo, setCanUndo] = useState(props.tps.hasTransactionToUndo());
 	// const [canRedo, setCanRedo] = useState(props.tps.hasTransactionToRedo());
 
@@ -122,9 +124,9 @@ const Spreadsheet = (props) => {
 			_id: '',
 			owner: props.user._id,
 			root: false,
-			name: 'No Description',
-			capital: 'No Date',
-			leader: 'No One',
+			name: 'Unknown',
+			capital: 'Unknown',
+			leader: 'Unknown',
 			children: [],
 			landmarks: [],
 			sortRule: 'task',
@@ -185,12 +187,20 @@ const Spreadsheet = (props) => {
 
 	const setShowLogin = () => {
 		toggleShowCreate(false);
+		toggleShowUpdate(false);
 		toggleShowLogin(!showLogin);
 	};
 
 	const setShowCreate = () => {
 		toggleShowLogin(false);
+		toggleShowUpdate(false);
 		toggleShowCreate(!showCreate);
+	};
+
+	const setShowUpdate = () => {
+		toggleShowCreate(false);
+		toggleShowLogin(false);
+		toggleShowUpdate(!showUpdate);
 	};
 
 	// const sort = (criteria) => {
@@ -211,7 +221,7 @@ const Spreadsheet = (props) => {
 					setShowCreate={setShowCreate} 	setShowLogin={setShowLogin}
 					reloadTodos={refetch}			history={props.history}
 					user={props.user}				ancestors={activeProperties.path}
-					path={props.location.pathname}/>
+					path={props.location.pathname}  setShowUpdate={setShowUpdate}/>
 			</WLHeader>
 			<WLMain>
 				{
@@ -246,10 +256,12 @@ const Spreadsheet = (props) => {
         {
             showCreate && (<CreateAccount fetchUser={props.fetchUser} setShowCreate={setShowCreate} />)
         }
-
         {
             showLogin && (<Login fetchUser={props.fetchUser} reloadTodos={refetch} setShowLogin={setShowLogin} />)
         }
+		{
+			showUpdate && (<UpdateAccount fetchUser={props.fetchUser} user={props.user} setShowUpdate={setShowUpdate} />)
+		}
         </WLayout>
 	);
 };

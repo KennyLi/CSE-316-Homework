@@ -7,10 +7,9 @@ const TableEntry = (props) => {
     // const completeStyle = data.completed ? ' complete-task' : ' incomplete-task';
     // const assignedToStyle = data.completed ? 'complete-task-assignedTo' : 'incomplete-task-assignedTo';
 
-    const description = data.name;
-    const due_date = data.capital;
-    const status = data.leader;
-    const assigned_to = data.leader;
+    const name = data.name;
+    const capital = data.capital;
+    const leader = data.leader;
 
     // const canMoveUp = props.index > 0 ? true : false;
     // const canMoveDown = props.index < props.entryCount-1 ? true : false;
@@ -74,7 +73,7 @@ const TableEntry = (props) => {
                 <WRow>
                     <WCol size="10">
                         <div className="table-text" onClick={handleNavigateSubregion}>
-                            {description}
+                            {name}
                         </div>
                     </WCol>
                     <WCol size="1">
@@ -92,24 +91,24 @@ const TableEntry = (props) => {
 
             <WCol size="2">
                 <div className="table-text" onClick={disabledButton}>
-                    {due_date}
+                    {capital}
                 </div>
             </WCol>
 
             <WCol size="2">
                 <div className="table-text" onClick={disabledButton}>
-                    {status}
+                    {leader}
                 </div>
             </WCol>
 
             <WCol size="2">
                 <div className="table-text" onClick={disabledButton}>
-                    {assigned_to}
+                    ???
                 </div>
             </WCol>
             <WCol size="3">
                 <div className="table-text" onClick={handleNavigateLandmark}>
-                    {assigned_to}
+                    ???
                 </div>
             </WCol>
         </WRow>
