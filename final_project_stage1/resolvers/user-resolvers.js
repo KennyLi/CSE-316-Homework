@@ -72,6 +72,40 @@ module.exports = {
 			res.cookie('access-token', accessToken, { httpOnly: true , sameSite: 'None', secure: true}); 
 			return user;
 		},
+		update: async (_, args, { res }) => {
+			let user;
+			const { email, password, firstName, lastName, sameEmail } = args;
+			const alreadyRegistered = await User.findOne({email: email});
+			const hashed = await bcrypt.hash(password, 10);
+			if(alreadyRegistered && !sameEmail) {
+				console.log('User with that email already registered.');
+				return(new User({
+					_id: '',
+					firstName: '',
+					lastName: '',
+					email: 'already exists', 
+					password: ''}));
+			} else if (alreadyRegistered) {
+				user = await User.findOneAndUpdate({email: email}, {password: hashed, firstName: firstName, lastName: lastName});
+			} else {
+				const _id = new ObjectId();
+				user = new User({
+					_id: _id,
+					firstName: firstName,
+					lastName: lastName,
+					email: email, 
+					password: hashed
+				})
+				const updated = await user.save();
+			}
+			// After registering the user, their tokens are generated here so they
+			// are automatically logged in on account creation.
+			const accessToken = tokens.generateAccessToken(user);
+			const refreshToken = tokens.generateRefreshToken(user);
+			res.cookie('refresh-token', refreshToken, { httpOnly: true , sameSite: 'None', secure: true}); 
+			res.cookie('access-token', accessToken, { httpOnly: true , sameSite: 'None', secure: true}); 
+			return user;
+		},
 		/** 
 			@param 	 {object} res - response object containing the current access/refresh tokens  
 			@returns {boolean} true 

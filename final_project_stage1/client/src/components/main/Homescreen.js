@@ -1,6 +1,7 @@
 import Login 							from '../modals/Login';
 import Delete 							from '../modals/Delete';
 import CreateAccount 					from '../modals/CreateAccount';
+import UpdateAccount 					from '../modals/UpdateAccount';
 import Navbar 							from '../navbar/Navbar';
 import * as mutations 					from '../../cache/mutations';
 import MapList							from '../homescreen/MapList';
@@ -12,12 +13,14 @@ import { WLayout, WLHeader, WLMain, WLSide, WLFooter } from 'wt-frontend';
 import { WCard, WCMedia, WCContent } 	from 'wt-frontend';
 import globe from '../../imgs/world.png';
 
+
 const Homescreen = (props) => {
 	const auth = props.user === null ? false : true;
 	let mapData = [];
 	const [showLogin, toggleShowLogin] 		= useState(false);
 	const [showCreate, toggleShowCreate] 	= useState(false);
 	const [showDelete, toggleShowDelete] 	= useState(false);
+	const [showUpdate, toggleShowUpdate]	= useState(false);
 	const [listToDelete, setListToDelete]	= useState(null);
 
 	const { loading, error, data, refetch } = useQuery(GET_DB_MAPS);
@@ -66,21 +69,31 @@ const Homescreen = (props) => {
 	const setShowLogin = () => {
 		toggleShowDelete(false);
 		toggleShowCreate(false);
+		toggleShowUpdate(false);
 		toggleShowLogin(!showLogin);
 	};
 
 	const setShowCreate = () => {
 		toggleShowDelete(false);
 		toggleShowLogin(false);
+		toggleShowUpdate(false);
 		toggleShowCreate(!showCreate);
 	};
 
 	const setShowDelete = () => {
 		toggleShowCreate(false);
 		toggleShowLogin(false);
+		toggleShowUpdate(false);
 		toggleShowDelete(!showDelete)
 	};
 	
+	const setShowUpdate = () => {
+		toggleShowDelete(false);
+		toggleShowCreate(false);
+		toggleShowLogin(false);
+		toggleShowUpdate(!showUpdate);
+	}
+
 	const getDeleteListID = (_id) => {
 		setListToDelete(_id);
 		setShowDelete();
@@ -93,7 +106,7 @@ const Homescreen = (props) => {
 					fetchUser={props.fetchUser} 	auth={auth} 
 					setShowCreate={setShowCreate} 	setShowLogin={setShowLogin}
 					reloadTodos={refetch}			history={props.history}
-					user={props.user}/>
+					user={props.user} setShowUpdate={setShowUpdate}/>
 			</WLHeader>
 
 			<WLMain>
@@ -140,6 +153,9 @@ const Homescreen = (props) => {
 			}
 			{
 				showLogin && (<Login fetchUser={props.fetchUser} reloadTodos={refetch} setShowLogin={setShowLogin} />)
+			}
+			{
+				showUpdate && (<UpdateAccount fetchUser={props.fetchUser} user={props.user} setShowUpdate={setShowUpdate} />)
 			}
 		</WLayout>
 	);

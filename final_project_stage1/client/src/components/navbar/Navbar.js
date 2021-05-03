@@ -22,7 +22,7 @@ const LoggedIn = (props) => {
         <>
             <WCol className="navbar-col" size="1">
                 <WNavItem className="navbar-item" hoverAnimation="lighten">
-                    <WButton className="navbar-button" onClick={() => {}} wType="texted" hoverAnimation="text-primary">
+                    <WButton className="navbar-button" onClick={props.setShowUpdate} wType="texted" hoverAnimation="text-primary">
                         {props.user.firstName + " " + props.user.lastName}
                     </WButton>
                 </WNavItem>
@@ -80,8 +80,8 @@ const Navbar = (props) => {
                 </WSidebar>
             </WCol>
             {
-                props.auth === false ? <LoggedOut setShowLogin={props.setShowLogin} setShowCreate={props.setShowCreate} />
-                : <LoggedIn fetchUser={props.fetchUser} setActiveList={props.setActiveList} logout={props.logout} user={props.user} history={props.history}/>
+                props.auth === false ? <LoggedOut setShowLogin={props.setShowLogin} setShowCreate={props.setShowCreate}/>
+                : <LoggedIn fetchUser={props.fetchUser} setActiveList={props.setActiveList} logout={props.logout} user={props.user} history={props.history} setShowUpdate={props.setShowUpdate}/>
             }
         </WRow>
     );

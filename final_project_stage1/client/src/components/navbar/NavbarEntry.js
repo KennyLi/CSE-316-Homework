@@ -13,13 +13,13 @@ const NavbarEntry = (props) => {
         {props.first === props._id ?             
             <></>
             : 
-            <WNavItem className="navbar-item">
+            <WNavItem className="navbar-ancestor">
                 <WButton className="navbar-button" wType="texted">
                     <i className="material-icons">arrow_right</i>
                 </WButton>
             </WNavItem>
         } 
-        <WNavItem className="navbar-item" hoverAnimation="lighten">
+        <WNavItem className="navbar-ancestor" hoverAnimation="lighten">
             <WButton className="navbar-button" onClick={handleNavigate} wType="texted" hoverAnimation="text-primary">
                 {props.name}
             </WButton>
