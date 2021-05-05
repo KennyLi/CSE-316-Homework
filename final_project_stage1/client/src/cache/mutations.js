@@ -46,6 +46,42 @@ export const ADD_SUBREGION = gql`
 	}
 `;
 
+export const DELETE_SUBREGION = gql`
+	mutation DeleteSubregion($parentId: String!, $_id: String!) {
+		deleteSubregion(parentId: $parentId, _id: $_id)
+	}
+`;
+
+export const UPDATE_SUBREGION_FIELD = gql`
+	mutation UpdateSubregionField($_id: String!, $field: String!, $value: String!) {
+		updateSubregionField(_id: $_id, field: $field, value: $value)
+	}
+`;
+
+// export const REORDER_ITEMS = gql`
+// 	mutation ReorderItems($_id: String!, $itemId: String!, $direction: Int!) {
+// 		reorderItems(_id: $_id, itemId: $itemId, direction: $direction) {
+// 			_id
+// 			description
+// 			due_date
+// 			assigned_to
+// 			completed
+// 		}
+// 	}
+// `;
+
+// export const SORT_ITEMS = gql`
+// 	mutation SortItems($_id: String!, $criteria: String!) {
+// 		sortItems(_id: $_id, criteria: $criteria) {
+// 			_id
+// 			description
+// 			due_date
+// 			assigned_to
+// 			completed
+// 		}
+// 	}
+// `;
+
 export const ADD_MAP = gql`
 	mutation AddMap($map: RegionInput!) {
 		addMap(map: $map)

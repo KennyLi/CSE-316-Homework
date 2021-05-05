@@ -9,6 +9,7 @@ const typeDefs = gql `
 		name: String!
 		capital: String!
 		leader: String!
+		parent: String!
 		children: [String]
 		landmarks: [Landmark]
 		sortRule: String!
@@ -24,6 +25,8 @@ const typeDefs = gql `
 	}
 	extend type Mutation {
 		addSubregion(subregion: RegionInput!, id: String!, index: Int!): String
+		deleteSubregion(parentId: String!, _id: String!): [String]
+		updateSubregionField(_id: String!, field: String!, value: String!): Boolean
 		addMap(map: RegionInput!): String
 		deleteMap(_id: String!): Boolean
 		updateMapField(_id: String!, field: String!, value: String!): String
@@ -35,6 +38,7 @@ const typeDefs = gql `
 		name: String
 		capital: String
 		leader: String
+		parent: String
 		children: [String]
 		landmarks: [LandmarkInput]
 		sortRule: String

@@ -50,6 +50,7 @@ const Homescreen = (props) => {
 			name: 'Untitled',
 			capital: 'none',
 			leader: 'none',
+			parent: 'none',
 			children: [],
 			landmarks: [],
 			sortRule: 'task',

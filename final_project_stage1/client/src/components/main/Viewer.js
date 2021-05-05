@@ -11,8 +11,7 @@ import ViewerLeftSide 					from '../viewer/ViewerLeftSide';
 import ViewerRightSide 					from '../viewer/ViewerRightSide';
 
 const Viewer = (props) => {
-	let path = props.location.pathname.split("/").filter(arg => arg !== "");
-	path.shift();
+	const currentId  = props.match.params.id
 	// const keyCombination = (e, callback) => {
 	// 	if(e.key === 'z' && e.ctrlKey) {
 	// 		if(props.tps.hasTransactionToUndo()) {
@@ -45,37 +44,24 @@ const Viewer = (props) => {
 		for(let todo of data.getAllMaps) {
 			maps.push(todo)
 		}
-		let valid = true;
 		if (!activeProperties._id) {
-			let regionPath = path.map(arg => maps.find(map => map._id === arg))
-			let lastIndex = regionPath.length - 1;
-			if (regionPath[lastIndex]) {
-				for(let i = 0; i < lastIndex; i++) {
-					let temp = regionPath[i]
-					if (temp) {
-						if (!(temp.children.includes(regionPath[i + 1]._id))) {
-							valid = false;
-							break
-						}
-					} else {
-						valid = false;
-					}
+			let activeRegion = maps.find(map => map._id === currentId)
+			if (activeRegion && !activeRegion.root) {
+				let temp = activeRegion;
+				let path = [];
+				while(!temp.root) {
+					temp = maps.find(map => map._id === temp.parent)
+					path.unshift(temp);
 				}
-			} else {
-				valid = false;
-			}
-			if (valid && regionPath.length > 1) {
-				let activeRegion = regionPath[lastIndex]
-				let parentRegion = regionPath[lastIndex - 1]
+				let parentRegion = maps.find(map => map._id === activeRegion.parent)
 				let tempLandmark = [{name: "landmark placeholder 1"}, {name: "landmark placeholder 2"}, {name: "landmark placeholder 3"}]
 				setActiveProperties({_id : activeRegion._id, 
-									 name: activeRegion.name, 
-									 parent: parentRegion.name, 
-									 capital: activeRegion.capital, 
-									 leader: activeRegion.leader,
-									 subregions: activeRegion.children.length,
-									 landmarks: tempLandmark,
-									 path: regionPath.slice(0, -1)})
+									name: activeRegion.name, 
+									parent: parentRegion.name, 
+									capital: activeRegion.capital, 
+									leader: activeRegion.leader,
+									subregions: activeRegion.children.length,
+									landmarks: tempLandmark})
 			}
 		}
 	}
@@ -144,7 +130,7 @@ const Viewer = (props) => {
 					setShowCreate={setShowCreate} 	setShowLogin={setShowLogin}
 					reloadTodos={refetch}			history={props.history}
 					user={props.user}				ancestors={activeProperties.path}
-					path={props.location.pathname}  setShowUpdate={setShowUpdate}/>
+					setShowUpdate={setShowUpdate}/>
 			</WLHeader>
 			<WLMain>
 				{ activeProperties._id ? 

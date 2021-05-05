@@ -27,6 +27,10 @@ const regionSchema = new Schema(
 			type: String,
 			required: true
 		},
+		parent: {
+			type: String,
+			required: true
+		},
 		children: [String],
 		landmarks: [Landmark],
 		sortRule: {

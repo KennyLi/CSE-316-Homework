@@ -76,7 +76,7 @@ const Navbar = (props) => {
             </WCol>
             <WCol size="8">
                 <WSidebar className="navbar-list">
-                    {props.ancestors && props.ancestors.length > 0 ? <NavbarList history={props.history} ancestors={props.ancestors} path={props.path}/> : <></>}
+                    {props.ancestors && props.ancestors.length > 0 ? <NavbarList history={props.history} ancestors={props.ancestors}/> : <></>}
                 </WSidebar>
             </WCol>
             {

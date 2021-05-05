@@ -6,21 +6,21 @@ const TableHeader = (props) => {
     const clickDisabled = () => { };
     // const buttonStyle = props.disabled ? ' table-header-button-disabled ' : 'table-header-button ';
     
-    // const undoOptions = {
-    //     className: props.disabled || !props.canUndo ? ' table-header-button-disabled ' : 'table-header-button',
-    //     onClick: props.disabled || !props.canUndo  ? clickDisabled : props.undo,
-    //     wType: "texted", 
-    //     clickAnimation: props.disabled || !props.canUndo ? "" : "ripple-light",  
-    //     shape: "rounded"
-    // }
+    const undoOptions = {
+        className: !props.canUndo ? ' table-header-button-disabled ' : 'table-header-button',
+        onClick: !props.canUndo  ? clickDisabled : props.undo,
+        wType: "texted", 
+        clickAnimation: !props.canUndo ? "" : "ripple-light",  
+        shape: "rounded"
+    }
 
-    // const redoOptions = {
-    //     className: props.disabled || !props.canRedo ? ' table-header-button-disabled ' : 'table-header-button ',
-    //     onClick: props.disabled || !props.canRedo   ? clickDisabled : props.redo, 
-    //     wType: "texted", 
-    //     clickAnimation: props.disabled || !props.canRedo ? "" : "ripple-light" ,
-    //     shape: "rounded"
-    // }
+    const redoOptions = {
+        className: !props.canRedo ? ' table-header-button-disabled ' : 'table-header-button ',
+        onClick: !props.canRedo   ? clickDisabled : props.redo, 
+        wType: "texted", 
+        clickAnimation: !props.canRedo ? "" : "ripple-light" ,
+        shape: "rounded"
+    }
 
     return (
         <>
@@ -33,12 +33,12 @@ const TableHeader = (props) => {
                         </WButton>
                     </WCol>
                     <WCol size="4">
-                        <WButton onClick={clickDisabled} wType="texted" className="table-header-button" clickAnimation="ripple-light">
+                        <WButton {...undoOptions}>
                                 <i className="material-icons">undo</i>
                         </WButton>
                     </WCol>
                     <WCol size="4">
-                        <WButton onClick={clickDisabled} wType="texted" className="table-header-button" clickAnimation="ripple-light">
+                        <WButton {...redoOptions}>
                                 <i className="material-icons">redo</i>
                         </WButton>
                     </WCol>
@@ -50,13 +50,13 @@ const TableHeader = (props) => {
         </WRow>
         <WRow className="table-header spreadsheet-table-header">
             <WCol size="3">
-                <WButton onClick={clickDisabled} className='table-header-section' wType="texted" >Name</WButton>
+                <WButton onClick={() => {props.sort('name')}} className='table-header-section' wType="texted" >Name</WButton>
             </WCol>
             <WCol size="2">
-                <WButton onClick={clickDisabled} className='table-header-section' wType="texted">Capital</WButton>
+                <WButton onClick={() => {props.sort('capital')}} className='table-header-section' wType="texted">Capital</WButton>
             </WCol>
             <WCol size="2">
-                <WButton onClick={clickDisabled} className='table-header-section' wType="texted" >Leader</WButton>
+                <WButton onClick={() => {props.sort('leader')}} className='table-header-section' wType="texted" >Leader</WButton>
             </WCol>
             <WCol size="2">
                 <WButton onClick={clickDisabled} className='table-header-section' wType="texted" >Flag</WButton>

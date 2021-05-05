@@ -20,6 +20,7 @@ export const GET_DB_MAPS = gql`
 			name
 			capital
 			leader
+			parent
 			children
 			landmarks {
 				_id

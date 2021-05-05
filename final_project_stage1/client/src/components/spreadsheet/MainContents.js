@@ -6,11 +6,15 @@ const MainContents = (props) => {
     return (
         <div className='table ' >
             <TableHeader
-                addItem={props.addItem} name={props.activeProperties.name}
+                addItem={props.addItem}                 name={props.activeProperties.name}
+                undo={props.undo}                       redo={props.redo}     
+                canUndo={props.canUndo}                 canRedo={props.canRedo}
+                sort={props.sort}
             />
             <TableContents
                 key={props.activeProperties._id}    subregionList={props.activeProperties.subregions}
-                history={props.history}             path={props.path}
+                deleteItem={props.deleteItem}       editItem={props.editItem}
+                history={props.history}
             />
             {/* <TableHeader
                 disabled={!props.activeList._id}        addItem={props.addItem}

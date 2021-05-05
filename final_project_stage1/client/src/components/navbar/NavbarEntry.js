@@ -3,9 +3,7 @@ import { WNavItem, WButton }       from 'wt-frontend';
 
 const NavbarEntry = (props) => {
     const handleNavigate = () => {
-        let index = props.path.indexOf(props._id)
-        let path = props.path.substring(0, index + props._id.length).replace("viewer", "spreadsheet")
-        props.history.push(path)
+        props.history.push("/spreadsheet/" + props._id)
     }
 
     return (

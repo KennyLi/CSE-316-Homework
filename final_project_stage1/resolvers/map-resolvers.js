@@ -30,7 +30,7 @@ module.exports = {
 			const { id, subregion, index } = args;
 			const MapId = new ObjectId(id);
 			let subregionId = new ObjectId();
-			const {_id, owner, root, name, capital, leader, children, landmarks, sortRule, sortDirection} = subregion;
+			const {_id, owner, root, name, capital, leader, parent, children, landmarks, sortRule, sortDirection} = subregion;
 			if (_id !== '') {
 				subregionId = _id 
 			}
@@ -41,6 +41,7 @@ module.exports = {
 				name: name,
 				capital: capital,
 				leader: leader,
+				parent: parent,
 				children: children,
 				landmarks: landmarks,
 				sortRule: sortRule,
@@ -59,13 +60,43 @@ module.exports = {
 			else return ('Could not add subregion');
 		},
 		/** 
+		 	@param 	 {object} args - a todolist objectID and item objectID
+			@returns {array} the updated item array on success or the initial 
+							 array on failure
+		**/
+		deleteSubregion: async (_, args) => {
+			const  { parentId, _id } = args;
+			const listId = new ObjectId(parentId);
+			const found = await Region.findOne({_id: parentId});
+			let listItems = found.children;
+			listItems = listItems.filter(subregionId => subregionId !== _id);
+			const updated = await Region.updateOne({_id: listId}, { children: listItems })
+			const deleted = await Region.deleteOne({_id: new ObjectId(_id)});
+			if(updated) return (listItems);
+			else return (found.children);
+		},
+		/** 
+			@param	 {object} args - a todolist objectID, an item objectID, field, and
+									 update value. Flag is used to interpret the completed 
+									 field,as it uses a boolean instead of a string
+			@returns {array} the updated item array on success, or the initial item array on failure
+		**/
+		updateSubregionField: async (_, args) => {
+			const { _id, field } = args;
+			let { value } = args
+			const listId = new ObjectId(_id);
+			const updated = await Region.updateOne({_id: listId}, { [field]: value })
+			if(updated) return (true);
+			else return (false);
+		},
+		/** 
 		 	@param 	 {object} args - an empty todolist object
 			@returns {string} the objectID of the todolist or an error message
 		**/
 		addMap: async (_, args) => {
 			const { map } = args;
 			let objectId = new ObjectId();
-			const {_id, owner, root, name, capital, leader, children, landmarks, sortRule, sortDirection} = map;
+			const {_id, owner, root, name, capital, leader, parent, children, landmarks, sortRule, sortDirection} = map;
 			if (_id !== '') {
 				objectId = _id 
 			}
@@ -76,6 +107,7 @@ module.exports = {
 				name: name,
 				capital: capital,
 				leader: leader,
+				parent: parent,
 				children: children,
 				landmarks: landmarks,
 				sortRule: sortRule,

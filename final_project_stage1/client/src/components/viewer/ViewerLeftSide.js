@@ -2,6 +2,15 @@ import React from 'react';
 import { WLMain, WRow, WCol, WButton, WCard } 	from 'wt-frontend';
 
 const ViewerLeftSide = (props) => {
+    // const [editingParent, toggleParentEdit] = useState(false);
+    // const handleParentEdit = (e) => {
+    //     toggleParentEdit(false);
+    //     const newParent = e.target.value ? e.target.value : false;
+    //     const prevParent = Parent;
+    //     if(newParent !== prevParent) {
+    //         props.editItem(data._id, 'completed', newParent, prevParent);
+    //     }
+    // };
 
     return (<WLMain>
 				<WRow>
@@ -28,6 +37,18 @@ const ViewerLeftSide = (props) => {
 				</WRow>
 				<WRow>
 					<WCol size="6">
+						{/* {
+							editingParent ? <select
+								className='table-select' onBlur={handleParentEdit}
+								autoFocus={true} defaultValue={props.activeProperties.parent}
+							>
+								<option value="complete">complete</option>
+								<option value="incomplete">incomplete</option>
+							</select>
+								: <div onClick={() => toggleParentEdit(!editingParent)} className={`${completeStyle} table-text`}>
+									{props.activeProperties.parent}
+								</div>
+						} */}
 						<div className="viewer-text">
 							{"Parent Region: " + props.activeProperties.parent}
 						</div>

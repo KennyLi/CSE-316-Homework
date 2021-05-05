@@ -37,16 +37,16 @@ const App = () => {
 				<Route 
 					path="/spreadsheet/:id" 
 					name="spreadsheet" 
-					render={({ location, history }) => 
-						<Spreadsheet tps={transactionStack} fetchUser={refetch} user={user} location={location} history={history} key={Date.now()}/>
+					render={({ match, location, history }) => 
+						<Spreadsheet tps={transactionStack} fetchUser={refetch} user={user} match={match} location={location} history={history} key={Date.now()}/>
 					} 
 				/>
 
 				<Route 
 					path="/viewer/:id" 
 					name="viewer"
-					render={({ location, history }) => 
-						<Viewer tps={transactionStack} fetchUser={refetch} user={user} location={location} history={history} key={Date.now()}/>
+					render={({ match, location, history }) => 
+						<Viewer tps={transactionStack} fetchUser={refetch} user={user} match={match} location={location} history={history} key={Date.now()}/>
 					}
 				/>
 			</Switch>
