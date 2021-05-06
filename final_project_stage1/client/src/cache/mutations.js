@@ -58,29 +58,11 @@ export const UPDATE_SUBREGION_FIELD = gql`
 	}
 `;
 
-// export const REORDER_ITEMS = gql`
-// 	mutation ReorderItems($_id: String!, $itemId: String!, $direction: Int!) {
-// 		reorderItems(_id: $_id, itemId: $itemId, direction: $direction) {
-// 			_id
-// 			description
-// 			due_date
-// 			assigned_to
-// 			completed
-// 		}
-// 	}
-// `;
-
-// export const SORT_ITEMS = gql`
-// 	mutation SortItems($_id: String!, $criteria: String!) {
-// 		sortItems(_id: $_id, criteria: $criteria) {
-// 			_id
-// 			description
-// 			due_date
-// 			assigned_to
-// 			completed
-// 		}
-// 	}
-// `;
+export const SORT_SUBREGION = gql`
+	mutation SortSubregion($_id: String!, $criteria: String!) {
+		sortSubregion(_id: $_id, criteria: $criteria)
+	}
+`;
 
 export const ADD_MAP = gql`
 	mutation AddMap($map: RegionInput!) {
@@ -97,5 +79,11 @@ export const DELETE_MAP = gql`
 export const UPDATE_MAP_FIELD = gql`
 	mutation UpdateMapField($_id: String!, $field: String!, $value: String!) {
 		updateMapField(_id: $_id, field: $field, value: $value)
+	}
+`;
+
+export const UPDATE_PARENT = gql`
+	mutation UpdateParent($_id: String!, $prev: String!, $update: String!) {
+		updateParent(_id: $_id, prev: $prev, update: $update)
 	}
 `;
