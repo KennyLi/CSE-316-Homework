@@ -9,7 +9,7 @@ import { GET_DB_MAPS } 					from '../../cache/queries';
 import React, { useState } 				from 'react';
 import { useMutation, useQuery } 		from '@apollo/client';
 import { WLayout, WLHeader, WLMain, WCard} from 'wt-frontend';
-import { UpdateMapSubregions_Transaction, EditSubregion_Transaction } 				from '../../utils/jsTPS';
+import { UpdateMapSubregions_Transaction, EditSubregion_Transaction, SortSubregion_Transaction } 				from '../../utils/jsTPS';
 
 const Spreadsheet = (props) => {
 	const currentId  = props.match.params.id
@@ -47,6 +47,7 @@ const Spreadsheet = (props) => {
 			maps.push(todo)
 		}
 		if (!activeProperties._id) {
+			props.tps.clearAllTransactions();
 			let activeRegion = maps.find(map => map._id === currentId)
 				if (activeRegion) {
 				let temp = activeRegion;
@@ -77,7 +78,7 @@ const Spreadsheet = (props) => {
 		onCompleted: () => reloadList()
 	}
 
-	// const [SortTodoItems] 		= useMutation(mutations.SORT_SUBREGION, mutationOptions);
+	const [SortSubregion] 		= useMutation(mutations.SORT_SUBREGION, mutationOptions);
 	const [UpdateSubregionField] 	= useMutation(mutations.UPDATE_SUBREGION_FIELD, mutationOptions);
 	const [DeleteSubregion] 			= useMutation(mutations.DELETE_SUBREGION, mutationOptions);
 	const [AddSubregion] 			= useMutation(mutations.ADD_SUBREGION, mutationOptions);
@@ -112,7 +113,7 @@ const Spreadsheet = (props) => {
 			children: [],
 			landmarks: [],
 			sortRule: 'name',
-			sortDirection: 1
+			sortDirection: -1
 		};
 		let opcode = 1;
 		let itemID = newItem._id;
@@ -133,6 +134,7 @@ const Spreadsheet = (props) => {
 			name: subregion.name,
 			capital: subregion.leader,
 			leader: subregion.capital,
+			parent: subregion.parent,
 			children: subregion.children,
 			landmarks: subregion.landmarks,
 			sortRule: subregion.sortRule,
@@ -150,21 +152,13 @@ const Spreadsheet = (props) => {
 	};
 
 	const sort = (criteria) => {
-		// let prevSortRule = sortRule;
-		// setSortRule(criteria);
-		// let transaction = new SortSubregions_Transaction(activeList._id, criteria, prevSortRule, sortTodoItems);
-		// console.log(transaction)
-		// props.tps.addTransaction(transaction);
-		// tpsRedo();
+		let prevSortRule = sortRule;
+		setSortRule(criteria);
+		let transaction = new SortSubregion_Transaction(activeProperties._id, criteria, prevSortRule, SortSubregion);
+		console.log(transaction)
+		props.tps.addTransaction(transaction);
+		tpsRedo();
 	}
-
-	// const reorderItem = async (itemID, dir) => {
-	// 	let listID = activeList._id;
-	// 	let transaction = new ReorderItems_Transaction(listID, itemID, dir, ReorderTodoItems);
-	// 	props.tps.addTransaction(transaction);
-	// 	tpsRedo();
-
-	// };
 
 	const setShowLogin = () => {
 		toggleShowCreate(false);

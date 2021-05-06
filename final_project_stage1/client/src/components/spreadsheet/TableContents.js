@@ -1,7 +1,9 @@
-import React        from 'react';
+import React, { useState } from 'react';
 import TableEntry   from './TableEntry';
 
 const TableContents = (props) => {
+    const [row, setRow] = useState(null);
+    const [col, setCol] = useState(null);
 
     let entries = props.subregionList
     let entryCount = 0;
@@ -10,6 +12,11 @@ const TableContents = (props) => {
         entryCount = entries.length
     } 
     
+    const setCoordinates = (row, col) => {
+        setRow(row);
+        setCol(col);
+    }
+
     return (
         entries !== undefined && entries.length > 0 ? <div className=' table-entries'>
             {
@@ -17,7 +24,8 @@ const TableContents = (props) => {
                     <TableEntry
                         data={entry} key={entry._id} index={index} entryCount={entryCount}
                         deleteItem={props.deleteItem} reorderItem={props.reorderItem}
-                        editItem={props.editItem} history={props.history}
+                        editItem={props.editItem} history={props.history} setCoordinates={setCoordinates}
+                        row={row} col={col}
                     />
                 ))
             }

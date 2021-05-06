@@ -6,7 +6,6 @@ const NavbarList = (props) => {
     return (
         <> 
         {
-            props.ancestors &&
             props.ancestors.map(entry => (
                 <NavbarEntry key={entry._id} history={props.history} _id={entry._id} name={entry.name} first={first}/>
             ))

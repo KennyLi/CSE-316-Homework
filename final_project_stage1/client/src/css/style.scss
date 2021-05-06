@@ -229,6 +229,16 @@ html, body {
     font-size: 16px;
 }
 
+.navbar-sibling {
+    transition: 0.1s ease-in-out;
+    color: var(--light-gray);
+}
+
+.navbar-sibling-disabled {
+    transition: 0.1s ease-in-out;
+    color: var(--warm-black);
+}
+
 .cancel-button {
     color: $text-color;
 }
@@ -278,6 +288,10 @@ html, body {
 
 .viewer-text {
     color: $text-color;
+}
+
+.viewer-parent-text {
+    color: rgb(51, 102, 187)
 }
 
 .viewer-header {

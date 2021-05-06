@@ -89,6 +89,32 @@ module.exports = {
 			if(updated) return (true);
 			else return (false);
 		},
+		sortSubregion: async (_, args) => {
+			const { _id, criteria } = args;
+			const listId = new ObjectId(_id);
+			const found = await Region.findOne({_id: listId});
+			let newDirection = found.sortDirection === 1 ? -1 : 1; 
+			console.log(newDirection, found.sortDirection);
+			let sortedSubregions = await Region.find({parent: _id})
+
+			switch(criteria) {
+				case 'name':
+					sortedSubregions = Sorting.byName(sortedSubregions, newDirection);
+					break;
+				case 'capital':
+					sortedSubregions = Sorting.byCapital(sortedSubregions, newDirection);
+					break;
+				case 'leader':
+					sortedSubregions = Sorting.byLeader(sortedSubregions, newDirection);
+					break;
+				default:
+					return found.children;
+			}
+			sortedSubregions = sortedSubregions.map(subregion => subregion._id)
+			console.log(sortedSubregions)
+			const updated = await Region.updateOne({_id: listId}, { children: sortedSubregions, sortRule: criteria, sortDirection: newDirection })
+			if(updated) return (sortedSubregions);
+		},
 		/** 
 		 	@param 	 {object} args - an empty todolist object
 			@returns {string} the objectID of the todolist or an error message
@@ -139,6 +165,23 @@ module.exports = {
 			const updated = await Region.updateOne({_id: objectId}, {[field]: value});
 			if(updated) return value;
 			else return "";
-		}
+		},
+		updateParent: async (_, args) => {
+			const { _id, prev, update } = args;
+			const listId = new ObjectId(_id);
+			const prevId = new ObjectId(prev);
+			const nextId = new ObjectId(update);
+			const updated = await Region.updateOne({_id: listId}, { parent: update })
+			let prevParent = await Region.findOne({_id: prevId});
+			prevParent = prevParent.children
+			prevParent = prevParent.filter(child => child !== _id);
+			const updatedPrev = await Region.updateOne({_id: prevId}, { children: prevParent })
+			let nextParent = await Region.findOne({_id: nextId})
+			nextParent = nextParent.children
+			nextParent.push(_id)
+			const updatedNext = await Region.updateOne({_id: nextId}, { children: nextParent })
+			if(updated) return (update);
+			else return (prev);
+		},
 	}
 }

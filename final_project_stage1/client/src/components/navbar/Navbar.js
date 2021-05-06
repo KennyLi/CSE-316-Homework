@@ -61,8 +61,34 @@ const LoggedOut = (props) => {
 
 
 const Navbar = (props) => {
+    const clickDisabled = () => { };
+
     const handleNavigate = () => {
         props.history.push("/home")
+    }
+
+    const handlePrev = () => {
+        props.history.push("/viewer/" + props.prev)
+    }
+
+    const handleNext = () => {
+        props.history.push("/viewer/" + props.next)
+    }
+
+    const prevOptions = {
+        className: !props.prev ? 'navbar-sibling-disabled' : 'navbar-sibling',
+        onClick: !props.prev  ? clickDisabled : handlePrev,
+        wType: "texted", 
+        clickAnimation: !props.prev ? "" : "ripple-light",  
+        shape: "rounded"
+    }
+
+    const nextOptions = {
+        className: !props.next ? 'navbar-sibling-disabled' : 'navbar-sibling',
+        onClick: !props.next   ? clickDisabled : handleNext, 
+        wType: "texted", 
+        clickAnimation: !props.next ? "" : "ripple-light" ,
+        shape: "rounded"
     }
 
     return (
@@ -74,11 +100,40 @@ const Navbar = (props) => {
                     </WButton>
                 </WNavItem>
             </WCol>
-            <WCol size="8">
-                <WSidebar className="navbar-list">
-                    {props.ancestors && props.ancestors.length > 0 ? <NavbarList history={props.history} ancestors={props.ancestors}/> : <></>}
-                </WSidebar>
-            </WCol>
+            { props.prev !== undefined && props.next !== undefined ? 
+                <>
+                    <WCol className="navbar-col" size="1">
+                        <WNavItem className="navbar-ancestor" hoverAnimation={!props.prev ? "" : "lighten"}>
+                            <WButton {...prevOptions}>
+                                <i className="material-icons">arrow_back</i>
+                            </WButton>
+                        </WNavItem>
+                    </WCol>
+                    <WCol className="navbar-col" size="1">
+                        <WNavItem className="navbar-ancestor" hoverAnimation={!props.next ? "" : "lighten"}>
+                        <WButton {...nextOptions}>
+                                <i className="material-icons">arrow_forward</i>
+                            </WButton>
+                        </WNavItem>
+                    </WCol>
+                    <WCol size="6">
+                        { props.ancestors && props.ancestors.length > 0 ? 
+                            <WSidebar className="navbar-list">    
+                                <NavbarList history={props.history} ancestors={props.ancestors}/> 
+                            </WSidebar> 
+                        :
+                            <></> }
+                    </WCol>
+                </> :
+                <WCol size="8">
+                    { props.ancestors && props.ancestors.length > 0 ? 
+                        <WSidebar className="navbar-list">    
+                            <NavbarList history={props.history} ancestors={props.ancestors}/> 
+                        </WSidebar> 
+                    :
+                        <></> }
+                </WCol>
+            }
             {
                 props.auth === false ? <LoggedOut setShowLogin={props.setShowLogin} setShowCreate={props.setShowCreate}/>
                 : <LoggedIn fetchUser={props.fetchUser} setActiveList={props.setActiveList} logout={props.logout} user={props.user} history={props.history} setShowUpdate={props.setShowUpdate}/>

@@ -100,6 +100,34 @@ export class UpdateMapSubregions_Transaction extends jsTPS_Transaction {
     }
 }
 
+export class EditParent_Transaction extends jsTPS_Transaction {
+	constructor(listID, update, prev, callback) {
+		super();
+		this.listID = listID;
+        this.update = update;
+		this.prev = prev;
+		this.updateFunction = callback;
+	}	
+
+	async doTransaction() {
+		const { data } = await this.updateFunction({ 
+				variables:{  _id: this.listID, prev: this.prev, update: this.update 
+						  }
+			});
+		return data;
+    }
+
+    async undoTransaction() {
+        console.log('undo: ', this.prev, this.update)
+		const { data } = await this.updateFunction({ 
+				variables:{ _id: this.listID, prev: this.update, update: this.prev
+						  }
+			});
+        if(data) console.log(data)
+		return data;
+
+    }
+}
 
 export class jsTPS {
     constructor() {

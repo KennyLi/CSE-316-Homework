@@ -53,8 +53,8 @@ const Homescreen = (props) => {
 			parent: 'none',
 			children: [],
 			landmarks: [],
-			sortRule: 'task',
-			sortDirection: 1
+			sortRule: 'name',
+			sortDirection: -1
 		};
 		const { data } = await AddMap({ variables: { map: map }});
 	};

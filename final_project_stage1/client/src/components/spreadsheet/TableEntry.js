@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { WButton, WInput, WRow, WCol } from 'wt-frontend';
 
 const TableEntry = (props) => {
@@ -6,15 +6,22 @@ const TableEntry = (props) => {
 
     // const completeStyle = data.completed ? ' complete-task' : ' incomplete-task';
     // const assignedToStyle = data.completed ? 'complete-task-assignedTo' : 'incomplete-task-assignedTo';
-
+    
     const name = data.name;
     const capital = data.capital;
     const leader = data.leader;
 
-
     const [editingName, toggleNameEdit] = useState(false);
     const [editingCapital, toggleCapitalEdit] = useState(false);
     const [editingLeader, toggleLeaderEdit] = useState(false);
+
+    useEffect(() => {
+        if(props.row !== null && props.col !== null) {
+            toggleNameEdit(props.row === props.index && props.col === 0)
+            toggleCapitalEdit(props.row === props.index && props.col === 1)
+            toggleLeaderEdit(props.row === props.index && props.col === 2)
+        }
+    }, [props.row, props.col, props.index])
 
     const disabledButton = () => {}
 
@@ -45,6 +52,55 @@ const TableEntry = (props) => {
         }
     }
 
+    const handleNameKeyDown = (e, row) => {
+        if(e.keyCode === 13) {
+            handleNameEdit(e)
+        } else if (e.keyCode === 38 && row !== 0) { //up
+            handleNameEdit(e)
+            props.setCoordinates(row - 1, 0)
+        } else if (e.keyCode === 39) { //right
+            handleNameEdit(e)
+            props.setCoordinates(row, 1)
+        } else if (e.keyCode === 40 && row !== props.entryCount - 1) { //down
+            handleNameEdit(e)
+            props.setCoordinates(row + 1, 0)
+        }
+    }
+
+    const handleCapitalKeyDown = (e, row) => {
+        if(e.keyCode === 13) {
+            handleCapitalEdit(e)
+        } else if (e.keyCode === 37) { //left
+            handleCapitalEdit(e)
+            props.setCoordinates(row, 0)
+        } else if (e.keyCode === 38 && row !== 0) { //up
+            handleCapitalEdit(e)
+            props.setCoordinates(row - 1, 1)
+        } else if (e.keyCode === 39) { //right
+            handleCapitalEdit(e)
+            props.setCoordinates(row, 2)
+        } else if (e.keyCode === 40 && row !== props.entryCount - 1) { //down
+            handleCapitalEdit(e)
+            props.setCoordinates(row + 1, 1)
+        }
+    }
+
+    const handleLeaderKeyDown = (e, row) => {
+        console.log(row)
+        if(e.keyCode === 13) {
+            handleLeaderEdit(e)
+        } else if (e.keyCode === 37) { //left
+            handleLeaderEdit(e)
+            props.setCoordinates(row, 1)
+        } else if (e.keyCode === 38 && row !== 0) { //up
+            handleLeaderEdit(e)
+            props.setCoordinates(row - 1, 2)
+        } else if (e.keyCode === 40 && row !== props.entryCount - 1) { //down
+            handleLeaderEdit(e)
+            props.setCoordinates(row + 1, 2)
+        }
+    }
+
     const handleNavigateSubregion = () => {
         props.history.push("/spreadsheet/" + data._id)
     }
@@ -62,7 +118,7 @@ const TableEntry = (props) => {
                             editingName || name === ''
                                 ? <WInput
                                     className='table-input' onBlur={handleNameEdit}
-                                    onKeyDown={(e) => {if(e.keyCode === 13) handleNameEdit(e)}}
+                                    onKeyDown={(e) => handleNameKeyDown(e, props.index)}
                                     autoFocus={true} defaultValue={name} type='text'
                                     inputClass="table-input-class"
                                 />
@@ -93,7 +149,7 @@ const TableEntry = (props) => {
                     editingCapital || capital === ''
                         ? <WInput
                             className='table-input' onBlur={handleCapitalEdit}
-                            onKeyDown={(e) => {if(e.keyCode === 13) handleCapitalEdit(e)}}
+                            onKeyDown={(e) => handleCapitalKeyDown(e, props.index)}
                             autoFocus={true} defaultValue={capital} type='text'
                             inputClass="table-input-class"
                         />
@@ -112,7 +168,7 @@ const TableEntry = (props) => {
                     editingLeader || leader === ''
                         ? <WInput
                             className='table-input' onBlur={handleLeaderEdit}
-                            onKeyDown={(e) => {if(e.keyCode === 13) handleLeaderEdit(e)}}
+                            onKeyDown={(e) => handleLeaderKeyDown(e, props.index)}
                             autoFocus={true} defaultValue={leader} type='text'
                             inputClass="table-input-class"
                         />

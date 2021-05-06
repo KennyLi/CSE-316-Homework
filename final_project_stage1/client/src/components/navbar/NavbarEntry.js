@@ -12,7 +12,7 @@ const NavbarEntry = (props) => {
             <></>
             : 
             <WNavItem className="navbar-ancestor">
-                <WButton className="navbar-button" wType="texted">
+                <WButton className="navbar-button navbar-divider" wType="texted">
                     <i className="material-icons">arrow_right</i>
                 </WButton>
             </WNavItem>
