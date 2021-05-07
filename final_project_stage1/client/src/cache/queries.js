@@ -25,6 +25,7 @@ export const GET_DB_MAPS = gql`
 			landmarks {
 				_id
 				name
+				parent_id
 				parent
 			}
 			sortRule

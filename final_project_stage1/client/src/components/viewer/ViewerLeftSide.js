@@ -86,7 +86,7 @@ const ViewerLeftSide = (props) => {
 										</span>
 									</div>
 							}
-							<WButton onClick={() => {toggleParentEdit(!editingParent)}} wType="texted" className="viewer-edit-button" hoverAnimation="text-primary">
+							<WButton onClick={() => {toggleParentEdit(!editingParent)}} wType="texted" className="viewer-button" hoverAnimation="text-primary">
 								<i className="material-icons">edit</i>
 							</WButton>
 					</WCol>

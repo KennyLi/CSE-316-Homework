@@ -10,7 +10,7 @@ import { WLayout, WLHeader, WLMain, WLSide, WLFooter } from 'wt-frontend';
 import { WCard, WCMedia, WCContent} 	from 'wt-frontend';
 import ViewerLeftSide 					from '../viewer/ViewerLeftSide';
 import ViewerRightSide 					from '../viewer/ViewerRightSide';
-import { EditParent_Transaction } 				from '../../utils/jsTPS';
+import { EditParent_Transaction, UpdateMapLandmarks_Transaction } 				from '../../utils/jsTPS';
 
 const Viewer = (props) => {
 	const currentId  = props.match.params.id
@@ -71,7 +71,7 @@ const Viewer = (props) => {
 			let grandparentRegion = maps.find(map => map._id === parentRegion.parent)
 			parentList = grandparentRegion.children.map(_id => maps.find(map => map._id === _id))
 		}
-		return {parent: parentRegion, path: path, parentList: parentList, prev: prevSibling, next: nextSibling}
+		return {parent: parentRegion, path: path, parentList: parentList, prev: prevSibling, next: nextSibling, landmarks: activeRegion.landmarks}
 	}
 
 	if(loading) { console.log(loading, 'loading'); }
@@ -85,7 +85,7 @@ const Viewer = (props) => {
 			props.tps.clearAllTransactions();
 			let activeRegion = maps.find(map => map._id === currentId)
 			if (activeRegion && !activeRegion.root) {
-				const { parent, path, parentList, prev, next } = refetchProperties(activeRegion);
+				const { parent, path, parentList, prev, next, landmarks } = refetchProperties(activeRegion);
 				let tempLandmark = [{name: "landmark placeholder 1"}, {name: "landmark placeholder 2"}, {name: "landmark placeholder 3"}]
 				setActiveProperties({_id : activeRegion._id, 
 									name: activeRegion.name,
@@ -93,7 +93,7 @@ const Viewer = (props) => {
 									capital: activeRegion.capital, 
 									leader: activeRegion.leader,
 									subregions: activeRegion.children.length,
-									landmarks: tempLandmark,
+									landmarks: landmarks,
 									path: path,
 									parentList: parentList,
 									prev: prev,
@@ -107,11 +107,11 @@ const Viewer = (props) => {
 	const reloadList = () => {
 		if (activeProperties._id) {
 			let activeRegion = maps.find(map => map._id === activeProperties._id)
-			const { parent, path, parentList, prev, next } = refetchProperties(activeRegion);
+			const { parent, path, parentList, prev, next, landmarks } = refetchProperties(activeRegion);
 			let tempLandmark = [{name: "landmark placeholder 1"}, {name: "landmark placeholder 2"}, {name: "landmark placeholder 3"}]
 			setActiveProperties({...activeProperties, 
 								parent: parent, 
-								landmarks: tempLandmark, 
+								landmarks: landmarks, 
 								path: path,  
 								parentList: parentList, 
 								prev: prev, 
@@ -126,6 +126,8 @@ const Viewer = (props) => {
 	}
 
 	const [UpdateParent] 		= useMutation(mutations.UPDATE_PARENT, mutationOptions);
+	const [AddLandmark]			= useMutation(mutations.ADD_LANDMARK, mutationOptions);
+	const [DeleteLandmark]		= useMutation(mutations.DELETE_LANDMARK, mutationOptions);
 	
 	
 	const tpsUndo = async () => {
@@ -146,6 +148,36 @@ const Viewer = (props) => {
 
 	const editParent = async (listID, newParent, prevParent) => {
 		let transaction = new EditParent_Transaction(listID, newParent, prevParent, UpdateParent);
+		props.tps.addTransaction(transaction);
+		tpsRedo();
+	};
+
+	const addLandmark = async (name) => {
+		const newItem = {
+			_id: '',
+			name: name,
+			parent_id: activeProperties._id,
+			parent: activeProperties.name
+		};
+		let opcode = 1;
+		let itemID = newItem._id;
+		let listID = activeProperties._id;
+		let transaction = new UpdateMapLandmarks_Transaction(listID, itemID, newItem, opcode, AddLandmark, DeleteLandmark);
+		props.tps.addTransaction(transaction);
+		tpsRedo();
+	};
+
+	const deleteLandmark = async (landmark, index) => {
+		let listID = activeProperties._id;
+		let itemID = landmark._id;
+		let opcode = 0;
+		let itemToDelete = {
+			_id: landmark._id,
+			name: landmark.name,
+			parent_id: landmark.parent_id,
+			parent: landmark.parent
+		}
+		let transaction = new UpdateMapLandmarks_Transaction(listID, itemID, itemToDelete, opcode, AddLandmark, DeleteLandmark, index);
 		props.tps.addTransaction(transaction);
 		tpsRedo();
 	};
@@ -188,7 +220,10 @@ const Viewer = (props) => {
 							editParent={editParent}
 							undo={tpsUndo} 					redo={tpsRedo}
 							canUndo={canUndo} 				canRedo={canRedo}/>
-						<ViewerRightSide landmarkList={activeProperties.landmarks}/>
+						<ViewerRightSide 
+							landmarkList={activeProperties.landmarks} 
+							addLandmark={addLandmark}
+							deleteLandmark={deleteLandmark}/>
                     </WLayout>
                 </WCard>
 				:

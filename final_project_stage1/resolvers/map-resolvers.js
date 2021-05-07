@@ -183,5 +183,30 @@ module.exports = {
 			if(updated) return (update);
 			else return (prev);
 		},
+		addLandmark: async(_, args) => {
+			const { _id, landmark , index } = args;
+			const mapId = new ObjectId(_id);
+			const objectId = new ObjectId();
+			const found = await Region.findOne({_id: mapId});
+			if(!found) return ('Region not found');
+			if(landmark._id === '') landmark._id = objectId;
+			let landmarkList = found.landmarks;
+			if(index < 0) landmarkList.push(landmark);
+			else landmarkList.splice(index, 0, landmark);
+			const updated = await Region.updateOne({_id: mapId}, { landmarks: landmarkList });
+
+			if(updated) return (landmark._id)
+			else return ('Could not add item');
+		},
+		deleteLandmark: async (_, args) => {
+			const  { parentId, _id } = args;
+			const mapId = new ObjectId(parentId);
+			const found = await Region.findOne({_id: mapId});
+			let landmarkList = found.landmarks;
+			landmarkList = landmarkList.filter(landmark => landmark._id.toString() !== _id);
+			const updated = await Region.updateOne({_id: mapId}, { landmarks: landmarkList })
+			if(updated) return (landmarkList);
+			else return (found.landmarks);
+		}
 	}
 }

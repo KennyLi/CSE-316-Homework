@@ -18,6 +18,7 @@ const typeDefs = gql `
     type Landmark {
         _id: String!
         name: String!
+		parent_id: String!
         parent: String!
     }
 	extend type Query {
@@ -32,6 +33,8 @@ const typeDefs = gql `
 		deleteMap(_id: String!): Boolean
 		updateMapField(_id: String!, field: String!, value: String!): String
 		updateParent(_id: String!, prev: String!, update: String!): String
+		addLandmark(landmark: LandmarkInput!, _id: String!, index: Int!): String
+		deleteLandmark(parentId: String!, _id: String!): [Landmark]
 	}
 	input RegionInput {
 		_id: String
@@ -49,6 +52,7 @@ const typeDefs = gql `
     input LandmarkInput {
         _id: String
         name: String
+		parent_id: String
         parent: String
     }
 `;

@@ -327,10 +327,15 @@ html {
 }
 
 .viewer-right-layout {
-    grid-template-rows: 28px calc(100% - 28px);
+    grid-template-rows: 28px calc(100% - 28px - 50px) 50px;
+}
+
+.viewer-rightside {
+  min-height: 100%;
 }
 
 .viewer-header {
+    height: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -352,10 +357,16 @@ html {
     align-items: center;
 }
 
-.viewer-edit-button {
+.viewer-button {
     padding: 5px 5px;
     height: 30px;
     width: 30px;
+}
+
+.viewer-footer {
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 
 li {

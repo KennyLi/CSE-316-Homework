@@ -10,8 +10,12 @@ const landmarkSchema = new Schema(
 			type: String,
 			required: true
 		},
+		parent_id: {
+			type: String,
+			required: true
+		},
 		parent: {
-			type: ObjectId,
+			type: String,
 			required: true
 		}
 	}

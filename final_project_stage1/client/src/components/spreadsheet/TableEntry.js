@@ -86,7 +86,6 @@ const TableEntry = (props) => {
     }
 
     const handleLeaderKeyDown = (e, row) => {
-        console.log(row)
         if(e.keyCode === 13) {
             handleLeaderEdit(e)
         } else if (e.keyCode === 37) { //left
