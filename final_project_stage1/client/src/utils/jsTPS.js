@@ -165,6 +165,34 @@ export class UpdateMapLandmarks_Transaction extends jsTPS_Transaction {
 		return data;
     }
 }
+
+export class EditLandmark_Transaction extends jsTPS_Transaction {
+	constructor(listID, landmarkID, prev, update, callback) {
+		super();
+		this.listID = listID;
+        this.landmarkID = landmarkID;
+		this.prev = prev;
+		this.update = update;
+		this.updateFunction = callback;
+	}	
+
+	async doTransaction() {
+		const { data } = await this.updateFunction({ 
+				variables:{ parentId: this.listID, _id: this.landmarkID,  value: this.update }
+			});
+		return data;
+    }
+
+    async undoTransaction() {
+        console.log('undo: ', this.prev, this.update)
+		const { data } = await this.updateFunction({ 
+				variables:{ parentId: this.listID, _id: this.landmarkID,  value: this.prev }
+			});
+        if(data) console.log(data)
+		return data;
+
+    }
+}
 export class jsTPS {
     constructor() {
         // THE TRANSACTION STACK

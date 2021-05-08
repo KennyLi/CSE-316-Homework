@@ -15,7 +15,7 @@ const ViewerRightSide = (props) => {
                 <WLayout className="viewer-right-layout" wLayout="header-footer">
                     <WLHeader className="viewer-header">Region Landmarks:</WLHeader>
                     <WSidebar className="viewer-sidebar">
-                        <LandmarkList landmarkList={props.landmarkList} deleteLandmark={props.deleteLandmark}/>
+                        <LandmarkList landmarkList={props.landmarkList} deleteLandmark={props.deleteLandmark} editLandmark={props.editLandmark} _id={props._id}/>
                     </WSidebar>
                     <WLFooter className="viewer-footer">
                         <WButton className="viewer-button" onClick={handleSubmit} wType="texted" hoverAnimation="text-primary">

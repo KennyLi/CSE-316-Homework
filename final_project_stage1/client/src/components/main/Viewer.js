@@ -10,7 +10,7 @@ import { WLayout, WLHeader, WLMain, WLSide, WLFooter } from 'wt-frontend';
 import { WCard, WCMedia, WCContent} 	from 'wt-frontend';
 import ViewerLeftSide 					from '../viewer/ViewerLeftSide';
 import ViewerRightSide 					from '../viewer/ViewerRightSide';
-import { EditParent_Transaction, UpdateMapLandmarks_Transaction } 				from '../../utils/jsTPS';
+import { EditParent_Transaction, UpdateMapLandmarks_Transaction, EditLandmark_Transaction } 				from '../../utils/jsTPS';
 
 const Viewer = (props) => {
 	const currentId  = props.match.params.id
@@ -38,6 +38,15 @@ const Viewer = (props) => {
 	const [canRedo, setCanRedo] = useState(props.tps.hasTransactionToRedo());
 
 	const { loading, error, data, refetch } = useQuery(GET_DB_MAPS);
+
+	const refetchLandmarks = (activeRegion) => {
+		let landmarks = activeRegion.landmarks;
+		let subregionList = activeRegion.children.map(_id => maps.find(map => map._id === _id))
+		for (let subregion of subregionList) {
+			landmarks = landmarks.concat(refetchLandmarks(subregion))
+		}
+		return landmarks
+	}
 
 	const refetchProperties = (activeRegion) => {
 		let temp = activeRegion;
@@ -71,7 +80,8 @@ const Viewer = (props) => {
 			let grandparentRegion = maps.find(map => map._id === parentRegion.parent)
 			parentList = grandparentRegion.children.map(_id => maps.find(map => map._id === _id))
 		}
-		return {parent: parentRegion, path: path, parentList: parentList, prev: prevSibling, next: nextSibling, landmarks: activeRegion.landmarks}
+		let landmarks = refetchLandmarks(activeRegion)
+		return {parent: parentRegion, path: path, parentList: parentList, prev: prevSibling, next: nextSibling, landmarks: landmarks}
 	}
 
 	if(loading) { console.log(loading, 'loading'); }
@@ -128,6 +138,7 @@ const Viewer = (props) => {
 	const [UpdateParent] 		= useMutation(mutations.UPDATE_PARENT, mutationOptions);
 	const [AddLandmark]			= useMutation(mutations.ADD_LANDMARK, mutationOptions);
 	const [DeleteLandmark]		= useMutation(mutations.DELETE_LANDMARK, mutationOptions);
+	const [UpdateLandmarkField] = useMutation(mutations.UPDATE_LANDMARK_FIELD, mutationOptions);
 	
 	
 	const tpsUndo = async () => {
@@ -182,6 +193,13 @@ const Viewer = (props) => {
 		tpsRedo();
 	};
 
+	const editLandmark = async (itemID, value, prev) => {
+		let listID = activeProperties._id;
+		let transaction = new EditLandmark_Transaction(listID, itemID, prev, value, UpdateLandmarkField);
+		props.tps.addTransaction(transaction);
+		tpsRedo();
+	};
+
 	const setShowLogin = () => {
 		toggleShowCreate(false);
 		toggleShowUpdate(false);
@@ -221,9 +239,11 @@ const Viewer = (props) => {
 							undo={tpsUndo} 					redo={tpsRedo}
 							canUndo={canUndo} 				canRedo={canRedo}/>
 						<ViewerRightSide 
+							_id = {activeProperties._id}
 							landmarkList={activeProperties.landmarks} 
 							addLandmark={addLandmark}
-							deleteLandmark={deleteLandmark}/>
+							deleteLandmark={deleteLandmark}
+							editLandmark={editLandmark}/>
                     </WLayout>
                 </WCard>
 				:

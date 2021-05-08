@@ -207,6 +207,21 @@ module.exports = {
 			const updated = await Region.updateOne({_id: mapId}, { landmarks: landmarkList })
 			if(updated) return (landmarkList);
 			else return (found.landmarks);
-		}
+		},
+		updateLandmarkField: async (_, args) => {
+			const { parentId, _id, value } = args;
+			const mapId = new ObjectId(parentId);
+			const found = await Region.findOne({_id: mapId});
+			let landmarkList = found.landmarks;
+			landmarkList.map(landmark => {
+				if(landmark._id.toString() === _id) {
+					console.log("yes")
+					landmark.name = value;
+				}
+			});
+			const updated = await Region.updateOne({_id: mapId}, { landmarks: landmarkList })
+			if(updated) return (landmarkList);
+			else return (found.landmarks);
+		},
 	}
 }

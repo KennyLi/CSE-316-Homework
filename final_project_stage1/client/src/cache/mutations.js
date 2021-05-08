@@ -104,3 +104,14 @@ export const DELETE_LANDMARK = gql`
 		}
 	}
 `;
+
+export const UPDATE_LANDMARK_FIELD = gql`
+	mutation UpdateLandmarkField($parentId: String!, $_id: String!, $value: String!) {
+		updateLandmarkField(parentId: $parentId, _id: $_id, value: $value) {
+			_id
+			name
+			parent_id
+			parent
+		}
+	}
+`;

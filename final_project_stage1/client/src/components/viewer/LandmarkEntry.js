@@ -1,16 +1,66 @@
-import React  from 'react';
-import { WRow, WCol, WButton }       from 'wt-frontend';
+import React, { useState } from 'react';
+import { WRow, WCol, WButton, WInput }       from 'wt-frontend';
 
 const LandmarkEntry = (props) => {
 
+    const landmark = props.entry.name
+    const [editingLandmark, toggleLandmarkEdit] = useState(false);
+    
+    const handleLandmarkEdit = (e) => {
+        if (props._id === props.entry.parent_id) {
+            toggleLandmarkEdit(false);
+            const newLandmark = e.target.value ? e.target.value : 'Unknown';
+            const prevLandmark = landmark;
+            if(newLandmark !== prevLandmark) {
+                props.editLandmark(props.entry._id, newLandmark, prevLandmark);
+            }
+        }
+    };
+    
     return (
         <WRow>
-            <WCol className="viewer-landmark"size="1">
-                <WButton className="viewer-button" onClick={() => {props.deleteLandmark(props.entry, props.index)}} wType="texted" hoverAnimation="text-primary">
-					<i className="material-icons">delete</i>
-				</WButton>
-            </WCol>
-            <WCol className="viewer-landmark"size="5">{props.entry.name}</WCol>
+            { props._id === props.entry.parent_id ?
+                <>
+                <WCol className="viewer-landmark"size="1">
+                    <WButton className="viewer-button" onClick={() => {props.deleteLandmark(props.entry, props.index)}} wType="texted" hoverAnimation="text-primary">
+                        <i className="material-icons">delete</i>
+                    </WButton>
+                </WCol>
+                <WCol className="viewer-landmark"size="5">
+                    {
+                        editingLandmark && props._id === props.entry.parent_id
+                        ? <WInput
+                            className='table-input' onBlur={handleLandmarkEdit}
+                            onKeyDown={(e) => {}}
+                            autoFocus={true} defaultValue={landmark} type='text'
+                            inputClass="table-input-class"
+                        />
+                        : <div className="table-text"
+                                onClick={() => toggleLandmarkEdit(!editingLandmark)}
+                        >
+                            {landmark}
+                        </div>
+                    }
+                </WCol>
+                </>
+            :
+                <WCol className="viewer-landmark"size="6">
+                    {
+                        editingLandmark && props._id === props.entry.parent_id
+                        ? <WInput
+                            className='table-input' onBlur={handleLandmarkEdit}
+                            onKeyDown={(e) => {}}
+                            autoFocus={true} defaultValue={landmark} type='text'
+                            inputClass="table-input-class"
+                        />
+                        : <div className="table-text"
+                                onClick={() => toggleLandmarkEdit(!editingLandmark)}
+                        >
+                            {landmark}
+                        </div>
+                    }
+                </WCol>
+            }
             <WCol className="viewer-landmark"size="1">-</WCol>
             <WCol className="viewer-landmark"size="5">{props.entry.parent}</WCol>
         </WRow>
