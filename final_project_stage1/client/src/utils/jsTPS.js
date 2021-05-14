@@ -5,15 +5,16 @@ export class jsTPS_Transaction {
 }
 
 export class SortSubregion_Transaction extends jsTPS_Transaction{
-    constructor(listID, nextSortRule, prevSortRule, callback) {
+    constructor(listID, subregions, nextSortRule, prevSortRule, callback) {
         super();
         this.listID = listID;
+        this.subregions = subregions;
         this.nextSortRule = nextSortRule;
         this.prevSortRule = prevSortRule;
         this.updateFunction = callback;
     }
     async doTransaction() {
-		const { data } = await this.updateFunction({ variables: { _id: this.listID, criteria: this.nextSortRule}});
+		const { data } = await this.updateFunction({ variables: { _id: this.listID, criteria: this.nextSortRule, unsorted: this.subregions}});
         if(data) {
             console.log(data)
             return data;
@@ -22,7 +23,7 @@ export class SortSubregion_Transaction extends jsTPS_Transaction{
     }
 
     async undoTransaction() {
-		const { data } = await this.updateFunction({ variables: { _id: this.listID, criteria: this.prevSortRule}});
+		const { data } = await this.updateFunction({ variables: { _id: this.listID, criteria: this.prevSortRule, unsorted: this.subregions}});
         if(data) {
             console.log(data)
             return data;

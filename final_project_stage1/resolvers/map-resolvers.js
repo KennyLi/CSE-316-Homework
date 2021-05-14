@@ -82,15 +82,22 @@ module.exports = {
 			@returns {array} the updated item array on success, or the initial item array on failure
 		**/
 		updateSubregionField: async (_, args) => {
-			const { _id, field } = args;
-			let { value } = args
+			const { _id, field, value } = args;
 			const listId = new ObjectId(_id);
-			const updated = await Region.updateOne({_id: listId}, { [field]: value })
+			let updated;
+			if (field === "name") {
+				const found = await Region.findOne({_id: listId});
+				let landmarks = found.landmarks
+				landmarks.map(landmark => {landmark.parent = value});
+				updated = await Region.updateOne({_id: listId}, { [field]: value, landmarks: landmarks})
+			} else {
+				updated = await Region.updateOne({_id: listId}, { [field]: value })
+			}
 			if(updated) return (true);
 			else return (false);
 		},
 		sortSubregion: async (_, args) => {
-			const { _id, criteria } = args;
+			const { _id, criteria, unsorted } = args;
 			const listId = new ObjectId(_id);
 			const found = await Region.findOne({_id: listId});
 			let newDirection = found.sortDirection === 1 ? -1 : 1; 
@@ -100,17 +107,20 @@ module.exports = {
 			switch(criteria) {
 				case 'name':
 					sortedSubregions = Sorting.byName(sortedSubregions, newDirection);
+					sortedSubregions = sortedSubregions.map(subregion => subregion._id)
 					break;
 				case 'capital':
 					sortedSubregions = Sorting.byCapital(sortedSubregions, newDirection);
+					sortedSubregions = sortedSubregions.map(subregion => subregion._id)
 					break;
 				case 'leader':
 					sortedSubregions = Sorting.byLeader(sortedSubregions, newDirection);
+					sortedSubregions = sortedSubregions.map(subregion => subregion._id)
 					break;
 				default:
-					return found.children;
+					sortedSubregions = unsorted
+					break;
 			}
-			sortedSubregions = sortedSubregions.map(subregion => subregion._id)
 			console.log(sortedSubregions)
 			const updated = await Region.updateOne({_id: listId}, { children: sortedSubregions, sortRule: criteria, sortDirection: newDirection })
 			if(updated) return (sortedSubregions);
@@ -215,7 +225,6 @@ module.exports = {
 			let landmarkList = found.landmarks;
 			landmarkList.map(landmark => {
 				if(landmark._id.toString() === _id) {
-					console.log("yes")
 					landmark.name = value;
 				}
 			});

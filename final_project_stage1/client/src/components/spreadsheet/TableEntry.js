@@ -3,9 +3,6 @@ import { WButton, WInput, WRow, WCol } from 'wt-frontend';
 
 const TableEntry = (props) => {
     const { data } = props;
-
-    // const completeStyle = data.completed ? ' complete-task' : ' incomplete-task';
-    // const assignedToStyle = data.completed ? 'complete-task-assignedTo' : 'incomplete-task-assignedTo';
     
     const name = data.name;
     const capital = data.capital;
@@ -119,16 +116,13 @@ const TableEntry = (props) => {
                                     className='table-input' onBlur={handleNameEdit}
                                     onKeyDown={(e) => handleNameKeyDown(e, props.index)}
                                     autoFocus={true} defaultValue={name} type='text'
-                                    inputClass="table-input-class"
+                                    inputClass="spreadsheet-input-class"
                                 />
                                 : <div className="table-text"
                                     onClick={handleNavigateSubregion}
                                 >{name}
                                 </div>
                         }
-                        {/* <div className="table-text" onClick={handleNavigateSubregion}>
-                            {name}
-                        </div> */}
                     </WCol>
                     <WCol size="1">
                         <WButton onClick={() => toggleNameEdit(!editingName)} wType="texted" hoverAnimation="text-primary">
@@ -150,16 +144,13 @@ const TableEntry = (props) => {
                             className='table-input' onBlur={handleCapitalEdit}
                             onKeyDown={(e) => handleCapitalKeyDown(e, props.index)}
                             autoFocus={true} defaultValue={capital} type='text'
-                            inputClass="table-input-class"
+                            inputClass="spreadsheet-input-class"
                         />
                         : <div className="table-text"
                             onClick={() => toggleCapitalEdit(!editingCapital)}
                         >{capital}
                         </div>
                 }
-                {/* <div className="table-text" onClick={disabledButton}>
-                    {capital}
-                </div> */}
             </WCol>
 
             <WCol size="2">
@@ -169,16 +160,13 @@ const TableEntry = (props) => {
                             className='table-input' onBlur={handleLeaderEdit}
                             onKeyDown={(e) => handleLeaderKeyDown(e, props.index)}
                             autoFocus={true} defaultValue={leader} type='text'
-                            inputClass="table-input-class"
+                            inputClass="spreadsheet-input-class"
                         />
                         : <div className="table-text"
                             onClick={() => toggleLeaderEdit(!editingLeader)}
                         >{leader}
                         </div>
                 }
-                {/* <div className="table-text" onClick={disabledButton}>
-                    {leader}
-                </div> */}
             </WCol>
 
             <WCol size="2">
@@ -192,20 +180,6 @@ const TableEntry = (props) => {
                 </div>
             </WCol>
         </WRow>
-    //     <WCol size="3">
-    //         <div className='button-group'>
-    //             <WButton className={canMoveUp ? "table-entry-buttons" : "table-entry-buttons-disabled"} onClick={canMoveUp ? () => props.reorderItem(data._id, -1) : disabledButton } wType="texted">
-    //                 <i className="material-icons">expand_less</i>
-    //             </WButton>
-    //             <WButton className={canMoveDown ? "table-entry-buttons" : "table-entry-buttons-disabled"} onClick={canMoveDown ? () => props.reorderItem(data._id, 1) : disabledButton } wType="texted">
-    //                 <i className="material-icons">expand_more</i>
-    //             </WButton>
-    //             <WButton className="table-entry-buttons" onClick={() => props.deleteItem(data, props.index)} wType="texted">
-    //                 <i className="material-icons">close</i>
-    //             </WButton>
-    //         </div>
-    //     </WCol>
-    // </WRow>
     );
 };
 

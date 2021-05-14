@@ -2,6 +2,7 @@ import Login 							from '../modals/Login';
 import Delete 							from '../modals/Delete';
 import CreateAccount 					from '../modals/CreateAccount';
 import UpdateAccount 					from '../modals/UpdateAccount';
+import CreateMap						from '../modals/CreateMap';
 import Navbar 							from '../navbar/Navbar';
 import * as mutations 					from '../../cache/mutations';
 import MapList							from '../homescreen/MapList';
@@ -21,7 +22,8 @@ const Homescreen = (props) => {
 	const [showCreate, toggleShowCreate] 	= useState(false);
 	const [showDelete, toggleShowDelete] 	= useState(false);
 	const [showUpdate, toggleShowUpdate]	= useState(false);
-	const [listToDelete, setListToDelete]	= useState(null);
+	const [showCreateMap, toggleShowCreateMap] 	= useState(false);
+	const [mapToDelete, setMapToDelete]	= useState(null);
 
 	const { loading, error, data, refetch } = useQuery(GET_DB_MAPS);
 
@@ -42,12 +44,12 @@ const Homescreen = (props) => {
 	const [AddMap] 			= useMutation(mutations.ADD_MAP, mutationOptions);
 	const [DeleteMap] 		= useMutation(mutations.DELETE_MAP, mutationOptions);
 
-	const createNewMap = async () => {
+	const createNewMap = async (value) => {
 		let map = {
 			_id: '',
 			owner: props.user._id,
 			root: true,
-			name: 'Untitled',
+			name: value,
 			capital: 'none',
 			leader: 'none',
 			parent: 'none',
@@ -59,7 +61,7 @@ const Homescreen = (props) => {
 		const { data } = await AddMap({ variables: { map: map }});
 	};
 
-	const deleteList = async (_id) => {
+	const deleteMap = async (_id) => {
 		DeleteMap({ variables: { _id: _id }});
 	};
 
@@ -71,6 +73,7 @@ const Homescreen = (props) => {
 		toggleShowDelete(false);
 		toggleShowCreate(false);
 		toggleShowUpdate(false);
+		toggleShowCreateMap(false);
 		toggleShowLogin(!showLogin);
 	};
 
@@ -78,6 +81,7 @@ const Homescreen = (props) => {
 		toggleShowDelete(false);
 		toggleShowLogin(false);
 		toggleShowUpdate(false);
+		toggleShowCreateMap(false);
 		toggleShowCreate(!showCreate);
 	};
 
@@ -85,6 +89,7 @@ const Homescreen = (props) => {
 		toggleShowCreate(false);
 		toggleShowLogin(false);
 		toggleShowUpdate(false);
+		toggleShowCreateMap(false);
 		toggleShowDelete(!showDelete)
 	};
 	
@@ -92,11 +97,20 @@ const Homescreen = (props) => {
 		toggleShowDelete(false);
 		toggleShowCreate(false);
 		toggleShowLogin(false);
+		toggleShowCreateMap(false);
 		toggleShowUpdate(!showUpdate);
 	}
 
+	const setShowCreateMap = () => {
+		toggleShowDelete(false);
+		toggleShowCreate(false);
+		toggleShowLogin(false);
+		toggleShowUpdate(false);
+		toggleShowCreateMap(!showCreateMap);
+	}
+
 	const getDeleteListID = (_id) => {
-		setListToDelete(_id);
+		setMapToDelete(_id);
 		setShowDelete();
 	}
 
@@ -132,7 +146,7 @@ const Homescreen = (props) => {
 										<img src={globe} alt="Globe"/>
 									</WLMain>
 									<WLFooter className="text-container white-text-red-header">
-										<WButton className="create-map-button" onClick={createNewMap} wType="texted" hoverAnimation="text-primary">
+										<WButton className="create-map-button" onClick={setShowCreateMap} wType="texted" hoverAnimation="text-primary">
         									Create New Map
         								</WButton>
 									</WLFooter>
@@ -147,7 +161,7 @@ const Homescreen = (props) => {
 				}
 			</WLMain>
 			{
-				showDelete && (<Delete deleteList={deleteList} _id={listToDelete} setShowDelete={setShowDelete} />)
+				showDelete && (<Delete deleteMap={deleteMap} _id={mapToDelete} setShowDelete={setShowDelete} />)
 			}   			
 			{
 				showCreate && (<CreateAccount fetchUser={props.fetchUser} setShowCreate={setShowCreate} />)
@@ -157,6 +171,9 @@ const Homescreen = (props) => {
 			}
 			{
 				showUpdate && (<UpdateAccount fetchUser={props.fetchUser} user={props.user} setShowUpdate={setShowUpdate} />)
+			}
+			{
+				showCreateMap && (<CreateMap setShowCreateMap={setShowCreateMap} createNewMap={createNewMap}/>)
 			}
 		</WLayout>
 	);

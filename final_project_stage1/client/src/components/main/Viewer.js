@@ -14,19 +14,19 @@ import { EditParent_Transaction, UpdateMapLandmarks_Transaction, EditLandmark_Tr
 
 const Viewer = (props) => {
 	const currentId  = props.match.params.id
-	// const keyCombination = (e, callback) => {
-	// 	if(e.key === 'z' && e.ctrlKey) {
-	// 		if(props.tps.hasTransactionToUndo()) {
-	// 			tpsUndo();
-	// 		}
-	// 	}
-	// 	else if (e.key === 'y' && e.ctrlKey) { 
-	// 		if(props.tps.hasTransactionToRedo()) {
-	// 			tpsRedo();
-	// 		}
-	// 	}
-	// }
-	// document.onkeydown = keyCombination;
+	const keyCombination = (e, callback) => {
+		if(e.key === 'z' && e.ctrlKey) {
+			if(props.tps.hasTransactionToUndo()) {
+				tpsUndo();
+			}
+		}
+		else if (e.key === 'y' && e.ctrlKey) { 
+			if(props.tps.hasTransactionToRedo()) {
+				tpsRedo();
+			}
+		}
+	}
+	document.onkeydown = keyCombination;
 
 	const auth = props.user === null ? false : true;
 	let maps = [];
@@ -96,7 +96,6 @@ const Viewer = (props) => {
 			let activeRegion = maps.find(map => map._id === currentId)
 			if (activeRegion && !activeRegion.root) {
 				const { parent, path, parentList, prev, next, landmarks } = refetchProperties(activeRegion);
-				let tempLandmark = [{name: "landmark placeholder 1"}, {name: "landmark placeholder 2"}, {name: "landmark placeholder 3"}]
 				setActiveProperties({_id : activeRegion._id, 
 									name: activeRegion.name,
 									parent: parent, 
@@ -118,7 +117,6 @@ const Viewer = (props) => {
 		if (activeProperties._id) {
 			let activeRegion = maps.find(map => map._id === activeProperties._id)
 			const { parent, path, parentList, prev, next, landmarks } = refetchProperties(activeRegion);
-			let tempLandmark = [{name: "landmark placeholder 1"}, {name: "landmark placeholder 2"}, {name: "landmark placeholder 3"}]
 			setActiveProperties({...activeProperties, 
 								parent: parent, 
 								landmarks: landmarks, 

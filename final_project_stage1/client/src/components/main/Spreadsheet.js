@@ -3,6 +3,7 @@ import Login 							from '../modals/Login';
 import MainContents 					from '../spreadsheet/MainContents';
 import CreateAccount 					from '../modals/CreateAccount';
 import UpdateAccount 					from '../modals/UpdateAccount';
+import DeleteSub						from '../modals/DeleteSub';
 import Navbar							from '../navbar/Navbar';
 import * as mutations 					from '../../cache/mutations';
 import { GET_DB_MAPS } 					from '../../cache/queries';
@@ -13,19 +14,19 @@ import { UpdateMapSubregions_Transaction, EditSubregion_Transaction, SortSubregi
 
 const Spreadsheet = (props) => {
 	const currentId  = props.match.params.id
-	// const keyCombination = (e, callback) => {
-	// 	if(e.key === 'z' && e.ctrlKey) {
-	// 		if(props.tps.hasTransactionToUndo()) {
-	// 			tpsUndo();
-	// 		}
-	// 	}
-	// 	else if (e.key === 'y' && e.ctrlKey) { 
-	// 		if(props.tps.hasTransactionToRedo()) {
-	// 			tpsRedo();
-	// 		}
-	// 	}
-	// }
-	// document.onkeydown = keyCombination;
+	const keyCombination = (e, callback) => {
+		if(e.key === 'z' && e.ctrlKey) {
+			if(props.tps.hasTransactionToUndo()) {
+				tpsUndo();
+			}
+		}
+		else if (e.key === 'y' && e.ctrlKey) { 
+			if(props.tps.hasTransactionToRedo()) {
+				tpsRedo();
+			}
+		}
+	}
+	document.onkeydown = keyCombination;
 
 	const auth = props.user === null ? false : true;
 	let maps = [];
@@ -34,6 +35,8 @@ const Spreadsheet = (props) => {
 	const [showLogin, toggleShowLogin] 		= useState(false);
 	const [showCreate, toggleShowCreate] 	= useState(false);
 	const [showUpdate, toggleShowUpdate]	= useState(false);
+	const [showDelete, toggleShowDelete] 	= useState(false);
+	const [subregionToDelete, setSubregionToDelete]	= useState({});
 	const [canUndo, setCanUndo] = useState(props.tps.hasTransactionToUndo());
 	const [canRedo, setCanRedo] = useState(props.tps.hasTransactionToRedo());
 
@@ -153,9 +156,9 @@ const Spreadsheet = (props) => {
 
 	const sort = (criteria) => {
 		let prevSortRule = sortRule;
+		let activeRegion = maps.find(map => map._id === activeProperties._id)
 		setSortRule(criteria);
-		let transaction = new SortSubregion_Transaction(activeProperties._id, criteria, prevSortRule, SortSubregion);
-		console.log(transaction)
+		let transaction = new SortSubregion_Transaction(activeProperties._id, activeRegion.children, criteria, prevSortRule, SortSubregion);
 		props.tps.addTransaction(transaction);
 		tpsRedo();
 	}
@@ -163,22 +166,35 @@ const Spreadsheet = (props) => {
 	const setShowLogin = () => {
 		toggleShowCreate(false);
 		toggleShowUpdate(false);
+		toggleShowDelete(false);
 		toggleShowLogin(!showLogin);
 	};
 
 	const setShowCreate = () => {
 		toggleShowLogin(false);
 		toggleShowUpdate(false);
+		toggleShowDelete(false);
 		toggleShowCreate(!showCreate);
 	};
 
 	const setShowUpdate = () => {
 		toggleShowCreate(false);
 		toggleShowLogin(false);
+		toggleShowDelete(false);
 		toggleShowUpdate(!showUpdate);
 	};
 
+	const setShowDelete = () => {
+		toggleShowCreate(false);
+		toggleShowLogin(false);
+		toggleShowUpdate(false);
+		toggleShowDelete(!showDelete)
+	};
 
+	const getDeleteSubregion = (subregion, index) => {
+		setSubregionToDelete({data : subregion, index : index});
+		setShowDelete();
+	}
 
 	return (
         <WLayout wLayout="header">
@@ -195,7 +211,7 @@ const Spreadsheet = (props) => {
 					activeProperties._id ? 
 						<WCard className="spreadsheet">
 								<MainContents
-									addItem={addItem} 				deleteItem={deleteItem}
+									addItem={addItem} 				deleteItem={getDeleteSubregion}
 									editItem={editItem}				sort={sort}
 									undo={tpsUndo} 					redo={tpsRedo}
 									canUndo={canUndo} 				canRedo={canRedo}
@@ -207,21 +223,6 @@ const Spreadsheet = (props) => {
 					<></>
 				}
 			</WLMain>
-			{/* {
-					activeList ? 
-							<div className="container">
-								<MainContents
-									addItem={addItem} 				deleteItem={deleteItem}
-									editItem={editItem} 			reorderItem={reorderItem} 	
-									undo={tpsUndo} redo={tpsRedo}
-									activeList={activeList} 		setActiveList={loadTodoList}
-									canUndo={canUndo} 				canRedo={canRedo}
-									sort={sort}
-								/>
-							</div>
-						:
-							<div className="container" />
-			} */}
         {
             showCreate && (<CreateAccount fetchUser={props.fetchUser} setShowCreate={setShowCreate} />)
         }
@@ -231,6 +232,9 @@ const Spreadsheet = (props) => {
 		{
 			showUpdate && (<UpdateAccount fetchUser={props.fetchUser} user={props.user} setShowUpdate={setShowUpdate} />)
 		}
+		{
+			showDelete && (<DeleteSub deleteItem={deleteItem} subregion={subregionToDelete} setShowDelete={setShowDelete} />)
+		} 
         </WLayout>
 	);
 };

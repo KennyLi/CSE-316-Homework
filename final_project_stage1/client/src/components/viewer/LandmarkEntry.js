@@ -35,7 +35,7 @@ const LandmarkEntry = (props) => {
                             autoFocus={true} defaultValue={landmark} type='text'
                             inputClass="table-input-class"
                         />
-                        : <div className="table-text"
+                        : <div className="table-text viewer-table-text"
                                 onClick={() => toggleLandmarkEdit(!editingLandmark)}
                         >
                             {landmark}

@@ -31,9 +31,7 @@ const CreateAccount = (props) => {
 			toggleLoading(false);
 			if(data.register.email === 'already exists') {
 				alert('User with that email already registered');
-			}
-			else {
-				props.fetchUser();
+				return;
 			}
 			props.setShowCreate(false);
 

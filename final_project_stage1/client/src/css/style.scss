@@ -154,7 +154,12 @@ html, body {
 }
 
 .table-entry:hover {
-    background-color: rgb(170, 170, 170);
+    background-color: rgb(130, 130, 130);
+}
+
+.table-text:hover {
+    background-color: rgb(150, 150, 150);
+    color: $primary-color;
 }
 
 .table-header-button {
@@ -282,12 +287,20 @@ html, body {
     background-color: var(--header-color);
 }
 
+.spreadsheet-input-class {
+    color: black !important;
+}
+
 .viewer {
     background-color: transparent;
 }
 
 .viewer-text {
     color: $text-color;
+}
+
+.viewer-table-text:hover {
+    background-color: $background-color;
 }
 
 .viewer-parent-text {

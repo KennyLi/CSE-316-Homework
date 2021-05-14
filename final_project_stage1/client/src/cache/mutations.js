@@ -59,8 +59,8 @@ export const UPDATE_SUBREGION_FIELD = gql`
 `;
 
 export const SORT_SUBREGION = gql`
-	mutation SortSubregion($_id: String!, $criteria: String!) {
-		sortSubregion(_id: $_id, criteria: $criteria)
+	mutation SortSubregion($_id: String!, $criteria: String!, $unsorted: [String]) {
+		sortSubregion(_id: $_id, criteria: $criteria, unsorted: $unsorted)
 	}
 `;
 
