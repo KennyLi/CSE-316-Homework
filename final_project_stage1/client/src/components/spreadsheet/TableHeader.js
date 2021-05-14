@@ -50,7 +50,9 @@ const TableHeader = (props) => {
         <WRow className="table-header spreadsheet-table-header">
             <WCol size="3">
                 <WRow>
-                    <WCol size="8"><WButton onClick={() => {props.sort('name')}} className='table-header-section' wType="texted" >Name</WButton></WCol>
+                    <WCol size="1"></WCol>
+                    <WCol size="10"><WButton onClick={() => {props.sort('name')}} className='table-header-section' wType="texted" >Name</WButton></WCol>
+                    <WCol size="1"></WCol>
                 </WRow>
             </WCol>
             <WCol size="2">
@@ -59,10 +61,10 @@ const TableHeader = (props) => {
             <WCol size="2">
                 <WButton onClick={() => {props.sort('leader')}} className='table-header-section' wType="texted" >Leader</WButton>
             </WCol>
-            <WCol size="2">
+            <WCol size="1">
                 <WButton onClick={clickDisabled} className='table-header-section' wType="texted" >Flag</WButton>
             </WCol>
-            <WCol size="3">
+            <WCol size="4">
                 <WButton onClick={clickDisabled} className='table-header-section' wType="texted" >Landmarks</WButton>
             </WCol>
         </WRow>

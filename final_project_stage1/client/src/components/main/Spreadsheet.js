@@ -29,6 +29,7 @@ const Spreadsheet = (props) => {
 	document.onkeydown = keyCombination;
 
 	const auth = props.user === null ? false : true;
+	
 	let maps = [];
 	const [sortRule, setSortRule] = useState('unsorted'); // 1 is ascending, -1 desc
 	const [activeProperties, setActiveProperties] = useState({});

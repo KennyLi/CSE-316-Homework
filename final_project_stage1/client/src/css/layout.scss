@@ -273,7 +273,7 @@ html {
 }
 
 .homescreen-layout {
-    grid-template-columns: calc(100% - 512px) 512px
+    grid-template-columns: calc(100% - 512px) 512px;
 }
 
 .homescreen-right-layout {
@@ -360,6 +360,17 @@ html {
     align-items: center;
 }
 
+.viewer-table-text {
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.125rem;
+    padding-bottom: 12px;
+    padding-top: 12px;
+    cursor: pointer;
+}
+
 .viewer-button {
     padding: 5px 5px;
     height: 30px;
@@ -374,4 +385,10 @@ html {
 
 li {
     list-style-type: none;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
 }

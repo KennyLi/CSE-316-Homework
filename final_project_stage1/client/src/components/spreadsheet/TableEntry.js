@@ -3,26 +3,29 @@ import { WButton, WInput, WRow, WCol } from 'wt-frontend';
 
 const TableEntry = (props) => {
     const { data } = props;
-    
     const name = data.name;
     const capital = data.capital;
     const leader = data.leader;
+    const flag = data.flag;
 
+    const landmarks = data.landmarks.length === 0 ? "None" : data.landmarks.map(landmark => landmark.name).join(", ")
     const [editingName, toggleNameEdit] = useState(false);
     const [editingCapital, toggleCapitalEdit] = useState(false);
     const [editingLeader, toggleLeaderEdit] = useState(false);
 
     useEffect(() => {
-        if(props.row !== null && props.col !== null) {
-            toggleNameEdit(props.row === props.index && props.col === 0)
-            toggleCapitalEdit(props.row === props.index && props.col === 1)
-            toggleLeaderEdit(props.row === props.index && props.col === 2)
+        if(props.coordinates) {
+            const { row, col } = props.coordinates
+            toggleNameEdit(row === props.index && col === 0)
+            toggleCapitalEdit(row === props.index && col === 1)
+            toggleLeaderEdit(row === props.index && col === 2)
         }
-    }, [props.row, props.col, props.index])
+    }, [props.coordinates, props.index])
 
     const disabledButton = () => {}
 
     const handleNameEdit = (e) => {
+        props.setCoordinates({})
         toggleNameEdit(false);
         const newName = e.target.value ? e.target.value : 'Unknown';
         const prevName = name;
@@ -32,6 +35,7 @@ const TableEntry = (props) => {
     };
 
     const handleCapitalEdit = (e) => {
+        props.setCoordinates({})
         toggleCapitalEdit(false);
         const newCapital = e.target.value ? e.target.value : 'Unknown';
         const prevCapital = capital;
@@ -41,6 +45,7 @@ const TableEntry = (props) => {
     };
 
     const handleLeaderEdit = (e) => {
+        props.setCoordinates({})
         toggleLeaderEdit(false);
         const newLeader = e.target.value ? e.target.value : 'Unknown';
         const prevLeader = leader;
@@ -54,13 +59,13 @@ const TableEntry = (props) => {
             handleNameEdit(e)
         } else if (e.keyCode === 38 && row !== 0) { //up
             handleNameEdit(e)
-            props.setCoordinates(row - 1, 0)
+            props.setCoordinates({row: row - 1, col: 0})
         } else if (e.keyCode === 39) { //right
             handleNameEdit(e)
-            props.setCoordinates(row, 1)
+            props.setCoordinates({row: row, col: 1})
         } else if (e.keyCode === 40 && row !== props.entryCount - 1) { //down
             handleNameEdit(e)
-            props.setCoordinates(row + 1, 0)
+            props.setCoordinates({row: row + 1, col: 0})
         }
     }
 
@@ -69,16 +74,16 @@ const TableEntry = (props) => {
             handleCapitalEdit(e)
         } else if (e.keyCode === 37) { //left
             handleCapitalEdit(e)
-            props.setCoordinates(row, 0)
+            props.setCoordinates({row: row, col: 0})
         } else if (e.keyCode === 38 && row !== 0) { //up
             handleCapitalEdit(e)
-            props.setCoordinates(row - 1, 1)
+            props.setCoordinates({row: row - 1, col: 1})
         } else if (e.keyCode === 39) { //right
             handleCapitalEdit(e)
-            props.setCoordinates(row, 2)
+            props.setCoordinates({row: row, col: 2})
         } else if (e.keyCode === 40 && row !== props.entryCount - 1) { //down
             handleCapitalEdit(e)
-            props.setCoordinates(row + 1, 1)
+            props.setCoordinates({row: row + 1, col: 1})
         }
     }
 
@@ -87,13 +92,13 @@ const TableEntry = (props) => {
             handleLeaderEdit(e)
         } else if (e.keyCode === 37) { //left
             handleLeaderEdit(e)
-            props.setCoordinates(row, 1)
+            props.setCoordinates({row: row, col: 1})
         } else if (e.keyCode === 38 && row !== 0) { //up
             handleLeaderEdit(e)
-            props.setCoordinates(row - 1, 2)
+            props.setCoordinates({row: row - 1, col: 2})
         } else if (e.keyCode === 40 && row !== props.entryCount - 1) { //down
             handleLeaderEdit(e)
-            props.setCoordinates(row + 1, 2)
+            props.setCoordinates({row: row + 1, col: 2})
         }
     }
 
@@ -109,6 +114,11 @@ const TableEntry = (props) => {
         <WRow className='table-entry'>
             <WCol size="3">
                 <WRow>
+                    <WCol size="1">
+                        <WButton onClick={() => props.deleteItem(data, props.index)} wType="texted" hoverAnimation="text-primary">
+                            <i className="material-icons">delete</i>
+                        </WButton>
+                    </WCol>
                     <WCol size="10">
                         {
                             editingName || name === ''
@@ -127,11 +137,6 @@ const TableEntry = (props) => {
                     <WCol size="1">
                         <WButton onClick={() => toggleNameEdit(!editingName)} wType="texted" hoverAnimation="text-primary">
                             <i className="material-icons">edit</i>
-                        </WButton>
-                    </WCol>
-                    <WCol size="1">
-                        <WButton onClick={() => props.deleteItem(data, props.index)} wType="texted" hoverAnimation="text-primary">
-                            <i className="material-icons">delete</i>
                         </WButton>
                     </WCol>
                 </WRow>
@@ -169,14 +174,18 @@ const TableEntry = (props) => {
                 }
             </WCol>
 
-            <WCol size="2">
-                <div className="table-text" onClick={disabledButton}>
-                    ???
-                </div>
+            <WCol size="1">
+                {flag ? 
+                    <img src={flag}></img>    
+                :
+                    <div className="table-text">
+                        None
+                    </div>
+                }
             </WCol>
-            <WCol size="3">
+            <WCol size="4">
                 <div className="table-text" onClick={handleNavigateLandmark}>
-                    ???
+                    {landmarks}
                 </div>
             </WCol>
         </WRow>
