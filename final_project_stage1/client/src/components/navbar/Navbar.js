@@ -43,18 +43,19 @@ const LoggedOut = (props) => {
         <>
             <WCol className="navbar-col" size="1">
                 <WNavItem className="navbar-item"hoverAnimation="lighten">
-                    <WButton className="navbar-button" onClick={props.setShowLogin} wType="texted" hoverAnimation="text-primary">
-                        Login
-                    </WButton>
-                </WNavItem>
-            </WCol>
-            <WCol className="navbar-col" size="1">
-                <WNavItem className="navbar-item"hoverAnimation="lighten">
                     <WButton className="navbar-button" onClick={props.setShowCreate} wType="texted" hoverAnimation="text-primary"> 
                         Sign Up 
                     </WButton>
                 </WNavItem>
             </WCol>
+            <WCol className="navbar-col" size="1">
+                <WNavItem className="navbar-item"hoverAnimation="lighten">
+                    <WButton className="navbar-button" onClick={props.setShowLogin} wType="texted" hoverAnimation="text-primary">
+                        Login
+                    </WButton>
+                </WNavItem>
+            </WCol>
+
         </>
     );
 };
