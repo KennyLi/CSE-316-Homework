@@ -9,7 +9,8 @@ const LandmarkList = (props) => {
                 key={entry._id} entry={entry} 
                 index={index} _id={props._id} 
                 deleteLandmark={props.deleteLandmark} 
-                editLandmark={props.editLandmark} />
+                editLandmark={props.editLandmark}
+                nameList={props.nameList}/>
         ))
     );
 };

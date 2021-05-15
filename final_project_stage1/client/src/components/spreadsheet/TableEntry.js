@@ -22,8 +22,6 @@ const TableEntry = (props) => {
         }
     }, [props.coordinates, props.index])
 
-    const disabledButton = () => {}
-
     const handleNameEdit = (e) => {
         props.setCoordinates({})
         toggleNameEdit(false);

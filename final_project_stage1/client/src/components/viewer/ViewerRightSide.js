@@ -4,9 +4,11 @@ import LandmarkList from './LandmarkList';
 
 const ViewerRightSide = (props) => {
     const [input, setInput] = useState("");
-
+    
+    let nameList = props.landmarkList.map(entry => entry.name.toLowerCase());
+    
     const handleSubmit = () => {
-        if (input !== "") {
+        if (input !== "" && !nameList.includes(input.toLowerCase())) {
             props.addLandmark(input)
         }
     }
@@ -15,7 +17,10 @@ const ViewerRightSide = (props) => {
                 <WLayout className="viewer-right-layout" wLayout="header-footer">
                     <WLHeader className="viewer-header">Region Landmarks:</WLHeader>
                     <WSidebar className="viewer-sidebar">
-                        <LandmarkList landmarkList={props.landmarkList} deleteLandmark={props.deleteLandmark} editLandmark={props.editLandmark} _id={props._id}/>
+                        <LandmarkList 
+                            landmarkList={props.landmarkList} deleteLandmark={props.deleteLandmark} 
+                            editLandmark={props.editLandmark} _id={props._id}
+                            nameList={nameList}/>
                     </WSidebar>
                     <WLFooter className="viewer-footer">
                         <WButton className="viewer-button" onClick={handleSubmit} wType="texted" hoverAnimation="text-primary">

@@ -9,9 +9,9 @@ const LandmarkEntry = (props) => {
     const handleLandmarkEdit = (e) => {
         if (props._id === props.entry.parent_id) {
             toggleLandmarkEdit(false);
-            const newLandmark = e.target.value ? e.target.value : 'Unknown';
-            const prevLandmark = landmark;
-            if(newLandmark !== prevLandmark) {
+            if (!e.target.value || !props.nameList.includes(e.target.value.toLowerCase())) {
+                const newLandmark = e.target.value ? e.target.value : 'Unknown';
+                const prevLandmark = landmark;
                 props.editLandmark(props.entry._id, newLandmark, prevLandmark);
             }
         }
