@@ -299,12 +299,17 @@ html, body {
     color: $text-color;
 }
 
-.viewer-table-text:hover {
+.viewer-table-text-edit:hover {
     background-color: $background-color;
+    color: $primary-color;
 }
 
 .viewer-parent-text {
-    color: rgb(51, 102, 187)
+    color: rgb(51, 102, 187);
+}
+
+.viewer-parent-text:hover {
+    text-decoration: underline;
 }
 
 .viewer-header {
@@ -313,4 +318,8 @@ html, body {
 
 .list-item-edit-input {
     color: black !important;
+}
+
+.landmark-text:hover {
+    color: $primary-color;
 }

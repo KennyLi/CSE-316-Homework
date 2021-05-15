@@ -113,9 +113,9 @@ const TableEntry = (props) => {
     return (
         <WRow className='table-entry'>
             <WCol size="3">
-                <WRow>
+                <WRow className="name-row">
                     <WCol size="1">
-                        <WButton onClick={() => props.deleteItem(data, props.index)} wType="texted" hoverAnimation="text-primary">
+                        <WButton className="name-row" onClick={() => props.deleteItem(data, props.index)} wType="texted" hoverAnimation="text-primary">
                             <i className="material-icons">delete</i>
                         </WButton>
                     </WCol>
@@ -135,7 +135,7 @@ const TableEntry = (props) => {
                         }
                     </WCol>
                     <WCol size="1">
-                        <WButton onClick={() => toggleNameEdit(!editingName)} wType="texted" hoverAnimation="text-primary">
+                        <WButton className="name-row" onClick={() => toggleNameEdit(!editingName)} wType="texted" hoverAnimation="text-primary">
                             <i className="material-icons">edit</i>
                         </WButton>
                     </WCol>
@@ -178,14 +178,14 @@ const TableEntry = (props) => {
                 {flag ? 
                     <img src={flag}></img>    
                 :
-                    <div className="table-text">
+                    <div className="flag-text">
                         None
                     </div>
                 }
             </WCol>
             <WCol size="4">
-                <div className="table-text" onClick={handleNavigateLandmark}>
-                    {landmarks}
+                <div className="landmark-container" onClick={handleNavigateLandmark}>
+                    <span className="landmark-text">{landmarks}</span>
                 </div>
             </WCol>
         </WRow>
