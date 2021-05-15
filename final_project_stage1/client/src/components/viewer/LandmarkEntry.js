@@ -21,17 +21,17 @@ const LandmarkEntry = (props) => {
         <WRow>
             { props._id === props.entry.parent_id ?
                 <>
-                <WCol className="viewer-landmark"size="1">
+                <WCol className="viewer-landmark viewer-text"size="1">
                     <WButton className="viewer-button" onClick={() => {props.deleteLandmark(props.entry, props.index)}} wType="texted" hoverAnimation="text-primary">
                         <i className="material-icons">delete</i>
                     </WButton>
                 </WCol>
-                <WCol className="viewer-landmark"size="5">
+                <WCol className="viewer-landmark viewer-text"size="5">
                     {
                         editingLandmark && props._id === props.entry.parent_id
                         ? <WInput
                             className='table-input' onBlur={handleLandmarkEdit}
-                            onKeyDown={(e) => {}}
+                            onKeyDown={(e) => {if(e.keyCode === 13) handleLandmarkEdit(e)}}
                             autoFocus={true} defaultValue={landmark} type='text'
                             inputClass="table-input-class"
                         />
@@ -44,25 +44,14 @@ const LandmarkEntry = (props) => {
                 </WCol>
                 </>
             :
-                <WCol className="viewer-landmark"size="6">
-                    {
-                        editingLandmark && props._id === props.entry.parent_id
-                        ? <WInput
-                            className='table-input' onBlur={handleLandmarkEdit}
-                            onKeyDown={(e) => {}}
-                            autoFocus={true} defaultValue={landmark} type='text'
-                            inputClass="table-input-class"
-                        />
-                        : <div className="viewer-table-text"
-                                onClick={() => toggleLandmarkEdit(!editingLandmark)}
-                        >
-                            {landmark}
-                        </div>
-                    }
+                <WCol className="viewer-landmark viewer-text"size="6">
+                    <div className="viewer-table-text">
+                        {landmark}
+                    </div>
                 </WCol>
             }
-            <WCol className="viewer-landmark"size="1">-</WCol>
-            <WCol className="viewer-landmark"size="5">{props.entry.parent}</WCol>
+            <WCol className="viewer-landmark viewer-text"size="1">-</WCol>
+            <WCol className="viewer-landmark viewer-text"size="5">{props.entry.parent}</WCol>
         </WRow>
     );
 };

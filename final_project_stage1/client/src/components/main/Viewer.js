@@ -2,6 +2,7 @@ import Login 							from '../modals/Login';
 import CreateAccount 					from '../modals/CreateAccount';
 import UpdateAccount 					from '../modals/UpdateAccount';
 import Navbar							from '../navbar/Navbar';
+import DeleteLand						from '../modals/DeleteLand';
 import * as mutations 					from '../../cache/mutations';
 import { GET_DB_MAPS } 					from '../../cache/queries';
 import React, { useState } 				from 'react';
@@ -34,6 +35,8 @@ const Viewer = (props) => {
 	const [showLogin, toggleShowLogin] 		= useState(false);
 	const [showCreate, toggleShowCreate] 	= useState(false);
 	const [showUpdate, toggleShowUpdate]	= useState(false);
+	const [showDelete, toggleShowDelete] 	= useState(false);
+	const [landmarkToDelete, setLandmarkToDelete]	= useState({});
 	const [canUndo, setCanUndo] = useState(props.tps.hasTransactionToUndo());
 	const [canRedo, setCanRedo] = useState(props.tps.hasTransactionToRedo());
 
@@ -201,20 +204,35 @@ const Viewer = (props) => {
 	const setShowLogin = () => {
 		toggleShowCreate(false);
 		toggleShowUpdate(false);
+		toggleShowDelete(false);
 		toggleShowLogin(!showLogin);
 	};
 
 	const setShowCreate = () => {
 		toggleShowLogin(false);
 		toggleShowUpdate(false);
+		toggleShowDelete(false);
 		toggleShowCreate(!showCreate);
 	};
 
 	const setShowUpdate = () => {
 		toggleShowCreate(false);
 		toggleShowLogin(false);
+		toggleShowDelete(false);
 		toggleShowUpdate(!showUpdate);
 	};
+
+	const setShowDelete = () => {
+		toggleShowCreate(false);
+		toggleShowLogin(false);
+		toggleShowUpdate(false);
+		toggleShowDelete(!showDelete)
+	};
+
+	const getDeleteLandmark = (landmark, index) => {
+		setLandmarkToDelete({data : landmark, index : index});
+		setShowDelete();
+	}
 
 	return (
         <WLayout wLayout="header">
@@ -240,7 +258,7 @@ const Viewer = (props) => {
 							_id = {activeProperties._id}
 							landmarkList={activeProperties.landmarks} 
 							addLandmark={addLandmark}
-							deleteLandmark={deleteLandmark}
+							deleteLandmark={getDeleteLandmark}
 							editLandmark={editLandmark}/>
                     </WLayout>
                 </WCard>
@@ -256,7 +274,10 @@ const Viewer = (props) => {
         }
 		{
 			showUpdate && (<UpdateAccount fetchUser={props.fetchUser} user={props.user} setShowUpdate={setShowUpdate} />)
-		}		
+		}
+		{
+			showDelete && (<DeleteLand deleteItem={deleteLandmark} landmark={landmarkToDelete} setShowDelete={setShowDelete}/>)
+		}
         </WLayout>
 	);
 };

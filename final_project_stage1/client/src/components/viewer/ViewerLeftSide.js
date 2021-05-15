@@ -3,7 +3,15 @@ import { WLMain, WRow, WCol, WButton, WCard } 	from 'wt-frontend';
 
 const ViewerLeftSide = (props) => {
     const [editingParent, toggleParentEdit] = useState(false);
-    const handleParentEdit = (e) => {
+	const importFlags = (context) => {
+		let flags = {};
+		context.keys().map((flag) => { flags[flag.replace('./', '')] = context(flag); });
+		return flags;
+	}
+	const flags = importFlags(require.context('../../imgs/flags', false, /\.png$/));
+    const flag = flags[props.activeProperties.name.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()) + " Flag.png"]
+	
+	const handleParentEdit = (e) => {
         const newParent = e.target.value ? e.target.value : false;
         const prevParent = props.activeProperties.parent._id;
         if(newParent !== prevParent) {
@@ -56,7 +64,13 @@ const ViewerLeftSide = (props) => {
 					</WCol>
 				</WRow>
 				<WRow>
-					<WCard></WCard>
+					<WCard className="flag-container">
+						{ flag ? 
+							<img src={flag}></img> 
+							:
+							<></>
+						}
+					</WCard>
 				</WRow>
 				<WRow>
 					<WCol size="6">
@@ -66,21 +80,21 @@ const ViewerLeftSide = (props) => {
 					</WCol>
 				</WRow>
 				<WRow>
-					<WCol className="viewer-parent-list" size="12">
+					<WCol className="viewer-parent-list" size="6">
 							{
 								
 								editingParent ? 
 								<>
-								<div className="viewer-text" >{"Parent Region: "}</div>
+								<div className="parent-text">{"Parent Region: "}</div>
 								<select
-    								className='table-select' onBlur={handleParentEdit}
-    								autoFocus={true} defaultValue={props.activeProperties._id}
+									className='table-select' onBlur={handleParentEdit}
+									autoFocus={true} defaultValue={props.activeProperties._id}
 								>
 									{createSelectOptions()}
-    							</select>
+								</select>
 								</>
-									: <div className="viewer-text" >
-										{"Parent Region: "}
+									: <div className="viewer-text">
+										<span>{"Parent Region: "}</span>
 										<span className="viewer-parent-text" onClick={handleNavigate}>
 											{props.activeProperties.parent.name}
 										</span>

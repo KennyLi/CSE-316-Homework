@@ -24,7 +24,7 @@ const MapEntry = (props) => {
     return (
     <WRow className='sidebar-entry'>
         <WCol size="10">
-            <WNavItem 
+            <WNavItem onClick={handleNavigate}
                 className='list-item'
             >
                 {
@@ -33,7 +33,7 @@ const MapEntry = (props) => {
                                     name='name' onBlur={handleSubmit} autoFocus={true} defaultValue={props.name} 
                                 />
                             :
-                                <div className="list-item" onClick={handleNavigate}>
+                                <div className="map-text">
                                     {props.name}
                                 </div>
                 }

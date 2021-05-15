@@ -128,9 +128,12 @@ const TableEntry = (props) => {
                                     autoFocus={true} defaultValue={name} type='text'
                                     inputClass="spreadsheet-input-class"
                                 />
-                                : <div className="table-text"
-                                    onClick={handleNavigateSubregion}
-                                >{name}
+                                : 
+                                <div className="table-container">
+                                    <span className="table-text"
+                                        onClick={handleNavigateSubregion}
+                                    >{name}
+                                    </span>
                                 </div>
                         }
                     </WCol>
@@ -151,9 +154,12 @@ const TableEntry = (props) => {
                             autoFocus={true} defaultValue={capital} type='text'
                             inputClass="spreadsheet-input-class"
                         />
-                        : <div className="table-text"
-                            onClick={() => toggleCapitalEdit(!editingCapital)}
-                        >{capital}
+                        : 
+                        <div className="table-container">
+                            <span className="table-text"
+                                onClick={() => toggleCapitalEdit(!editingCapital)}
+                            >{capital}
+                            </span>
                         </div>
                 }
             </WCol>
@@ -167,9 +173,12 @@ const TableEntry = (props) => {
                             autoFocus={true} defaultValue={leader} type='text'
                             inputClass="spreadsheet-input-class"
                         />
-                        : <div className="table-text"
-                            onClick={() => toggleLeaderEdit(!editingLeader)}
-                        >{leader}
+                        : 
+                        <div className="table-container">
+                            <span className="table-text"
+                                onClick={() => toggleLeaderEdit(!editingLeader)}
+                            >{leader}
+                            </span>
                         </div>
                 }
             </WCol>
@@ -184,8 +193,8 @@ const TableEntry = (props) => {
                 }
             </WCol>
             <WCol size="4">
-                <div className="landmark-container" onClick={handleNavigateLandmark}>
-                    <span className="landmark-text">{landmarks}</span>
+                <div className="table-container" onClick={handleNavigateLandmark}>
+                    <span className="table-text">{landmarks}</span>
                 </div>
             </WCol>
         </WRow>

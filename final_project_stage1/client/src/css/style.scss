@@ -84,7 +84,8 @@ html, body {
 }
 
 .list-item:hover {
-    background-color: var(--light-pink);
+    background-color: rgb(180, 120, 120);
+    color: $primary-color;
 }
 
 .logo {
@@ -162,9 +163,17 @@ html, body {
     color: $primary-color;
 }
 
+.landmark-container:hover {
+    background-color: rgb(150, 150, 150);
+}
+
 .table-header-button {
     transition: 0.1s ease-in-out;
     color: var(--light-gray);
+}
+
+.table-header-button:hover {
+    color: $primary-color;
 }
 
 .table-header-button-disabled {
@@ -188,7 +197,7 @@ html, body {
     color: $text-color;
 }
 
-.table-header-section:hover {
+.table-header-hover:hover {
     transition: 0.1s ease-in-out;
     cursor: pointer;
     background-color: rgb(255, 100, 100);
@@ -237,6 +246,10 @@ html, body {
 .navbar-sibling {
     transition: 0.1s ease-in-out;
     color: var(--light-gray);
+}
+
+.navbar-sibling:hover {
+    color: $primary-color;
 }
 
 .navbar-sibling-disabled {
@@ -306,6 +319,10 @@ html, body {
 
 .viewer-parent-text {
     color: rgb(51, 102, 187);
+}
+
+.parent-text {
+    color: $text-color;
 }
 
 .viewer-parent-text:hover {

@@ -4,7 +4,7 @@ import { WButton, WRow, WCol } from 'wt-frontend';
 
 const TableHeader = (props) => {
     const clickDisabled = () => { };
-    
+
     const undoOptions = {
         className: !props.canUndo ? ' table-header-button-disabled ' : 'table-header-button',
         onClick: !props.canUndo  ? clickDisabled : props.undo,
@@ -51,15 +51,15 @@ const TableHeader = (props) => {
             <WCol size="3">
                 <WRow>
                     <WCol size="1"></WCol>
-                    <WCol size="10"><WButton onClick={() => {props.sort('name')}} className='table-header-section' wType="texted" >Name</WButton></WCol>
+                    <WCol size="10"><WButton onClick={props.subregionList.length > 0 ? () => {props.sort('name')} : clickDisabled} className={props.subregionList.length > 0 ?  'table-header-section table-header-hover' : 'table-header-section'} wType="texted" >Name</WButton></WCol>
                     <WCol size="1"></WCol>
                 </WRow>
             </WCol>
             <WCol size="2">
-                <WButton onClick={() => {props.sort('capital')}} className='table-header-section' wType="texted">Capital</WButton>
+                <WButton onClick={props.subregionList.length > 0 ? () => {props.sort('capital')} : clickDisabled} className={props.subregionList.length > 0 ?  'table-header-section table-header-hover' : 'table-header-section'} wType="texted">Capital</WButton>
             </WCol>
             <WCol size="2">
-                <WButton onClick={() => {props.sort('leader')}} className='table-header-section' wType="texted" >Leader</WButton>
+                <WButton onClick={props.subregionList.length > 0 ? () => {props.sort('leader')} : clickDisabled} className={props.subregionList.length > 0 ?  'table-header-section table-header-hover' : 'table-header-section'} wType="texted" >Leader</WButton>
             </WCol>
             <WCol size="1">
                 <WButton onClick={clickDisabled} className='table-header-section' wType="texted" >Flag</WButton>

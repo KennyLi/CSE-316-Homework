@@ -10,6 +10,7 @@ const MainContents = (props) => {
                 undo={props.undo}                       redo={props.redo}     
                 canUndo={props.canUndo}                 canRedo={props.canRedo}
                 sort={props.sort}
+                subregionList={props.activeProperties.subregions}
             />
             <TableContents
                 key={props.activeProperties._id}    subregionList={props.activeProperties.subregions}
